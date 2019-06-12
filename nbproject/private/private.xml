@@ -1,4 +1,51 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
+    <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
+        <group>
+            <file>file:/C:/wamp64/www/TBCreatives/app/FreeDay.php</file>
+            <file>file:/C:/wamp64/www/TBCreatives/app/Planning.php</file>
+            <file>file:/C:/wamp64/www/TBCreatives/app/Http/Controllers/Controller.php</file>
+            <file>file:/C:/wamp64/www/TBCreatives/routes/api.php</file>
+            <file>file:/C:/wamp64/www/TBCreatives/resources/views/tasks/create.blade.php</file>
+            <file>file:/C:/wamp64/www/TBCreatives/database/migrations/2019_06_11_130245_create_skills_table.php</file>
+            <file>file:/C:/wamp64/www/TBCreatives/app/Subtask.php</file>
+            <file>file:/C:/wamp64/www/TBCreatives/database/migrations/2014_10_12_000000_create_users_table.php</file>
+            <file>file:/C:/wamp64/www/TBCreatives/app/User.php</file>
+            <file>file:/C:/wamp64/www/TBCreatives/app/Http/Controllers/SubtaskController.php</file>
+            <file>file:/C:/wamp64/www/TBCreatives/database/migrations/2019_06_11_125932_create_projects_table.php</file>
+            <file>file:/C:/wamp64/www/TBCreatives/app/Project.php</file>
+            <file>file:/C:/wamp64/www/TBCreatives/resources/views/tasks/index.blade.php</file>
+            <file>file:/C:/wamp64/www/TBCreatives/database/migrations/2019_06_11_130153_create_free_days_table.php</file>
+            <file>file:/C:/wamp64/www/TBCreatives/database/migrations/2019_06_12_143258_create_recurrent_free_days_user_table.php</file>
+            <file>file:/C:/wamp64/www/TBCreatives/database/migrations/2019_06_12_154806_create_skill_user_table.php</file>
+            <file>file:/C:/wamp64/www/TBCreatives/database/migrations/2019_06_11_130314_create_plannings_table.php</file>
+            <file>file:/C:/wamp64/www/TBCreatives/composer.json</file>
+            <file>file:/C:/wamp64/www/TBCreatives/database/migrations/2019_06_11_130909_create_subtasks_table.php</file>
+            <file>file:/C:/wamp64/www/TBCreatives/public/.htaccess</file>
+            <file>file:/C:/wamp64/www/TBCreatives/routes/web.php</file>
+            <file>file:/C:/wamp64/www/TBCreatives/.env</file>
+            <file>file:/C:/wamp64/www/TBCreatives/public/index.php</file>
+            <file>file:/C:/wamp64/www/TBCreatives/config/database.php</file>
+            <file>file:/C:/wamp64/www/TBCreatives/app/Assignation.php</file>
+            <file>file:/C:/wamp64/www/TBCreatives/app/RecurrentFreeDay.php</file>
+            <file>file:/C:/wamp64/www/TBCreatives/app/Http/Controllers/UserController.php</file>
+            <file>file:/C:/wamp64/www/TBCreatives/database/migrations/2019_06_12_142923_create_planning_project_table.php</file>
+            <file>file:/C:/wamp64/www/TBCreatives/database/migrations/2019_06_11_130229_create_recurrent_free_days_table.php</file>
+            <file>file:/C:/wamp64/www/TBCreatives/app/Skill.php</file>
+            <file>file:/C:/wamp64/www/TBCreatives/resources/views/base.blade.php</file>
+            <file>file:/C:/wamp64/www/TBCreatives/database/seeds/DatabaseSeeder.php</file>
+            <file>file:/C:/wamp64/www/TBCreatives/resources/views/tasks/edit.blade.php</file>
+            <file>file:/C:/wamp64/www/TBCreatives/database/migrations/2019_06_11_130123_create_assignations_table.php</file>
+            <file>file:/C:/wamp64/www/TBCreatives/config/app.php</file>
+            <file>file:/C:/wamp64/www/TBCreatives/resources/views/welcome.blade.php</file>
+            <file>file:/C:/wamp64/www/TBCreatives/database/seeds/UsersTableSeeder.php</file>
+            <file>file:/C:/wamp64/www/TBCreatives/app/Http/Controllers/AssignationController.php</file>
+            <file>file:/C:/wamp64/www/TBCreatives/app/Http/Controllers/PlanningController.php</file>
+            <file>file:/C:/wamp64/www/TBCreatives/database/migrations/2019_06_11_123803_create_tasks_table.php</file>
+            <file>file:/C:/wamp64/www/TBCreatives/app/Http/Controllers/TaskController.php</file>
+            <file>file:/C:/wamp64/www/TBCreatives/app/Http/Requests/TaskRequest.php</file>
+            <file>file:/C:/wamp64/www/TBCreatives/app/Task.php</file>
+        </group>
+    </open-files>
 </project-private>

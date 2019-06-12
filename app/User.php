@@ -37,4 +37,32 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+
+    public function assignations()
+    {
+        return $this->hasMany('App\Assignation');
+    }
+    
+    public function freeDays()
+    {
+        return $this->hasMany('App\FreeDay', 'user_id');
+    }
+
+    public function plannings()
+    {
+        return $this->hasMany('App\Planning');
+    }
+
+
+public function recurrentFreeDays()
+{
+    return $this->belongsToMany('App\RecurrentFreeDay', 'recurrent_free_days_user', 'user_id', 'recurrent_free_days_id');
+}
+
+public function skills()
+{
+    return $this->belongsToMany('App\Skill', 'skill_user');
+}
+
 }
