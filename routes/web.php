@@ -1,5 +1,6 @@
 <?php
 
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -12,15 +13,132 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('base');
 });
 Route::get('1', function() { return 'Je suis la page 1 !'; });
 
-Route::resource('user', 'UserController');
-Route::resource('task', 'TaskController');
-Route::resource('subtask', 'SubtaskController');
-Route::resource('project', 'ProjectController');
-Route::resource('planning', 'PlanningController');
-Route::resource('assignation', 'AssignationController');
+Route::resource('users', 'UserController');
+Route::resource('tasks', 'TaskController');
+Route::resource('subtasks', 'SubtaskController');
+Route::resource('projects', 'ProjectController');
+Route::resource('plannings', 'PlanningController');
+Route::resource('assignations', 'AssignationController');
+
+Route::get('navlogin', function() {
+
+    
+        try {
+            $options = [ 
+                'soap_version' => SOAP_1_1,
+                'connection_timeout' => 120,
+                'login' => env('NAV_LOGIN'),
+                'password' => env('NAV_PASSWORD')
+                ];
+            $client = new SoapClient(env('NAV_SANDBOX_WSDL'), $options);
+            $params = [
+                'pCompany' => env('NAV_SANDBOX_pCompany'),
+                'pLogin'=>'audrey.huguenin',
+                'pPass' => 'Time&Space_6457'
+            ];
+
+            $result = $client->CtrlLoginCreatives($params);
+            print_r($result);
+            
+        }
+            catch (Exception $e)
+            {
+                echo $e->getMessage();
+            }
+});
+
+Route::get('roles', function() {
+
+        try {
+            $options = [
+                'soap_version' => SOAP_1_1,
+                'connection_timeout' => 120,
+                'login' => env('NAV_LOGIN'),
+                'password' => env('NAV_PASSWORD')
+                ];
+            $client = new SoapClient(env('NAV_SANDBOX_WSDL'), $options);
+            $params = [
+                'pCompany' => env('NAV_SANDBOX_pCompany'),
+                'pLogin'=>'quentin.delattre',
+            ];
+
+            $result = $client->GetRoleUser($params);
+            print_r($result);
+
+        }
+            catch (Exception $e)
+            {
+                echo $e->getMessage();
+            }
+
+});
+
+Route::get('allprojects', function() {
+
+        try {
+            $options = [
+                'soap_version' => SOAP_1_1,
+                'connection_timeout' => 120,
+                'login' => env('NAV_LOGIN'),
+                'password' => env('NAV_PASSWORD')
+                ];
+            $client = new SoapClient(env('NAV_SANDBOX_WSDL_PROJECTS'), $options);
+
+
+            $result = $client->ReadMultiple();
+            $result = get_object_vars($result);
+            $result = get_object_vars($result['ReadMultiple_Result']);
+           $result = array_column($result['WS_JOB'], 'SearchField');
+//Donne tous les noms de projets qu'il y a dans l'agence
+            print_r($result);
+
+        }
+            catch (Exception $e)
+            {
+                echo $e->getMessage();
+            }
+
+});
+Route::get('allsubtasks', function() {
+
+        try {
+            $options = [
+                'soap_version' => SOAP_1_1,
+                'connection_timeout' => 120,
+                'login' => env('NAV_LOGIN'),
+                'password' => env('NAV_PASSWORD')
+                ];
+            $client = new SoapClient(env('NAV_SANDBOX_WSDL_SUBTASKS'), $options);
+            $params = [
+            "filter" => array
+                (
+               'Field' => 'Job_No',
+                'Criteria'=>'9990'
+                ),
+                "setSize"=>''
+            ];
+
+            $result = $client->ReadMultiple($params);
+            $result = get_object_vars($result);
+            $result = get_object_vars($result['ReadMultiple_Result']);
+            $result = array_column($result['WS_JOBTASK'], 'Job_Task_Name');
+           
+//Donne tous les noms de projets qu'il y a dans l'agence
+            print_r($result);
+    
+
+        }
+            catch (Exception $e)
+            {
+                echo $e->getMessage();
+            }
+
+});
+
+
 
 

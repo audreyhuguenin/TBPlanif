@@ -8,5 +8,10 @@ class FreeDay extends Model
 {
    protected $table = 'free_days';
 
+   protected $fillable = [
+        'startDate',
+        'endDate',
+    ];
+
     public $timestamps = false;
 }

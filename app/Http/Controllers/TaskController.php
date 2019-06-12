@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Task;
 
 class TaskController extends Controller
 {
@@ -13,7 +14,9 @@ class TaskController extends Controller
      */
     public function index()
     {
-        //
+        
+        $tasks = Task::all();
+        return view('tasks.index', compact('tasks'));
     }
 
     /**
@@ -23,7 +26,7 @@ class TaskController extends Controller
      */
     public function create()
     {
-        //
+        return view('tasks.create');
     }
 
     /**
@@ -34,7 +37,17 @@ class TaskController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'name'=>'required',
+            'comment'=>'required'
+        ]);
+
+        $task = new Task([
+            'name' => $request->get('name'),
+            'comment' => $request->get('comment'),
+        ]);
+        $task->save();
+        return redirect('/tasks')->with('success', 'Task saved!');
     }
 
     /**
@@ -56,7 +69,8 @@ class TaskController extends Controller
      */
     public function edit($id)
     {
-        //
+        $task = Task::find($id);
+        return view('tasks.edit', compact('task'));
     }
 
     /**
@@ -68,7 +82,17 @@ class TaskController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $request->validate([
+            'name'=>'required',
+            'comment'=>'required'
+        ]);
+
+        $task = Task::find($id);
+        $task->name =  $request->get('name');
+        $task->comment = $request->get('comment');
+        $task->save();
+
+        return redirect('/tasks')->with('success', 'Task updated!');
     }
 
     /**
@@ -79,6 +103,9 @@ class TaskController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $task = Task::find($id);
+        $task->delete();
+
+        return redirect('/tasks')->with('success', 'Task deleted!');
     }
 }

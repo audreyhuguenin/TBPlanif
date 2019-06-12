@@ -17,6 +17,12 @@ class CreateSubtasksTable extends Migration
             $table->bigIncrements('id');
             $table->string('name');
             $table->timestamps();
+            $table->integer('project_id')->unsigned();
+            $table->foreign('project_id')
+	->references('id')
+	->on('projects')
+	->onDelete('restrict')
+	->onUpdate('restrict');
         });
     }
 

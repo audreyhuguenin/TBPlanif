@@ -18,6 +18,12 @@ class CreateTasksTable extends Migration
             $table->string('name');
             $table->text('comment')->nullable();
             $table->timestamps();
+            $table->integer('subtask_id')->unsigned();
+            $table->foreign('subtask_id')
+	->references('id')
+	->on('subtasks')
+	->onDelete('restrict')
+	->onUpdate('restrict');
         });
     }
 
