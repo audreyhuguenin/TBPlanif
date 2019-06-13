@@ -13,4 +13,15 @@ class Subtask extends Model
     ];
 
     public $timestamps = false;
+
+    public function tasks()
+    {
+        return $this->hasMany('App\Task');
+    }
+
+       public function project()
+{
+    return $this->belongsTo('App\Project');
 }
+}
+

@@ -17,4 +17,19 @@ class Planning extends Model
 {
     return $this->belongsTo('App\User');
 }
+    public function projects()
+{
+    return $this->belongsToMany('App\Project', 'planning_project');
+}
+
+    public function parent()
+    {
+        return $this->belongsTo('App\Planning', 'parent_id');
+    }
+
+    public function children()
+    {
+        return $this->hasMany('App\Planning', 'parent_id');
+    }
+
 }

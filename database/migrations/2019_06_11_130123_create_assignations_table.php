@@ -15,7 +15,7 @@ class CreateAssignationsTable extends Migration
     {
         Schema::create('assignations', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->date('date');
+            $table->dateTime('date');
             $table->integer('duration');
             $table->json('type');
             $table->boolean('suiviDA');

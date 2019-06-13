@@ -15,8 +15,8 @@ class CreateFreeDaysTable extends Migration
     {
         Schema::create('free_days', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->date('startDate');
-            $table->date('endDate');
+            $table->dateTime('startDate');
+            $table->dateTime('endDate');
             $table->timestamps();
             $table->integer('user_id')->unsigned();
             $table->foreign('user_id')

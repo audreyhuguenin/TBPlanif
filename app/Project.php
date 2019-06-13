@@ -13,4 +13,15 @@ class Project extends Model
     ];
 
     public $timestamps = false;
+
+    public function subtasks()
+    {
+        return $this->hasMany('App\Subtask');
+    }
+
+    public function plannings()
+{
+    return $this->belongsToMany('App\Planning', 'planning_project');
+}
+
 }
