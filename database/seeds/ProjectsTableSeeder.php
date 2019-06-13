@@ -11,14 +11,40 @@ class ProjectsTableSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('projects')->delete();
+         try {
+            $options = [
+                'soap_version' => SOAP_1_1,
+                'connection_timeout' => 120,
+                'login' => env('NAV_LOGIN'),
+                'password' => env('NAV_PASSWORD')
+                ];
+            $client = new SoapClient(env('NAV_SANDBOX_WSDL_PROJECTS'), $options);
 
-    for($i = 0; $i < 10; ++$i)
+
+            $result = $client->ReadMultiple();
+            $result = get_object_vars($result);
+            $result = get_object_vars($result['ReadMultiple_Result']);
+
+                $projectsNAV=$result['WS_JOB'];
+
+
+                foreach($projectsNAV as $projectNAV)
 	{
-	DB::table('projects')->insert([
-	'name' => 'Nom Projet' . $i,
-                'number' => $i
+                   $projectNAV= get_object_vars($projectNAV);
+	App\Project::updateOrCreate([
+	'name' => $projectNAV['Job_Name'],
+                'number' => $projectNAV['Job_No'],
+            'fullName'=>$projectNAV['SearchField'],
+            'customer'=>$projectNAV['Customer_Name'],
 		]);
 	}
+
+        }
+            catch (Exception $e)
+            {
+                echo $e->getMessage();
+            }
+
+    
     }
 }

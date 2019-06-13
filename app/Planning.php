@@ -22,7 +22,7 @@ class Planning extends Model
     return $this->belongsToMany('App\Project', 'planning_project');
 }
 
-    public function parent()
+    public function globalPlanning()
     {
         return $this->belongsTo('App\Planning', 'parent_id');
     }

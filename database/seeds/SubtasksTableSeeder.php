@@ -11,17 +11,47 @@ class SubtasksTableSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('subtasks')->delete();
+        
+        try {
+            $options = [
+                'soap_version' => SOAP_1_1,
+                'connection_timeout' => 120,
+                'login' => env('NAV_LOGIN'),
+                'password' => env('NAV_PASSWORD')
+                ];
+            $client = new SoapClient(env('NAV_SANDBOX_WSDL_SUBTASKS'), $options);
+            $params = [
+            "filter" => array
+                (
+               'Field' => '',
+                'Criteria'=>''
+                ),
+                "setSize"=>''
+            ];
 
-for($i = 0; $i < 100; ++$i)
+            $result = $client->ReadMultiple($params);
+            $result = get_object_vars($result);
+            $result = get_object_vars($result['ReadMultiple_Result']);
+
+            $subtasksNAV=$result['WS_JOBTASK'];
+
+             foreach($subtasksNAV as $subtaskNAV)
 	{
-	//$date = $this->randDate();
-	DB::table('subtasks')->insert([
-	'name' => 'Nom Sous-Tâche' . $i,
-	'project_id' => rand(1, 10),
-	//'created_at' => $date,
-	//'updated_at' => $date
+                   $subtaskNAV= get_object_vars($subtaskNAV);
+                  
+	App\Subtask::updateOrCreate([
+	'name' => $subtaskNAV['Job_Task_Name'],
+	'project_id' =>$subtaskNAV['Job_No'] ,
 		]);
 	}
+
+
+        }
+            catch (Exception $e)
+            {
+                echo $e->getMessage();
+            }
+
+
     }
 }

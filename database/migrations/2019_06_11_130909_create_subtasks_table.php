@@ -19,7 +19,7 @@ class CreateSubtasksTable extends Migration
             $table->timestamps();
             $table->integer('project_id')->unsigned();
             $table->foreign('project_id')
-	->references('id')
+	->references('number')
 	->on('projects')
 	->onDelete('restrict')
 	->onUpdate('restrict');

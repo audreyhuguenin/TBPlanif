@@ -10,13 +10,15 @@ class Project extends Model
      protected $fillable = [
         'number',
         'name',
+         'fullName',
+         'customer'
     ];
 
     public $timestamps = false;
 
     public function subtasks()
     {
-        return $this->hasMany('App\Subtask');
+        return $this->hasMany('App\Subtask', 'project_id', 'number');
     }
 
     public function plannings()

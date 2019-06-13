@@ -14,10 +14,11 @@ class Task extends Model
 
     public $timestamps = false;
 
-    public function plannings()
+    public function assignations()
     {
         return $this->hasMany('App\Assignation');
     }
+
     public function subtask()
 {
     return $this->belongsTo('App\Subtask');

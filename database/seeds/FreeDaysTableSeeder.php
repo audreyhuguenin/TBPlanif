@@ -17,6 +17,7 @@ class FreeDaysTableSeeder extends Seeder
     public function run()
     {
         DB::table('free_days')->delete();
+        $users= App\User::pluck('id')->toArray();
 
 	for($i = 0; $i < 50; ++$i)
 	{
@@ -25,7 +26,7 @@ class FreeDaysTableSeeder extends Seeder
 	DB::table('free_days')->insert([
 	'startDate' => $startDate,
 	'endDate' => $endDate,
-	'user_id' => rand(1, 10),
+	'user_id' => $users[array_rand($users)],
 		]);
 	}
     }

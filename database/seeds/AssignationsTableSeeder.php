@@ -18,6 +18,8 @@ class AssignationsTableSeeder extends Seeder
     public function run()
     {
         DB::table('assignations')->delete();
+        $users= App\User::pluck('id')->toArray();
+        $tasks= App\Task::pluck('id')->toArray();
 
 	for($i = 0; $i < 300; ++$i)
 	{
@@ -32,8 +34,8 @@ class AssignationsTableSeeder extends Seeder
                                  ]}',
                 'suiviDA' => rand(0, 1),
                 'unmovable' => rand(0, 1),
-                'task_id' => rand(1, 200),
-	'user_id' => rand(1, 10),
+                'task_id' => $tasks[array_rand($tasks)],
+	'user_id' => $users[array_rand($users)],
 		]);
 	}
     }

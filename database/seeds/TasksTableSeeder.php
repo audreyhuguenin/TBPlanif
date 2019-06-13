@@ -12,6 +12,7 @@ class TasksTableSeeder extends Seeder
     public function run()
     {
         DB::table('tasks')->delete();
+        $subtasks= App\Subtask::pluck('id')->toArray();
 
 for($i = 0; $i < 200; ++$i)
 	{
@@ -19,7 +20,7 @@ for($i = 0; $i < 200; ++$i)
 	DB::table('tasks')->insert([
 	'name' => 'Nom Tâche' . $i,
                 'comment' => 'Commentaire' . $i,
-	'subtask_id' => rand(1, 100),
+	'subtask_id' => $subtasks[array_rand($subtasks)],
 
 		]);
 	}

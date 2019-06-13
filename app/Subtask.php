@@ -9,7 +9,7 @@ class Subtask extends Model
          protected $table = 'subtasks';
 
          protected $fillable = [
-        'name'
+        'name', 'project_id'
     ];
 
     public $timestamps = false;
@@ -21,7 +21,7 @@ class Subtask extends Model
 
        public function project()
 {
-    return $this->belongsTo('App\Project');
+    return $this->belongsTo('App\Project', 'project_id', 'number');
 }
 }
 

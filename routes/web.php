@@ -1,6 +1,5 @@
 <?php
 
-
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -15,7 +14,6 @@
 Route::get('/', function () {
     return view('base');
 });
-Route::get('1', function() { return 'Je suis la page 1 !'; });
 
 Route::resource('users', 'UserController');
 Route::resource('tasks', 'TaskController');
@@ -23,6 +21,14 @@ Route::resource('subtasks', 'SubtaskController');
 Route::resource('projects', 'ProjectController');
 Route::resource('plannings', 'PlanningController');
 Route::resource('assignations', 'AssignationController');
+
+Route::get('syncprojects', function () {
+$syncprojects= new ProjectsTableSeeder();
+$syncprojects->run();
+$syncsubtasks= new SubtasksTableSeeder();
+$syncsubtasks->run();
+    return 'synchronized';
+});
 
 Route::get('navlogin', function() {
 
@@ -92,9 +98,14 @@ Route::get('allprojects', function() {
             $result = $client->ReadMultiple();
             $result = get_object_vars($result);
             $result = get_object_vars($result['ReadMultiple_Result']);
-           $result = array_column($result['WS_JOB'], 'SearchField');
-//Donne tous les noms de projets qu'il y a dans l'agence
+
             print_r($result);
+
+           // $num=array_column($result['WS_JOB'], 'Job_No');
+              //  $nom=array_column($result['WS_JOB'], 'Job_Name');
+                //$fullnom=array_column($result['WS_JOB'], 'SearchField');
+                //$customer=array_column($result['WS_JOB'], 'Customer_Name');
+
 
         }
             catch (Exception $e)
@@ -116,8 +127,8 @@ Route::get('allsubtasks', function() {
             $params = [
             "filter" => array
                 (
-               'Field' => 'Job_No',
-                'Criteria'=>'9990'
+               'Field' => '',
+                'Criteria'=>''
                 ),
                 "setSize"=>''
             ];
@@ -125,10 +136,10 @@ Route::get('allsubtasks', function() {
             $result = $client->ReadMultiple($params);
             $result = get_object_vars($result);
             $result = get_object_vars($result['ReadMultiple_Result']);
-            $result = array_column($result['WS_JOBTASK'], 'Job_Task_Name');
+           // $result = array_column($result['WS_JOBTASK'], 'Job_Task_Name');
            
 //Donne tous les noms de projets qu'il y a dans l'agence
-            print_r($result);
+            print_r($result['WS_JOBTASK']);
     
 
         }
