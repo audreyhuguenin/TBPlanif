@@ -11,19 +11,48 @@ class UsersTableSeeder extends Seeder
      */
     public function run()
     {
+        try {
+            $options = [
+                'soap_version' => SOAP_1_1,
+                'connection_timeout' => 120,
+                'login' => env('NAV_LOGIN'),
+                'password' => env('NAV_PASSWORD')
+                ];
+            $client = new SoapClient(env('NAV_SANDBOX_WSDL_USERS'), $options);
+            $params = [
+            "filter" => array
+                (
+               'Field' => '',
+                'Criteria'=>''
+                ),
+                "setSize"=>''
+            ];
 
-DB::table('users')->delete();
+            $result = $client->ReadMultiple($params);
+            $result = get_object_vars($result);
+            $result = get_object_vars($result['ReadMultiple_Result']);
 
-    for($i = 0; $i < 10; ++$i)
+            $usersNAV=$result['WS_USERS'];
+
+             foreach($usersNAV as $userNAV)
 	{
-	DB::table('users')->insert([
-	'firstName' => 'Prenom' . $i,
-                'lastName' => 'Nom' . $i,
-	'email' => 'email' . $i . '@gmaiil.fr',
-	'password' => bcrypt('password' . $i),
-                'contractRate' => 80
+                   $userNAV= get_object_vars($userNAV);
+
+	App\User::updateOrCreate([
+	'name' => $userNAV['Ressource_Name'],
+                'email' => $userNAV['Ressource_Login'],
+                'initials'=>$userNAV['Ressource_No'],
+	//'contractRate' => 100
 		]);
 	}
+
+
+        }
+            catch (Exception $e)
+            {
+                echo $e->getMessage();
+            }
+    
         }
 
 }

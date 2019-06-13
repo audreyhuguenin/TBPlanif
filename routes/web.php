@@ -15,8 +15,25 @@ Route::get('/', function () {
     return view('base');
 });
 
+Route::get('/auth/login', 'AuthController@form');
+Route::post('/auth/check', 'AuthController@check');
+
+Route::middleware(['MyAuth'])->group(function ()
+{
+    Route::get('/auth/logout', 'AuthController@logout');
+    Route::get('/secure', function ()
+    {
+        return Auth::user()->email . ' access granted';
+    });
+    Route::resource('tasks', 'TaskController');
+    Route::get('/', function () {
+    return "holaaaa!";
+});
+});
+
+
 Route::resource('users', 'UserController');
-Route::resource('tasks', 'TaskController');
+
 Route::resource('subtasks', 'SubtaskController');
 Route::resource('projects', 'ProjectController');
 Route::resource('plannings', 'PlanningController');
@@ -27,8 +44,10 @@ $syncprojects= new ProjectsTableSeeder();
 $syncprojects->run();
 $syncsubtasks= new SubtasksTableSeeder();
 $syncsubtasks->run();
-    return 'synchronized';
+return 'synchronized';
 });
+
+
 
 Route::get('navlogin', function() {
 
@@ -41,6 +60,7 @@ Route::get('navlogin', function() {
                 'password' => env('NAV_PASSWORD')
                 ];
             $client = new SoapClient(env('NAV_SANDBOX_WSDL'), $options);
+
             $params = [
                 'pCompany' => env('NAV_SANDBOX_pCompany'),
                 'pLogin'=>'audrey.huguenin',
@@ -150,6 +170,39 @@ Route::get('allsubtasks', function() {
 
 });
 
+Route::get('allusers', function() {
+
+        try {
+            $options = [
+                'soap_version' => SOAP_1_1,
+                'connection_timeout' => 120,
+                'login' => env('NAV_LOGIN'),
+                'password' => env('NAV_PASSWORD')
+                ];
+            $client = new SoapClient(env('NAV_SANDBOX_WSDL_USERS'), $options);
+            $params = [
+            "filter" => array
+                (
+               'Field' => '',
+                'Criteria'=>''
+                ),
+                "setSize"=>''
+            ];
+
+            $result = $client->ReadMultiple($params);
+            $result = get_object_vars($result);
+            $result = get_object_vars($result['ReadMultiple_Result']);
+           // $result = array_column($result['WS_JOBTASK'], 'Job_Task_Name');
+
+//Donne tous les noms de projets qu'il y a dans l'agence
+            print_r($result['WS_USERS']);
 
 
+        }
+            catch (Exception $e)
+            {
+                echo $e->getMessage();
+            }
+
+});
 

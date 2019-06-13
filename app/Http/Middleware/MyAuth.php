@@ -5,7 +5,7 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Support\Facades\Auth;
 
-class RedirectIfAuthenticated
+class MyAuth
 {
     /**
      * Handle an incoming request.
@@ -15,12 +15,14 @@ class RedirectIfAuthenticated
      * @param  string|null  $guard
      * @return mixed
      */
-    public function handle($request, Closure $next, $guard = null)
+    public function handle($request, Closure $next)
     {
-        if (Auth::guard($guard)->check()) {
-            return redirect('/');
+        
+        if (!Auth::check())
+        {
+            session(['url_intended' => $request->fullUrl()]); 
+            return response()->redirectToAction('AuthController@form')->with('loginRequired', true);
         }
-
         return $next($request);
     }
 }
