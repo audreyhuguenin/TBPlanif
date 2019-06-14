@@ -17,7 +17,8 @@ class CreateSubtasksTable extends Migration
             $table->bigIncrements('id');
             $table->string('name');
             $table->timestamps();
-            $table->integer('project_id')->unsigned();
+            //Attention, enlever nullable
+            $table->integer('project_id')->nullable()->unsigned();
             $table->foreign('project_id')
 	->references('number')
 	->on('projects')

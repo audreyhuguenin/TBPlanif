@@ -19,42 +19,6 @@ class UserController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        $request->validate([
-            'first_name'=>'required',
-            'last_name'=>'required',
-            'email'=>'required'
-        ]);
-
-        $contact = new Contact([
-            'first_name' => $request->get('first_name'),
-            'last_name' => $request->get('last_name'),
-            'email' => $request->get('email'),
-            'job_title' => $request->get('job_title'),
-            'city' => $request->get('city'),
-            'country' => $request->get('country')
-        ]);
-        $contact->save();
-        return redirect('/contacts')->with('success', 'Contact saved!');
-    }
-
-    /**
      * Display the specified resource.
      *
      * @param  int  $id
@@ -62,7 +26,12 @@ class UserController extends Controller
      */
     public function show($id)
     {
-        //
+        $user = User::find($id);
+        if (!isset($user))
+        {
+            return response()->json('Not found', 404);
+        }      
+        return $user;
     }
 
     /**
@@ -73,7 +42,7 @@ class UserController extends Controller
      */
     public function edit($id)
     {
-        //
+        //??
     }
 
     /**
@@ -85,17 +54,17 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+
+        return "hola";
+//         $request->validate([
+//            'contractRate'=>'required'
+//        ]);
+//
+//        $user = User::find($id);
+//        $user->contractRate =  $request->get('contractRate');
+//        $user->save();
+
+       //return $user;
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
-    }
 }

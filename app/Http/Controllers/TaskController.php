@@ -16,7 +16,8 @@ class TaskController extends Controller
     {
         
         $tasks = Task::all();
-        return view('tasks.index', compact('tasks'));
+        return $tasks;
+        //return view('tasks.index', compact('tasks'));
     }
 
     /**
@@ -26,7 +27,7 @@ class TaskController extends Controller
      */
     public function create()
     {
-        return view('tasks.create');
+        //return view('tasks.create');
     }
 
     /**
@@ -42,11 +43,12 @@ class TaskController extends Controller
             'comment'=>'required'
         ]);
 
-        $task = new Task([
-            'name' => $request->get('name'),
-            'comment' => $request->get('comment'),
-        ]);
+        $task = new Task();
+        $task->name = $request->name;
+        $task->comment = $request->comment;
+        $task->subtask_id = $request->subtask_id;
         $task->save();
+      
         return redirect('/tasks')->with('success', 'Task saved!');
     }
 
@@ -82,6 +84,7 @@ class TaskController extends Controller
      */
     public function update(Request $request, $id)
     {
+        return "hola";
         $request->validate([
             'name'=>'required',
             'comment'=>'required'
