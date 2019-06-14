@@ -67,4 +67,6 @@ class AuthController extends Controller
        Auth::logout();
        return response()->redirectToAction('AuthController@form');
    }
+
+   
 }

@@ -11,10 +11,6 @@
 |
 */
 
-Route::get('/', function () {
-    return view('base');
-});
-
 Route::get('/auth/login', 'AuthController@form');
 Route::post('/auth/check', 'AuthController@check');
 
@@ -25,27 +21,43 @@ Route::middleware(['MyAuth'])->group(function ()
     {
         return Auth::user()->email . ' access granted';
     });
+
     Route::resource('tasks', 'TaskController');
+    Route::resource('users', 'UserController');
+    Route::resource('subtasks', 'SubtaskController');
+    Route::resource('projects', 'ProjectController');
+    Route::resource('plannings', 'PlanningController');
+    Route::resource('assignations', 'AssignationController');
+
     Route::get('/', function () {
-    return "holaaaa!";
+    return "Something's not working in here";
+    })->middleware('checkRole');
+
+    Route::get('/planif', function () {
+    return "CREA";
+    });
+    Route::get('/am', function () {
+    return "AM accueil";
+    });
+    Route::get('/ad', function () {
+    return "AD accueil";
+    });
+
+    Route::get('sync', function () {
+    $syncprojects= new ProjectsTableSeeder();
+    $syncprojects->run();
+    $syncsubtasks= new SubtasksTableSeeder();
+    $syncsubtasks->run();
+    $syncusers= new UsersTableSeeder();
+    $syncusers->run();
+    
+    return 'synchronized';
+    })->middleware('checkRight');
+
 });
-});
 
 
-Route::resource('users', 'UserController');
 
-Route::resource('subtasks', 'SubtaskController');
-Route::resource('projects', 'ProjectController');
-Route::resource('plannings', 'PlanningController');
-Route::resource('assignations', 'AssignationController');
-
-Route::get('syncprojects', function () {
-$syncprojects= new ProjectsTableSeeder();
-$syncprojects->run();
-$syncsubtasks= new SubtasksTableSeeder();
-$syncsubtasks->run();
-return 'synchronized';
-});
 
 
 
