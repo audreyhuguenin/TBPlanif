@@ -8,13 +8,16 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class AssignationTest extends TestCase
 {
-    /**
-     * A basic unit test example.
-     *
-     * @return void
-     */
-    public function testExample()
+    public function testUser()
     {
-        $this->assertTrue(true);
+        $assignation=factory(\App\Assignation::class)->create();
+
+        $this->assertInstanceOf('\App\User', $assignation->user);
+    }
+    public function testTask()
+    {
+        $assignation=factory(\App\Assignation::class)->create();
+
+        $this->assertInstanceOf('\App\Task', $assignation->task);
     }
 }

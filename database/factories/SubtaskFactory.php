@@ -10,7 +10,7 @@ $factory->define(Subtask::class, function (Faker $faker) {
         'name' => $faker->bs(),
         'project_id'=> function () {
             $project = factory(App\Project::class)->create();
-            return $project->id;
+            return $project->number;
         }
     ];
 });

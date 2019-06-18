@@ -8,13 +8,10 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class SubtaskTest extends TestCase
 {
-    /**
-     * A basic unit test example.
-     *
-     * @return void
-     */
-    public function testExample()
+    public function testProject()
     {
-        $this->assertTrue(true);
+        $subtask=factory(\App\Subtask::class)->create();
+
+        $this->assertInstanceOf('\App\Project', $subtask->project);
     }
 }

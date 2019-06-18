@@ -8,13 +8,10 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class FreeDaysTest extends TestCase
 {
-    /**
-     * A basic unit test example.
-     *
-     * @return void
-     */
-    public function testExample()
+    public function testUser()
     {
-        $this->assertTrue(true);
+        $freeday=factory(\App\FreeDay::class)->create();
+
+        $this->assertInstanceOf('\App\User', $freeday->user);
     }
 }

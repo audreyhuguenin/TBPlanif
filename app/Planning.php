@@ -14,13 +14,13 @@ class Planning extends Model
     public $timestamps = false;
 
     public function user()
-{
-    return $this->belongsTo('App\User');
-}
+    {
+        return $this->belongsTo('App\User');
+    }
     public function projects()
-{
-    return $this->belongsToMany('App\Project', 'planning_project');
-}
+    {
+        return $this->belongsToMany('App\Project', 'planning_project');
+    }
 
     public function globalPlanning()
     {
