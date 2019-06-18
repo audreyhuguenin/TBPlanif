@@ -3,9 +3,39 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Assignation;
+use Auth;
 
 class AssignationController extends Controller
 {
+
+     /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function weekplan(Request $request)
+    {
+        $startDate = $request->startDate;
+        $endDate = $request->endDate;
+        $assignations = Assignation::whereBetween('date', [$startDate, $endDate])->get();
+
+        return $assignations;
+    }
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function weekplanbyuser(Request $request, $id)
+    {
+        $startDate = $request->startDate;
+        $endDate = $request->endDate;
+        $assignations = Assignation::whereBetween('date', [$startDate, $endDate])->where('user_id', $id)
+        ->get();
+        return $assignations;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -13,7 +43,8 @@ class AssignationController extends Controller
      */
     public function index()
     {
-        //
+        $assignations = Assignation::all();
+        return $assignations;
     }
 
     /**
@@ -34,7 +65,30 @@ class AssignationController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'date'=>'required',
+            'duration'=>'required',
+            'type'=>'required',
+            'suiviDA'=>'required',
+            'unmovable'=>'required',
+            'task_id'=>'required',
+            'user_id'=>'required'
+        ]);
+
+        $assignation = new Assignation();
+        $assignation->date = $request->date;
+        $assignation->duration = $request->duration;
+        $assignation->type = $request->type;
+        $assignation->suiviDA = $request->suiviDA;
+        $assignation->unmovable = $request->unmovable;
+        $assignation->task_id = $request->task_id;
+
+        $assignation->user_id = $request->user_id;
+        $assignation->save();
+
+        return response()->json($assignation, 201);
+      
+        //return redirect('/assignations')->with('success', 'Assignation saved!');
     }
 
     /**
@@ -45,7 +99,12 @@ class AssignationController extends Controller
      */
     public function show($id)
     {
-        //
+        $assignation= Assignation::find($id);
+        if (!isset($assignation))
+        {
+            return response()->json('Not found', 404);
+        }      
+        return $assignation;
     }
 
     /**
@@ -68,7 +127,26 @@ class AssignationController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+
+        //ATTENTION AJOUTER VALIDATION
+        /* $request->validate([
+            'name'=>'required'
+        ]); */
+
+        $assignation = Assignation::find($id);
+
+        if(isset($request->duration)) $assignation->duration =  $request->duration;
+        if(isset($request->date)) $assignation->date =  $request->date;
+        if(isset($request->type)) $assignation->type =  $request->type;
+        if(isset($request->suiviDA)) $assignation->suiviDA =  $request->suiviDA;
+        if(isset($request->unmovable)) $assignation->unmovable =  $request->unmovable;
+        if(isset($request->task_id)) $assignation->task_id =  $request->task_id;
+        if(isset($request->user_id)) $assignation->user_id =  $request->user_id;
+        
+        $assignation->save();
+        
+        return response()->json($assignation);
+        //return redirect('/assignations')->with('success', 'Assignation updated!');
     }
 
     /**
@@ -79,6 +157,15 @@ class AssignationController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $assignation = Assignation::find($id);
+        if (!isset($assignation))
+        {
+            return response()->json('Not found', 404);
+        }     
+        $assignation->delete();
+        return response()->json(null, 204);
+
+        //return redirect('/assignations')->with('success', 'Assignation deleted!');  
     }
+     
 }

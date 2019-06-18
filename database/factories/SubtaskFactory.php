@@ -8,5 +8,9 @@ use Faker\Generator as Faker;
 $factory->define(Subtask::class, function (Faker $faker) {
     return [
         'name' => $faker->bs(),
+        'project_id'=> function () {
+            $project = factory(App\Project::class)->create();
+            return $project->id;
+        }
     ];
 });

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Planning;
 
 class PlanningController extends Controller
 {
@@ -13,7 +14,8 @@ class PlanningController extends Controller
      */
     public function index()
     {
-        //
+        $plannings = Planning::all();
+        return $plannings;
     }
 
     /**
@@ -34,7 +36,16 @@ class PlanningController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'sent'=>'required',
+            'user_id'=>'required'
+        ]);
+
+        $planning = new Planning();
+        $planning->sent = $request->sent;
+        $planning->user_id = $request->user_id;
+        $planning->save();
+        return response()->json($planning, 201);
     }
 
     /**
@@ -45,7 +56,12 @@ class PlanningController extends Controller
      */
     public function show($id)
     {
-        //
+        $planning = Planning::find($id);
+        if (!isset($planning))
+        {
+            return response()->json('Not found', 404);
+        }      
+        return $planning;
     }
 
     /**
@@ -68,17 +84,14 @@ class PlanningController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $request->validate([
+            'sent'=>'required'
+        ]);
+
+        $planning = Planning::find($id);
+        $planning->sent =  $request->sent;
+        $planning->save();
+        return response()->json($planning);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
-    }
 }

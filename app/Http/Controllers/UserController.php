@@ -54,17 +54,14 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $request->validate([
+           'contractRate'=>'required'
+       ]);
 
-        return "hola";
-//         $request->validate([
-//            'contractRate'=>'required'
-//        ]);
-//
-//        $user = User::find($id);
-//        $user->contractRate =  $request->get('contractRate');
-//        $user->save();
-
-       //return $user;
+       $user = User::find($id);
+       $user->contractRate =  $request->contractRate;
+       $user->save();
+       return response()->json($user);
     }
 
 }

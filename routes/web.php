@@ -43,7 +43,7 @@ Route::middleware(['MyAuth'])->group(function ()
     $syncsubtasks= new SubtasksTableSeeder();
     $syncsubtasks->run();
     $syncusers= new UsersTableSeeder();
-    $syncusers->run();
+    $syncusers->run(); 
     
     return 'synchronized';
     })->middleware('checkRight');
@@ -51,12 +51,19 @@ Route::middleware(['MyAuth'])->group(function ()
 });
 
 
-Route::resource('tasks', 'TaskController');
+    Route::resource('tasks', 'TaskController');
     Route::resource('users', 'UserController');
     Route::resource('subtasks', 'SubtaskController');
     Route::resource('projects', 'ProjectController');
     Route::resource('plannings', 'PlanningController');
+    Route::post('assignations/weekplan', 'AssignationController@weekplan');
+    Route::post('assignations/weekplanbyuser/{id}', 'AssignationController@weekplanbyuser');
     Route::resource('assignations', 'AssignationController');
+    Route::get('freedays/getbyuser/{id}', 'FreeDayController@getbyuser');
+    Route::resource('freedays', 'FreeDayController');
+    Route::get('recurrentfreedays/getbyuser/{id}', 'RecFreeDayController@getbyuser');
+    Route::resource('recurrentfreedays', 'RecFreeDayController');
+    
 
 
 //

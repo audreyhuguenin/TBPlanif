@@ -2,11 +2,22 @@
 
 namespace App\Http\Controllers;
 
+use App\FreeDay;
 use Illuminate\Http\Request;
-use App\Task;
 
-class TaskController extends Controller
+class FreeDayController extends Controller
 {
+/**
+     * Display the specified resource.
+     *
+     */
+    public function getbyuser($id)
+    { 
+        $freedays = FreeDay::where('user_id', $id)
+        ->get();
+        
+        return $freedays;
+    }
     /**
      * Display a listing of the resource.
      *
@@ -14,10 +25,8 @@ class TaskController extends Controller
      */
     public function index()
     {
-        
-        $tasks = Task::all();
-        return $tasks;
-        //return view('tasks.index', compact('tasks'));
+        $freedays = FreeDay::all();
+        return $freedays;
     }
 
     /**
@@ -27,7 +36,7 @@ class TaskController extends Controller
      */
     public function create()
     {
-        //return view('tasks.create');
+        //
     }
 
     /**
@@ -39,85 +48,81 @@ class TaskController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name'=>'required',
-            'comment'=>'required'
+            'startDate'=>'required',
+            'endDate'=>'required',
+            'user_id'=>'required'
         ]);
 
-        $task = new Task();
-        $task->name = $request->name;
-        $task->comment = $request->comment;
-        $task->subtask_id = $request->subtask_id;
-        $task->save();
-        return response()->json($task, 201);
-      
-        //return redirect('/tasks')->with('success', 'Task saved!');
+        $day = new FreeDay();
+        $day->startDate = $request->startDate;
+        $day->endDate = $request->endDate;
+        $day->user_id = $request->user_id;
+        $day->save();
+
+        return response()->json($day, 201);
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  \App\FreeDay  $freeDay
      * @return \Illuminate\Http\Response
      */
     public function show($id)
     {
-        $task= Task::find($id);
-        if (!isset($task))
+        $day= FreeDay::find($id);
+        if (!isset($day))
         {
             return response()->json('Not found', 404);
         }      
-        return $task;
+        return $day;
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  \App\FreeDay  $freeDay
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(FreeDay $freeDay)
     {
-        $task = Task::find($id);
-        return view('tasks.edit', compact('task'));
+        //
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \App\FreeDay  $freeDay
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
     {
-        $request->validate([
-            'name'=>'required'
-        ]);
+        $day = FreeDay::find($id);
 
-        $task = Task::find($id);
-        $task->name =  $request->name;
-        if(isset($request->comment))$task->comment = $request->comment;
-        $task->save();
-        return response()->json($task);
-        //return redirect('/tasks')->with('success', 'Task updated!');
+        if(isset($request->startDate)) $day->startDate =  $request->startDate;
+        if(isset($request->endDate)) $day->endDate =  $request->endDate;
+        if(isset($request->user_id)) $day->user_id =  $request->user_id;
+        
+        $day->save();
+        
+        return response()->json($day);
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  \App\FreeDay  $freeDay
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
     {
-        $task = Task::find($id);
-        if (!isset($task))
+        $day = FreeDay::find($id);
+        if (!isset($id))
         {
             return response()->json('Not found', 404);
         }     
-        $task->delete();
+        $day->delete();
         return response()->json(null, 204);
-
-        //return redirect('/tasks')->with('success', 'Task deleted!');
     }
 }
