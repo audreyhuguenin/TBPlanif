@@ -12,7 +12,10 @@ class FreeDay extends Model
         'startDate',
         'endDate',
     ];
-
+    protected $casts = [
+        'startDate' => 'datetime',
+        'endDate' => 'datetime',
+    ];
     public $timestamps = false;
 
     public function user()

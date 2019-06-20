@@ -14,4 +14,17 @@ class SubtaskTest extends TestCase
 
         $this->assertInstanceOf('\App\Project', $subtask->project);
     }
+
+    public function testTasks()
+    {
+        $task=factory(\App\Task::class)->create();
+        $subtask=factory(\App\Subtask::class)->create();
+        $task->subtask_id = $subtask->id;
+        $task->save();
+
+        $tasks=$subtask->tasks;
+      
+
+        $this->assertInstanceOf('\App\Task', $tasks->first());
+    }
 }

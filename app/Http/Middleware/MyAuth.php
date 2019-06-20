@@ -17,7 +17,6 @@ class MyAuth
      */
     public function handle($request, Closure $next)
     {
-        
         if (!Auth::check())
         {
             session(['url_intended' => $request->fullUrl()]); 

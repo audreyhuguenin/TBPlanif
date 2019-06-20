@@ -64,4 +64,15 @@ class UserController extends Controller
        return response()->json($user);
     }
 
+    /**
+     * Synchronize the users in database with NAV content.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function sync()
+    {
+        $users = User::all();
+        return $users;
+    }
+
 }

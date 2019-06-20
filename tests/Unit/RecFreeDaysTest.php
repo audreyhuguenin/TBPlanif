@@ -8,13 +8,15 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class RecFreeDaysTest extends TestCase
 {
-    /**
-     * A basic unit test example.
-     *
-     * @return void
-     */
-    public function testExample()
+    public function testUsers()
     {
-        $this->assertTrue(true);
+        $days= factory(\App\RecurrentFreeDay::class, 10)->create()->each(function($a) {
+            $a->users()->save(factory(\App\User::class)->make());
+          });
+          
+        $day= $days->first();
+        $users=$day->users;
+
+        $this->assertInstanceOf('\App\User', $users->first());
     }
 }

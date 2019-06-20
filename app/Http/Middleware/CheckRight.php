@@ -5,7 +5,7 @@ namespace App\Http\Middleware;
 use Closure;
 use App\Http\Middleware\CheckRole;
 use Illuminate\Support\Facades\Auth;
-
+use Route;
 class CheckRight
 {
     /**
@@ -17,12 +17,19 @@ class CheckRight
      */
     public function handle($request, Closure $next)
     {
+        $method = $request->method();
+        $routeName = $request->route()->getName();
+
+        
         $checkrole= new CheckRole();
-        $role=$checkrole->privilege(Auth::user()->email);
+
+
+        dd($requestUri);
+        /* $role=$checkrole->privilege(Auth::user()->email);
         if($role!=2)
             {
             return redirect("/")->with('mustBeSuperadmin', true);
-            }
+            } */
         return $next($request);
     }
 }

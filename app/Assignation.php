@@ -15,7 +15,9 @@ class Assignation extends Model
       'suiviDA',
       'unmovable'
     ];
-
+    protected $casts = [
+        'date' => 'datetime',
+    ];
 
     public $timestamps = false;
 

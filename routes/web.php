@@ -51,7 +51,7 @@ Route::middleware(['MyAuth'])->group(function ()
 });
 
 
-    Route::resource('tasks', 'TaskController');
+    Route::resource('tasks', 'TaskController')->middleware('checkRight');
     Route::resource('users', 'UserController');
     Route::resource('subtasks', 'SubtaskController');
     Route::resource('projects', 'ProjectController');
@@ -63,7 +63,14 @@ Route::middleware(['MyAuth'])->group(function ()
     Route::resource('freedays', 'FreeDayController');
     Route::get('recurrentfreedays/getbyuser/{id}', 'RecFreeDayController@getbyuser');
     Route::resource('recurrentfreedays', 'RecFreeDayController');
-    
+
+    Route::get('/privilege', function () {
+        return 'hola';
+        })->middleware('checkRight');
+    Route::get('/syncuser', function () {
+        $syncusers= new UsersTableSeeder();
+    $syncusers->run(); 
+        });
 
 
 //
