@@ -35,5 +35,15 @@ class SubtaskController extends Controller
         return $subtask;
     }
 
+    
+/**
+     * Synchronize the projects in database with NAV content.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function sync()
+    {
+        Artisan::call('db:seed --class=SubtasksTableSeeder');
+    }
    
 }

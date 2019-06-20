@@ -4,6 +4,7 @@ namespace App\Nova;
 
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\DateTime;
+use Laravel\Nova\Fields\BelongsTo;
 use Illuminate\Http\Request;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
@@ -43,7 +44,8 @@ class FreeDay extends Resource
         return [
             ID::make()->sortable(),
             DateTime::make('StartDate', 'startDate'),
-            DateTime::make('EndDate', 'endDate')
+            DateTime::make('EndDate', 'endDate'),
+            BelongsTo::make('User'),
         ];
     }
 

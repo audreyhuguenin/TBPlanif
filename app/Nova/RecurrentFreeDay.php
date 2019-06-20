@@ -43,6 +43,7 @@ class RecurrentFreeDay extends Resource
         return [
             ID::make()->sortable(),
             Text::make('Jour'),
+            BelongsToMany::make('Users'),
         ];
     }
 

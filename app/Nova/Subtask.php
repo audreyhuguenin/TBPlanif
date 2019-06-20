@@ -4,6 +4,8 @@ namespace App\Nova;
 
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Text;
+use Laravel\Nova\Fields\BelongsTo;
+use Laravel\Nova\Fields\HasMany;
 use Illuminate\Http\Request;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
@@ -45,6 +47,8 @@ class Subtask extends Resource
             Text::make('Name')
                 ->sortable()
                 ->rules('required', 'max:255'),
+            BelongsTo::make('Project'),
+            HasMany::make('Tasks'),
         ];
     }
 

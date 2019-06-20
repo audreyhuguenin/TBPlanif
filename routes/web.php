@@ -47,30 +47,33 @@ Route::middleware(['MyAuth'])->group(function ()
     
     return 'synchronized';
     })->middleware('checkRight');
+    
+    Route::get('rights/seed', 'RightController@seed');
+    Route::post('rights/level', 'RightController@getLevel');
+    Route::resource('rights', 'RightController');
+
+
+    Route::resource('tasks', 'TaskController')->middleware('checkRight');
+    Route::get('users/sync', 'UserController@sync')->name('users.sync')->middleware('checkRight');
+    Route::resource('users', 'UserController')->middleware('checkRight');
+    Route::resource('subtasks', 'SubtaskController')->middleware('checkRight');
+    Route::get('projects/sync', 'ProjectController@sync')->name('projects.sync')->middleware('checkRight');
+    Route::resource('projects', 'ProjectController')->middleware('checkRight');
+    Route::resource('plannings', 'PlanningController')->middleware('checkRight');
+    Route::post('assignations/weekplan', 'AssignationController@weekplan');
+    Route::post('assignations/weekplanbyuser/{id}', 'AssignationController@weekplanbyuser');
+    Route::resource('assignations', 'AssignationController')->middleware('checkRight');
+    Route::get('freedays/getbyuser/{id}', 'FreeDayController@getbyuser');
+    Route::resource('freedays', 'FreeDayController')->middleware('checkRight');
+    Route::get('recurrentfreedays/getbyuser/{id}', 'RecFreeDayController@getbyuser');
+    Route::resource('recurrentfreedays', 'RecFreeDayController')->middleware('checkRight');
 
 });
 
 
-    Route::resource('tasks', 'TaskController')->middleware('checkRight');
-    Route::resource('users', 'UserController');
-    Route::resource('subtasks', 'SubtaskController');
-    Route::resource('projects', 'ProjectController');
-    Route::resource('plannings', 'PlanningController');
-    Route::post('assignations/weekplan', 'AssignationController@weekplan');
-    Route::post('assignations/weekplanbyuser/{id}', 'AssignationController@weekplanbyuser');
-    Route::resource('assignations', 'AssignationController');
-    Route::get('freedays/getbyuser/{id}', 'FreeDayController@getbyuser');
-    Route::resource('freedays', 'FreeDayController');
-    Route::get('recurrentfreedays/getbyuser/{id}', 'RecFreeDayController@getbyuser');
-    Route::resource('recurrentfreedays', 'RecFreeDayController');
 
-    Route::get('/privilege', function () {
-        return 'hola';
-        })->middleware('checkRight');
-    Route::get('/syncuser', function () {
-        $syncusers= new UsersTableSeeder();
-    $syncusers->run(); 
-        });
+    
+    
 
 
 //

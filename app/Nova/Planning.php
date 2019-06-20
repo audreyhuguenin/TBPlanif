@@ -4,6 +4,9 @@ namespace App\Nova;
 
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Boolean;
+use Laravel\Nova\Fields\HasMany;
+use Laravel\Nova\Fields\BelongsTo;
+use Laravel\Nova\Fields\BelongsToMany;
 use Illuminate\Http\Request;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
@@ -44,6 +47,11 @@ class Planning extends Resource
             ID::make()->sortable(),
             Boolean::make('Sent')
                 ->rules('required'),
+            HasMany::make('Plannings', 'children'),
+            BelongsTo::make('Planning', 'globalPlanning'),
+            BelongsToMany::make('Projects'),
+            BelongsTo::make('User'),
+
         ];
     }
 

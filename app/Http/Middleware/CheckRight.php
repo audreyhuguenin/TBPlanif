@@ -19,17 +19,18 @@ class CheckRight
     {
         $method = $request->method();
         $routeName = $request->route()->getName();
+        $data= [
+            'method'=> $method,
+            'routename' => $routeName
+        ];
+        $request = new \Illuminate\Http\Request($data);
+        $controller= new \App\Http\Controllers\RightController();
+        $routelevel=$controller->getLevel($request);
 
-        
-        $checkrole= new CheckRole();
-
-
-        dd($requestUri);
-        /* $role=$checkrole->privilege(Auth::user()->email);
-        if($role!=2)
-            {
-            return redirect("/")->with('mustBeSuperadmin', true);
-            } */
-        return $next($request);
+        $checkrole = new CheckRole();
+        $userRole=$checkrole->privilege(Auth::user()->email);
+//dd($userRole . " ". $routelevel);
+        if($userRole>$routelevel||$userRole==$routelevel)return $next($request);
+        return back()->with('unauthorized', true);
     }
 }

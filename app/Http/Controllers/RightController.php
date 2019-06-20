@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Right;
 use Illuminate\Http\Request;
+use Illuminate\Database\Seeder;
+use App\Database\Seeds\RightsTableSeeder;
+use Artisan;
 
 class RightController extends Controller
 {
@@ -14,72 +17,91 @@ class RightController extends Controller
      */
     public function index()
     {
-        //
+        $rights = Right::all();
+        return $rights;
     }
-
     /**
-     * Show the form for creating a new resource.
+     * Display the specified resource.
      *
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function show($id)
     {
-        //
+        $right= Right::find($id);
+        if (!isset($right))
+        {
+            return response()->json('Not found', 404);
+        }      
+        return $right;
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Display a listing of the resource.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'method'=>'required',
+            'routename'=>'required',
+            'level'=>'required',
+        ]);
+
+        $right = new Right();
+        $right->method = $request->method;
+        $right->routename = $request->routename;
+        $right->level = $request->level;
+        $right->save();
+        return response()->json($right, 201);
     }
 
     /**
-     * Display the specified resource.
+     * Display a listing of the resource.
      *
-     * @param  \App\Right  $right
      * @return \Illuminate\Http\Response
      */
-    public function show(Right $right)
+    public function update(Request $request, $id)
     {
-        //
+        $request->validate([
+            'method'=>'required',
+            'routename'=>'required',
+            'level'=>'required',
+        ]);
+
+        $right = Task::find($id);
+        $right->method =  $request->method;
+        $right->routename = $request->routename;
+        $right->level = $request->level;
+        $right->save();
+        return response()->json($right);
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * Display a listing of the resource.
      *
-     * @param  \App\Right  $right
      * @return \Illuminate\Http\Response
      */
-    public function edit(Right $right)
+    public function getLevel(Request $request)
     {
-        //
+        $right = Right::where(
+                [
+                    ['method', $request->method],
+                    ['routename', $request->routename],
+                ]
+        )->first();
+        return $right->level;
     }
 
     /**
-     * Update the specified resource in storage.
+     * Display a listing of the resource.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Right  $right
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Right $right)
+    public function seed()
     {
-        //
+        Artisan::call('db:seed --class=RightsTableSeeder');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Right  $right
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Right $right)
-    {
-        //
-    }
 }

@@ -8,6 +8,8 @@ use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\Gravatar;
 use Laravel\Nova\Fields\Password;
 use Laravel\Nova\Fields\Number;
+use Laravel\Nova\Fields\HasMany;
+use Laravel\Nova\Fields\BelongsToMany;
 
 class User extends Resource
 {
@@ -16,7 +18,7 @@ class User extends Resource
      *
      * @var string
      */
-    public static $model = 'App\\User';
+    public static $model = 'App\User';
 
     /**
      * The single value that should be used to represent the resource when being displayed.
@@ -61,6 +63,11 @@ class User extends Resource
                 ->rules('required'),
 
             Number::make('contractRate'),
+            HasMany::make('Assignations'),
+            HasMany::make('FreeDays','freeDays'),
+            HasMany::make('Plannings'),
+            BelongsToMany::make('RecurrentFreeDays', 'recurrentFreeDays'),
+
         ];
     }
 

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\User;
+use Artisan;
 
 class UserController extends Controller
 {
@@ -71,8 +72,7 @@ class UserController extends Controller
      */
     public function sync()
     {
-        $users = User::all();
-        return $users;
+        Artisan::call('db:seed --class=UsersTableSeeder');
     }
 
 }

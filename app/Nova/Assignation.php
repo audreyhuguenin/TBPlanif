@@ -7,6 +7,7 @@ use Laravel\Nova\Fields\DateTime;
 use Laravel\Nova\Fields\Number;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\Boolean;
+use Laravel\Nova\Fields\BelongsTo;
 use Illuminate\Http\Request;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
@@ -55,6 +56,8 @@ class Assignation extends Resource
                 ->rules('required'),
             Boolean::make('Unmovable')
                 ->rules('required'),
+            BelongsTo::make('Task'),
+            BelongsTo::make('User'),
 
         ];
     }

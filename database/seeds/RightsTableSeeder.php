@@ -1,0 +1,188 @@
+<?php
+
+use Illuminate\Database\Seeder;
+
+class RightsTableSeeder extends Seeder
+{
+    /**
+     * Run the database seeds.
+     *
+     * @return void
+     */
+    public function run()
+    {
+        DB::table('rights')->truncate();
+        $rightsTable=[
+            [
+                'method'=>'GET',
+                'routename'=>'users.index',
+                'level'=>1
+            ],
+            [
+                'method'=>'GET',
+                'routename'=>'users.show',
+                'level'=>0
+            ],
+            [
+                'method'=>'PUT',
+                'routename'=>'users.update',
+                'level'=>2
+            ],
+            [
+                'method'=>'GET',
+                'routename'=>'tasks.index',
+                'level'=>2
+            ],
+            [
+                'method'=>'GET',
+                'routename'=>'tasks.show',
+                'level'=>0
+            ],
+            [
+                'method'=>'POST',
+                'routename'=>'tasks.store',
+                'level'=>1
+            ],
+            [
+                'method'=>'PUT',
+                'routename'=>'tasks.update',
+                'level'=>1
+            ],
+            [
+                'method'=>'DELETE',
+                'routename'=>'tasks.destroy',
+                'level'=>1
+            ],
+            [
+                'method'=>'GET',
+                'routename'=>'subtasks.index',
+                'level'=>0
+            ],
+            [
+                'method'=>'GET',
+                'routename'=>'subtasks.show',
+                'level'=>0
+            ],
+            [
+                'method'=>'GET',
+                'routename'=>'projects.index',
+                'level'=>0
+            ],
+            [
+                'method'=>'GET',
+                'routename'=>'projects.show',
+                'level'=>0
+            ],
+            [
+                'method'=>'GET',
+                'routename'=>'plannings.index',
+                'level'=>2
+            ],
+            [
+                'method'=>'GET',
+                'routename'=>'plannings.show',
+                'level'=>0
+            ],
+            [
+                'method'=>'POST',
+                'routename'=>'plannings.store',
+                'level'=>1
+            ],
+            [
+                'method'=>'PUT',
+                'routename'=>'plannings.update',
+                'level'=>1
+            ],
+            [
+                'method'=>'GET',
+                'routename'=>'assignations.index',
+                'level'=>2
+            ],
+            [
+                'method'=>'GET',
+                'routename'=>'assignations.show',
+                'level'=>0
+            ],
+            [
+                'method'=>'POST',
+                'routename'=>'assignations.store',
+                'level'=>1
+            ],
+            [
+                'method'=>'PUT',
+                'routename'=>'assignations.update',
+                'level'=>1
+            ],
+            [
+                'method'=>'DELETE',
+                'routename'=>'assignations.destroy',
+                'level'=>1
+            ],
+            [
+                'method'=>'GET',
+                'routename'=>'freedays.index',
+                'level'=>1
+            ],
+            [
+                'method'=>'GET',
+                'routename'=>'freedays.show',
+                'level'=>1
+            ],
+            [
+                'method'=>'POST',
+                'routename'=>'freedays.store',
+                'level'=>2
+            ],
+            [
+                'method'=>'PUT',
+                'routename'=>'freedays.update',
+                'level'=>2
+            ],
+            [
+                'method'=>'DELETE',
+                'routename'=>'freedays.destroy',
+                'level'=>2
+            ],
+            [
+                'method'=>'GET',
+                'routename'=>'recurrentfreedays.index',
+                'level'=>0
+            ],
+            [
+                'method'=>'GET',
+                'routename'=>'recurrentfreedays.show',
+                'level'=>0
+            ],
+            [
+                'method'=>'GET',
+                'routename'=>'users.sync',
+                'level'=>2
+            ],
+            [
+                'method'=>'GET',
+                'routename'=>'projects.sync',
+                'level'=>2
+            ],
+            
+            
+        ];
+
+    foreach($rightsTable as $rightLine)
+    {       
+        App\Right::updateOrCreate([
+        'method' => $rightLine['method'],
+        'routename' => $rightLine['routename'],
+        'level'=>$rightLine['level']
+            ]);
+    }
+}
+/**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
+    {
+        Schema::drop('rights');
+    }
+}

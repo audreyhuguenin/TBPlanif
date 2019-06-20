@@ -36,14 +36,14 @@ class SubtasksTableSeeder extends Seeder
             $subtasksNAV=$result['WS_JOBTASK'];
 
              foreach($subtasksNAV as $subtaskNAV)
-	{
+	        {
                    $subtaskNAV= get_object_vars($subtaskNAV);
                   
-	App\Subtask::updateOrCreate([
-	'name' => $subtaskNAV['Job_Task_Name'],
-	'project_id' =>$subtaskNAV['Job_No'] ,
-		]);
-	}
+	                App\Subtask::updateOrCreate([
+	                'name' => $subtaskNAV['Job_Task_Name'],
+	                'project_id' =>$subtaskNAV['Job_No'] ,
+		                ]);
+	        }
 
 
         }

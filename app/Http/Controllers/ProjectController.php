@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Project;
+use Artisan;
 
 class ProjectController extends Controller
 {
@@ -32,6 +33,16 @@ class ProjectController extends Controller
             return response()->json('Not found', 404);
         }      
         return $project;
+    }
+
+    /**
+     * Synchronize the projects in database with NAV content.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function sync()
+    {
+        Artisan::call('db:seed --class=ProjectsTableSeeder');
     }
 
     

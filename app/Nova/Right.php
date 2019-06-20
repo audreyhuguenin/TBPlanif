@@ -3,6 +3,8 @@
 namespace App\Nova;
 
 use Laravel\Nova\Fields\ID;
+use Laravel\Nova\Fields\Text;
+use Laravel\Nova\Fields\Number;
 use Illuminate\Http\Request;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
@@ -91,6 +93,13 @@ class Right extends Resource
      */
     public function actions(Request $request)
     {
-        return [];
+        return [
+            Text::make('Method')
+                ->rules('required'),
+            Text::make('Routename')
+                ->rules('required'),
+            Number::make('Level')
+                ->rules('required'),
+            ];
     }
 }

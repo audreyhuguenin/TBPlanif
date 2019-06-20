@@ -5,6 +5,8 @@ namespace App\Nova;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\Number;
+use Laravel\Nova\Fields\HasMany;
+use Laravel\Nova\Fields\BelongsToMany;
 use Illuminate\Http\Request;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
@@ -67,6 +69,8 @@ public static $displayInNavigation = false;
                 ->rules('required', 'max:255'),
             Number::make('Number')
                 ->rules('required', 'max:255'),
+            HasMany::make('Subtasks'),
+            BelongsToMany::make('Plannings'),
         ];
     }
 
