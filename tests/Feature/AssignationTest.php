@@ -12,7 +12,7 @@ class AssignationTest extends TestCase
 
     use RefreshDatabase;
     //use WithoutMiddleware;
-
+ 
     public function testSeedRights()
     {
         $response=$this->get('/rights/seed');
@@ -25,6 +25,8 @@ class AssignationTest extends TestCase
         $this->assertDatabaseHas('users', ['email' => 'audrey.huguenin']);
         $response->assertStatus(200); 
     }
+
+    
 
        public function testGetAllAssignations()
     {
@@ -111,7 +113,7 @@ class AssignationTest extends TestCase
         $response->assertStatus(200);
         $response->assertJson($data);
       
-    } 
+    }  
 
     public function testWeekPlan()
     {

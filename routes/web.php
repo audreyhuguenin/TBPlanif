@@ -62,12 +62,12 @@ Route::middleware(['MyAuth'])->group(function ()
     Route::get('projects/sync', 'ProjectController@sync')->name('projects.sync')->middleware('checkRight');
     Route::resource('projects', 'ProjectController')->middleware('checkRight');
     Route::resource('plannings', 'PlanningController')->middleware('checkRight');
-    Route::post('assignations/weekplan', 'AssignationController@weekplan');
-    Route::post('assignations/weekplanbyuser/{id}', 'AssignationController@weekplanbyuser');
+    Route::post('assignations/weekplan', 'AssignationController@weekplan')->name('assignations.weekplan')->middleware('checkRight');;
+    Route::post('assignations/weekplanbyuser/{id}', 'AssignationController@weekplanbyuser')->name('assignations.weekplanbyuser')->middleware('checkRight');
     Route::resource('assignations', 'AssignationController')->middleware('checkRight');
-    Route::get('freedays/getbyuser/{id}', 'FreeDayController@getbyuser');
+    Route::get('freedays/getbyuser/{id}', 'FreeDayController@getbyuser')->name('freedays.getbyuser')->middleware('checkRight');
     Route::resource('freedays', 'FreeDayController')->middleware('checkRight');
-    Route::get('recurrentfreedays/getbyuser/{id}', 'RecFreeDayController@getbyuser');
+    Route::get('recurrentfreedays/getbyuser/{id}', 'RecFreeDayController@getbyuser')->name('recurrentfreedays.getbyuser')->middleware('checkRight');;
     Route::resource('recurrentfreedays', 'RecFreeDayController')->middleware('checkRight');
 
 });

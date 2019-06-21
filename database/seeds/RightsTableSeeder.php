@@ -114,6 +114,16 @@ class RightsTableSeeder extends Seeder
                 'level'=>2
             ],
             [
+                'method'=>'POST',
+                'routename'=>'assignations.weekplan',
+                'level'=>0
+            ],
+            [
+                'method'=>'POST',
+                'routename'=>'assignations.weekplanbyuser',
+                'level'=>0
+            ],
+            [
                 'method'=>'GET',
                 'routename'=>'assignations.show',
                 'level'=>0
@@ -149,6 +159,11 @@ class RightsTableSeeder extends Seeder
                 'level'=>1
             ],
             [
+                'method'=>'GET',
+                'routename'=>'freedays.getbyuser',
+                'level'=>1
+            ],
+            [
                 'method'=>'POST',
                 'routename'=>'freedays.store',
                 'level'=>2
@@ -177,6 +192,11 @@ class RightsTableSeeder extends Seeder
                 'method'=>'GET',
                 'routename'=>'recurrentfreedays.show',
                 'level'=>0
+            ],
+            [
+                'method'=>'GET',
+                'routename'=>'recurrentfreedays.getbyuser',
+                'level'=>1
             ],
             [
                 'method'=>'GET',
