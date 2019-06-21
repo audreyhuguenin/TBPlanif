@@ -13,6 +13,8 @@
 
 Route::get('/auth/login', 'AuthController@form');
 Route::post('/auth/check', 'AuthController@check');
+Route::get('users/sync', 'UserController@sync')->name('users.sync');
+Route::get('rights/seed', 'RightController@seed');
 
 Route::middleware(['MyAuth'])->group(function ()
 {
@@ -48,14 +50,14 @@ Route::middleware(['MyAuth'])->group(function ()
     return 'synchronized';
     })->middleware('checkRight');
     
-    Route::get('rights/seed', 'RightController@seed');
+    
     Route::post('rights/level', 'RightController@getLevel');
     Route::resource('rights', 'RightController');
 
 
     Route::resource('tasks', 'TaskController')->middleware('checkRight');
-    Route::get('users/sync', 'UserController@sync')->name('users.sync')->middleware('checkRight');
     Route::resource('users', 'UserController')->middleware('checkRight');
+    Route::get('subtasks/sync', 'SubtaskController@sync')->name('subtasks.sync')->middleware('checkRight');
     Route::resource('subtasks', 'SubtaskController')->middleware('checkRight');
     Route::get('projects/sync', 'ProjectController@sync')->name('projects.sync')->middleware('checkRight');
     Route::resource('projects', 'ProjectController')->middleware('checkRight');

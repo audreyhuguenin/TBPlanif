@@ -26,9 +26,9 @@ class CheckRight
         $request = new \Illuminate\Http\Request($data);
         $controller= new \App\Http\Controllers\RightController();
         $routelevel=$controller->getLevel($request);
-
         $checkrole = new CheckRole();
         $userRole=$checkrole->privilege(Auth::user()->email);
+        //dd($userRole);
 //dd($userRole . " ". $routelevel);
         if($userRole>$routelevel||$userRole==$routelevel)return $next($request);
         return back()->with('unauthorized', true);

@@ -9,9 +9,25 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 class FreeDaysTest extends TestCase
 {
     use RefreshDatabase;
+    //use WithoutMiddleware;
+
+    public function testSeedRights()
+    {
+        $response=$this->get('/rights/seed');
+        $this->assertDatabaseHas('rights', ['id' => 20]);
+    }
+
+    public function testSyncUsers()
+    {
+        $response=$this->get('/users/sync');
+        $this->assertDatabaseHas('users', ['email' => 'audrey.huguenin']);
+        $response->assertStatus(200); 
+    }
 
        public function testGetAllFreeDays()
     {
+        $user=\App\User::where(['email'=>'audrey.huguenin'])->first();
+        $this->actingAs($user);
         $freedays = factory(\App\FreeDay::class, 5)->create();
         $response = $this->get('/freedays');
 
@@ -20,6 +36,8 @@ class FreeDaysTest extends TestCase
     
     public function testGetbyUser()
     {
+        $user=\App\User::where(['email'=>'audrey.huguenin'])->first();
+        $this->actingAs($user);
         $user = factory(\App\User::class)->create();
 
         $response = $this->get('/freedays/getbyuser/'. $user->id);
@@ -29,6 +47,8 @@ class FreeDaysTest extends TestCase
 
     public function testGetFreeDayByID()
     {
+        $user=\App\User::where(['email'=>'audrey.huguenin'])->first();
+        $this->actingAs($user);
         $freeday = factory(\App\FreeDay::class)->create();
 
 
@@ -39,6 +59,8 @@ class FreeDaysTest extends TestCase
    
     public function testUserCanStoreFreeDay()
     {
+        $user=\App\User::where(['email'=>'audrey.huguenin'])->first();
+        $this->actingAs($user);
         $user = factory(\App\User::class)->create();
 
         $data=[
@@ -58,6 +80,8 @@ class FreeDaysTest extends TestCase
 
      public function testUserCanDestroyFreeday()
     {
+        $user=\App\User::where(['email'=>'audrey.huguenin'])->first();
+        $this->actingAs($user);
         $day = factory(\App\FreeDay::class)->create();
 
         $response = $this->delete('/freedays/' . $day->id);
@@ -69,6 +93,8 @@ class FreeDaysTest extends TestCase
 
      public function testUpdateFreeDay()
     {
+        $user=\App\User::where(['email'=>'audrey.huguenin'])->first();
+        $this->actingAs($user);
         $day = factory(\App\FreeDay::class)->create();
 
         $data=[

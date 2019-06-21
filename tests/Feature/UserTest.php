@@ -5,38 +5,59 @@ namespace Tests\Feature;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Foundation\Testing\WithoutMiddleware;
 
 
 class UserTest extends TestCase
 {
     use RefreshDatabase;
+    //use WithoutMiddleware;
+
+    
+
+    public function testSeedRights()
+    {
+        $response=$this->get('/rights/seed');
+        $this->assertDatabaseHas('rights', ['id' => 20]);
+    }
+
+    public function testSyncUsers()
+    {
+        $response=$this->get('/users/sync');
+        $this->assertDatabaseHas('users', ['email' => 'audrey.huguenin']);
+        $response->assertStatus(200); 
+    }
     
 
     public function testGetAllUsers()
-    {
-        $users = factory(\App\User::class, 10)->create();
+    {        
+        $user=\App\User::where(['email'=>'audrey.huguenin'])->first();
+        $this->actingAs($user);
         $response = $this->get('/users');
         $response->assertStatus(200);
-        $response->assertJson($users->toArray());
     } 
 
      public function testGetUserByID()
     {
-        $user = factory(\App\User::class)->create();
+        $user=\App\User::where(['email'=>'audrey.huguenin'])->first();
+        $this->actingAs($user);
         $response = $this->get('/users/'.$user->id);
         $response->assertStatus(200);
     }
 
     public function testUpdateUser()
     {
-        $user = factory(\App\User::class)->create();
+        $user=\App\User::where(['email'=>'audrey.huguenin'])->first();
+        $this->actingAs($user);
+
         $response = $this->patch('/users/' . $user->id, [
-            'contractRate' => 120,
+            'contractRate' => 100,
         ]);
 
-        $this->assertDatabaseHas('users', ['contractRate' => 120]);
+        //dd($user);
+        $this->assertDatabaseHas('users', ['contractRate' => 100]);
         $response->assertStatus(200);
-        $response->assertJson(['contractRate'=>120]);
       
     }
+
 }

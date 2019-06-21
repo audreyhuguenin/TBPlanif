@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Subtask;
+use Artisan;
 
 class SubtaskController extends Controller
 {
@@ -34,7 +35,6 @@ class SubtaskController extends Controller
         }      
         return $subtask;
     }
-
     
 /**
      * Synchronize the projects in database with NAV content.

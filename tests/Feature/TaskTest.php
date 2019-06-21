@@ -5,14 +5,30 @@ namespace Tests\Feature;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Foundation\Testing\WithoutMiddleware;
 
 
 class TaskTest extends TestCase
 {
     use RefreshDatabase;
+    //use WithoutMiddleware;
 
+    public function testSeedRights()
+    {
+        $response=$this->get('/rights/seed');
+        $this->assertDatabaseHas('rights', ['id' => 20]);
+    }
+
+    public function testSyncUsers()
+    {
+        $response=$this->get('/users/sync');
+        $this->assertDatabaseHas('users', ['email' => 'audrey.huguenin']);
+        $response->assertStatus(200); 
+    }
     public function testGetAllTasks()
     {
+        $user=\App\User::where(['email'=>'audrey.huguenin'])->first();
+        $this->actingAs($user);
         $tasks = factory(\App\Task::class, 10)->create();
         $response = $this->get('/tasks');
 
@@ -21,6 +37,8 @@ class TaskTest extends TestCase
     } 
     public function testGetTaskById()
     {
+        $user=\App\User::where(['email'=>'audrey.huguenin'])->first();
+        $this->actingAs($user);
         $task = factory(\App\Task::class)->create();
 
 
@@ -31,6 +49,8 @@ class TaskTest extends TestCase
     }
     public function testUserCanStoreTask()
     {
+        $user=\App\User::where(['email'=>'audrey.huguenin'])->first();
+        $this->actingAs($user);
         $subtask = factory(\App\Subtask::class)->create();
 
         $data=[
@@ -49,6 +69,8 @@ class TaskTest extends TestCase
 
     public function testUserCanDestroyTask()
     {
+        $user=\App\User::where(['email'=>'audrey.huguenin'])->first();
+        $this->actingAs($user);
         $task = factory(\App\Task::class)->create();
 
         $response = $this->delete('/tasks/' . $task->id);
@@ -60,6 +82,8 @@ class TaskTest extends TestCase
 
     public function testUpdateTask()
     {
+        $user=\App\User::where(['email'=>'audrey.huguenin'])->first();
+        $this->actingAs($user);
         $task = factory(\App\Task::class)->create();
 
         $data=['name' => 'test new taskname'];

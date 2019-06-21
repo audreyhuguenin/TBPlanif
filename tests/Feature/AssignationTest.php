@@ -11,9 +11,25 @@ class AssignationTest extends TestCase
 {
 
     use RefreshDatabase;
+    //use WithoutMiddleware;
+
+    public function testSeedRights()
+    {
+        $response=$this->get('/rights/seed');
+        $this->assertDatabaseHas('rights', ['id' => 20]);
+    }
+
+    public function testSyncUsers()
+    {
+        $response=$this->get('/users/sync');
+        $this->assertDatabaseHas('users', ['email' => 'audrey.huguenin']);
+        $response->assertStatus(200); 
+    }
 
        public function testGetAllAssignations()
     {
+        $user=\App\User::where(['email'=>'audrey.huguenin'])->first();
+        $this->actingAs($user);
         $assignations = factory(\App\Assignation::class, 2)->create();
         $response = $this->get('/assignations');
 
@@ -22,6 +38,8 @@ class AssignationTest extends TestCase
     
     public function testGetTaskByID()
     {
+        $user=\App\User::where(['email'=>'audrey.huguenin'])->first();
+        $this->actingAs($user);
         $assignation = factory(\App\Assignation::class)->create();
 
 
@@ -33,6 +51,8 @@ class AssignationTest extends TestCase
    
     public function testUserCanStoreAssignation()
     {
+        $user=\App\User::where(['email'=>'audrey.huguenin'])->first();
+        $this->actingAs($user);
         $task = factory(\App\Task::class)->create();
         $user = factory(\App\User::class)->create();
 
@@ -64,6 +84,8 @@ class AssignationTest extends TestCase
 
      public function testUserCanDestroyAssignation()
     {
+        $user=\App\User::where(['email'=>'audrey.huguenin'])->first();
+        $this->actingAs($user);
         $assignation = factory(\App\Assignation::class)->create();
 
         $response = $this->delete('/assignations/' . $assignation->id);
@@ -75,6 +97,8 @@ class AssignationTest extends TestCase
 
      public function testUpdateAssignation()
     {
+        $user=\App\User::where(['email'=>'audrey.huguenin'])->first();
+        $this->actingAs($user);
         $assignation = factory(\App\Assignation::class)->create();
 
         $data=[
@@ -91,6 +115,8 @@ class AssignationTest extends TestCase
 
     public function testWeekPlan()
     {
+        $user=\App\User::where(['email'=>'audrey.huguenin'])->first();
+        $this->actingAs($user);
         $assignation = factory(\App\Assignation::class, 10)->create();
         $data=['weekStart'=>'2019-06-01 08:30:00',
                 'weekEnd'=>'2019-06-05 08:30:00'];
@@ -103,6 +129,8 @@ class AssignationTest extends TestCase
     } 
     public function testWeekPlanByUser()
     {
+        $user=\App\User::where(['email'=>'audrey.huguenin'])->first();
+        $this->actingAs($user);
         $user = factory(\App\User::class)->create();
         $assignation = factory(\App\Assignation::class, 10)->create();
         $data=['weekStart'=>'2019-06-01 08:30:00',

@@ -58,8 +58,9 @@ class UserController extends Controller
         $request->validate([
            'contractRate'=>'required'
        ]);
-
+       
        $user = User::find($id);
+       
        $user->contractRate =  $request->contractRate;
        $user->save();
        return response()->json($user);

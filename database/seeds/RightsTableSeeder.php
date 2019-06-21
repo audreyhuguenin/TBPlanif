@@ -29,6 +29,11 @@ class RightsTableSeeder extends Seeder
                 'level'=>2
             ],
             [
+                'method'=>'PATCH',
+                'routename'=>'users.update',
+                'level'=>2
+            ],
+            [
                 'method'=>'GET',
                 'routename'=>'tasks.index',
                 'level'=>2
@@ -45,6 +50,11 @@ class RightsTableSeeder extends Seeder
             ],
             [
                 'method'=>'PUT',
+                'routename'=>'tasks.update',
+                'level'=>1
+            ],
+            [
+                'method'=>'PATCH',
                 'routename'=>'tasks.update',
                 'level'=>1
             ],
@@ -94,6 +104,11 @@ class RightsTableSeeder extends Seeder
                 'level'=>1
             ],
             [
+                'method'=>'PATCH',
+                'routename'=>'plannings.update',
+                'level'=>1
+            ],
+            [
                 'method'=>'GET',
                 'routename'=>'assignations.index',
                 'level'=>2
@@ -110,6 +125,11 @@ class RightsTableSeeder extends Seeder
             ],
             [
                 'method'=>'PUT',
+                'routename'=>'assignations.update',
+                'level'=>1
+            ],
+            [
+                'method'=>'PATCH',
                 'routename'=>'assignations.update',
                 'level'=>1
             ],
@@ -139,6 +159,11 @@ class RightsTableSeeder extends Seeder
                 'level'=>2
             ],
             [
+                'method'=>'PATCH',
+                'routename'=>'freedays.update',
+                'level'=>2
+            ],
+            [
                 'method'=>'DELETE',
                 'routename'=>'freedays.destroy',
                 'level'=>2
@@ -161,6 +186,11 @@ class RightsTableSeeder extends Seeder
             [
                 'method'=>'GET',
                 'routename'=>'projects.sync',
+                'level'=>2
+            ],
+            [
+                'method'=>'GET',
+                'routename'=>'subtasks.sync',
                 'level'=>2
             ],
             
