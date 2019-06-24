@@ -23,7 +23,7 @@ class Project extends Model
 
     public function plannings()
 {
-    return $this->belongsToMany('App\Planning', 'planning_project');
+    return $this->belongsToMany('App\Planning', 'planning_project', 'number', 'planning_id');
 }
 
 }

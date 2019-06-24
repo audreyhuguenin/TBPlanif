@@ -33,7 +33,7 @@ class User extends Resource
      * @var array
      */
     public static $search = [
-        'id', 'name', 'email',
+        'id', 'name', 'email', 'contractRate'
     ];
 
     /**
@@ -55,14 +55,14 @@ class User extends Resource
 
             Text::make('Email')
                 ->sortable()
-                ->rules('required', 'email', 'max:254')
+                ->rules('required', 'max:254')
                 ->creationRules('unique:users,email')
                 ->updateRules('unique:users,email,{{resourceId}}'),
 
-            Text::make('initials')
+            Text::make('Initials')
                 ->rules('required'),
 
-            Number::make('contractRate'),
+            Number::make('ContractRate', 'contractRate'),
             HasMany::make('Assignations'),
             HasMany::make('FreeDays','freeDays'),
             HasMany::make('Plannings'),

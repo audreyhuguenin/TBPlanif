@@ -15,7 +15,7 @@ class CreatePlanningProjectTable extends Migration
     {
         Schema::create('planning_project', function (Blueprint $table) {
             $table->unsignedInteger('planning_id');
-            $table->unsignedInteger('project_id');
+            $table->unsignedInteger('number');
         });
     }
 

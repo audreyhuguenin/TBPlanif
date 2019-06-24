@@ -11,7 +11,7 @@ $factory->define(Task::class, function (Faker $faker) {
         'comment' => $faker->realText(),
         'subtask_id' => function () {
             $subtask = factory(App\Subtask::class)->create();
-            return $subtask->id;
+            return $subtask->project_id;
         }
     ];
 });

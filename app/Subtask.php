@@ -16,7 +16,7 @@ class Subtask extends Model
 
     public function tasks()
     {
-        return $this->hasMany('App\Task');
+        return $this->hasMany('App\Task', 'subtask_id', 'project_id');
     }
 
        public function project()

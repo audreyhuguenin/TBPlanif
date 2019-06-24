@@ -38,22 +38,13 @@ Route::middleware(['MyAuth'])->group(function ()
     Route::get('/ad', function () {
     return "AD accueil";
     });
-
-    Route::get('sync', function () {
-    $syncprojects= new ProjectsTableSeeder();
-    $syncprojects->run();
-    $syncsubtasks= new SubtasksTableSeeder();
-    $syncsubtasks->run();
-    $syncusers= new UsersTableSeeder();
-    $syncusers->run(); 
-    
-    return 'synchronized';
-    })->middleware('checkRight');
     
     
     Route::post('rights/level', 'RightController@getLevel');
     Route::resource('rights', 'RightController');
-
+    //A chaque rechargement de page ciblant des ressources, la synchronisation des projets, sous-tâches et utilisateurs est faite.
+    Route::middleware(['SyncNAV'])->group(function ()
+    {
 
     Route::resource('tasks', 'TaskController')->middleware('checkRight');
     Route::resource('users', 'UserController')->middleware('checkRight');
@@ -69,7 +60,7 @@ Route::middleware(['MyAuth'])->group(function ()
     Route::resource('freedays', 'FreeDayController')->middleware('checkRight');
     Route::get('recurrentfreedays/getbyuser/{id}', 'RecFreeDayController@getbyuser')->name('recurrentfreedays.getbyuser')->middleware('checkRight');;
     Route::resource('recurrentfreedays', 'RecFreeDayController')->middleware('checkRight');
-
+    });
 });
 
 

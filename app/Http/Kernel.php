@@ -63,6 +63,7 @@ class Kernel extends HttpKernel
         'MyAuth'=>\App\Http\Middleware\MyAuth::class,
         'checkRole'=>\App\Http\Middleware\CheckRole::class,
         'checkRight'=>\App\Http\Middleware\CheckRight::class,
+        'SyncNAV'=>\App\Http\Middleware\SyncNAV::class,
     ];
 
     /**

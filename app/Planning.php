@@ -19,7 +19,7 @@ class Planning extends Model
     }
     public function projects()
     {
-        return $this->belongsToMany('App\Project', 'planning_project');
+        return $this->belongsToMany('App\Project', 'planning_project', 'planning_id', 'number');
     }
 
     public function globalPlanning()

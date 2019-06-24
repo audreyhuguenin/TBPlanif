@@ -11,7 +11,7 @@ class UsersTableSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('users')->truncate();
+        //DB::table('users')->truncate();
         try {
             $options = [
                 'soap_version' => SOAP_1_1,
@@ -39,12 +39,11 @@ class UsersTableSeeder extends Seeder
                 {
                 $userNAV= get_object_vars($userNAV);
 
-                App\User::updateOrCreate([
-                'name' => $userNAV['Ressource_Name'],
-                            'email' => $userNAV['Ressource_Login'],
-                            'initials'=>$userNAV['Ressource_No'],
-                            //'contractRate' => 100
-                    ]);
+                App\User::firstOrCreate([
+                'name' => $userNAV['Ressource_Name'],            
+                ],
+                ['email' => $userNAV['Ressource_Login'],
+                'initials'=>$userNAV['Ressource_No']]);
                 }
         }
             catch (Exception $e)
