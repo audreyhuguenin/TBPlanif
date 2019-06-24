@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Task;
+use App\Http\Requests\TaskRequest;
 
 class TaskController extends Controller
 {
@@ -38,19 +39,20 @@ class TaskController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'name'=>'required',
-            'comment'=>'required'
-        ]);
+        $validator = Validator::make($request->all(), [
+            //task.
+            'name'=>'required|max:255',
 
+            //if min. 1 assignation ok
+        ]);
+        
         $task = new Task();
-        $task->name = $request->name;
-        $task->comment = $request->comment;
-        $task->subtask_id = $request->subtask_id;
+        $task->name = $validated->name;
+        $task->comment = $validated->comment;
+        $task->subtask_id = $validated->subtask_id;  
         $task->save();
         return response()->json($task, 201);
-      
-        //return redirect('/tasks')->with('success', 'Task saved!');
+       //return redirect('/tasks')->with('success', 'Task saved!');
     }
 
     /**
@@ -91,7 +93,7 @@ class TaskController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            'name'=>'required'
+            'name'=>'max:255'
         ]);
 
         $task = Task::find($id);

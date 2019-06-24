@@ -44,6 +44,7 @@ class PlanningController extends Controller
         $planning = new Planning();
         $planning->sent = $request->sent;
         $planning->user_id = $request->user_id;
+        if(isset($request->parent_id))$planning->parent_id = $request->parent_id;
         $planning->save();
         return response()->json($planning, 201);
     }

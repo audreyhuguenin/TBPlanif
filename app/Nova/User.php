@@ -62,7 +62,8 @@ class User extends Resource
             Text::make('Initials')
                 ->rules('required'),
 
-            Number::make('ContractRate', 'contractRate'),
+            Number::make('ContractRate', 'contractRate')
+            ->rules('lt:120'),
             HasMany::make('Assignations'),
             HasMany::make('FreeDays','freeDays'),
             HasMany::make('Plannings'),

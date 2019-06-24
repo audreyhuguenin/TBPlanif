@@ -47,7 +47,8 @@ class Task extends Resource
             Text::make('Name')
                 ->sortable()
                 ->rules('required', 'max:255'),
-            Text::make('Comment'),
+            Text::make('Comment')
+            ->rules('nullable', 'max:255'),
             HasMany::make('Assignations'),
             BelongsTo::make('Subtask'),
         ];

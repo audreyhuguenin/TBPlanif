@@ -56,7 +56,7 @@ class UserController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-           'contractRate'=>'required'
+           'contractRate'=>'required, lt:120'
        ]);
        
        $user = User::find($id);

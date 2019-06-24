@@ -66,9 +66,9 @@ class AssignationController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'date'=>'required',
-            'duration'=>'required',
-            'type'=>'required',
+            'date'=>'required|date|after:today',
+            'duration'=>'required|lte:8',
+            'type'=>'required|json',
             'suiviDA'=>'required',
             'unmovable'=>'required',
             'task_id'=>'required',
@@ -127,16 +127,25 @@ class AssignationController extends Controller
      */
     public function update(Request $request, $id)
     {
-
-        //ATTENTION AJOUTER VALIDATION
-        /* $request->validate([
-            'name'=>'required'
-        ]); */
+        $request->validate([
+            'date'=>'date|after:today',
+            'duration'=>'lte:8',
+            'type'=>'json',
+        ]);
 
         $assignation = Assignation::find($id);
 
+        //test if the request asks for a changeof date, and if this date is unmovable.
+        if(isset($request->date)&&$request->date!=$assignation->date&&$assignation->unmovable==true) 
+        {
+         //message   
+        }
+        elseif(isset($request->date)&&$request->date!=$assignation->date&&$assignation->unmovable==false)
+        {
+            $assignation->date =  $request->date;
+        }
+
         if(isset($request->duration)) $assignation->duration =  $request->duration;
-        if(isset($request->date)) $assignation->date =  $request->date;
         if(isset($request->type)) $assignation->type =  $request->type;
         if(isset($request->suiviDA)) $assignation->suiviDA =  $request->suiviDA;
         if(isset($request->unmovable)) $assignation->unmovable =  $request->unmovable;

@@ -48,8 +48,9 @@ class Assignation extends Resource
             ID::make()->sortable(),
             DateTime::make('Date')
                 ->sortable()
-                ->rules('required'),
-            Number::make('Duration'),
+                ->rules('required|date|after:today'),
+            Number::make('Duration')
+            ->rules('required, lte:8'),
             Text::make('Type')
                 ->rules('required'),
             Boolean::make('SuiviDA','suiviDA')

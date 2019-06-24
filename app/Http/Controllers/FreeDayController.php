@@ -48,8 +48,8 @@ class FreeDayController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'startDate'=>'required',
-            'endDate'=>'required',
+            'startDate'=>'required|date|before:endDate',
+            'endDate'=>'required|date',
             'user_id'=>'required'
         ]);
 
@@ -98,6 +98,11 @@ class FreeDayController extends Controller
      */
     public function update(Request $request, $id)
     {
+
+        $request->validate([
+            'startDate'=>'date|before:endDate',
+            'endDate'=>'date',
+        ]);
         $day = FreeDay::find($id);
 
         if(isset($request->startDate)) $day->startDate =  $request->startDate;
