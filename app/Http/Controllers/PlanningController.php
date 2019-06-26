@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Planning;
+use Carbon\Carbon;
 
 class PlanningController extends Controller
 {
@@ -14,9 +15,27 @@ class PlanningController extends Controller
      */
     public function index()
     {
-        $plannings = Planning::all();
-        return $plannings;
+        $now = Carbon::now();
+        $weekNum = $now->weekOfYear;
+        $startWeek= $now->startOfWeek()->format('Y-m-d H:i');
+        //->format('d.m.y');
+        $endweek=$now->endOfWeek()->format('Y-m-d H:i');
+        //->format('d.m.y');
+
+        $assignations= \App\Assignation::whereBetween('date', [$startWeek, $endweek])
+        ->with('user')
+        ->with('task')
+        ->with('task.subtask')
+        ->with('task.subtask.project')
+        ->get();
+          
+
+        return $assignations;
+        
+        //return view('planning.demo', ['weeknum'=>$weekNum, 'startWeek'=>$startWeek, 'endWeek'=>$endweek, 'assignations'=>$assignations]);
+
     }
+
 
     /**
      * Show the form for creating a new resource.

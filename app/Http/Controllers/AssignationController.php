@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Assignation;
 use Auth;
+use Carbon\Carbon;
 
 class AssignationController extends Controller
 {
@@ -45,6 +46,12 @@ class AssignationController extends Controller
     {
         $assignations = Assignation::all();
         return $assignations;
+        /* $now = Carbon::now();
+        $weekNum = $now->weekOfYear;
+        $startWeek= $now->startOfWeek()->format('d.m.y');
+        $endweek=$now->endOfWeek()->format('d.m.y');
+        return Assignation::with('task')->with('user')->get(); */
+        //return view('planning.demo', ['weeknum'=>$weekNum, 'startWeek'=>$startWeek, 'endWeek'=>$endweek, 'assignations'=>$assignations]);
     }
 
     /**

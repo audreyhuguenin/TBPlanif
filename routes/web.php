@@ -11,13 +11,7 @@ use Carbon\Carbon;
 |
 */
 
-Route::get('/test', function(){
-    $now = Carbon::now();
-    $weekNum = $now->weekOfYear;
-    $startWeek= $now->startOfWeek()->format('d.m.y');
-    $endweek=$now->endOfWeek()->format('d.m.y');
-return view('planning.demo', ['weeknum'=>$weekNum, 'startWeek'=>$startWeek, 'endWeek'=>$endweek]);
-});
+
 Route::get('/auth/login', 'AuthController@form');
 Route::post('/auth/check', 'AuthController@check');
 //Route::get('users/sync', 'UserController@sync')->name('users.sync');
@@ -25,6 +19,13 @@ Route::post('/auth/check', 'AuthController@check');
 
 Route::middleware(['MyAuth'])->group(function ()
 {
+    Route::get('/test', function(){
+        $now = Carbon::now();
+        $weekNum = $now->weekOfYear;
+        $startWeek= $now->startOfWeek()->format('d.m.y');
+        $endweek=$now->endOfWeek()->format('d.m.y');
+    return view('planning.demo', ['weeknum'=>$weekNum, 'startWeek'=>$startWeek, 'endWeek'=>$endweek]);
+    });
     Route::get('/auth/logout', 'AuthController@logout');
     Route::get('/secure', function ()
     {
