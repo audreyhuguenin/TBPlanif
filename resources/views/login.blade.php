@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('base')
 @section('content')
 @if (session('error'))
     <h1>Login failed !</h1>
