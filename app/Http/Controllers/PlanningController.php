@@ -22,17 +22,16 @@ class PlanningController extends Controller
         $endweek=$now->endOfWeek()->format('Y-m-d H:i');
         //->format('d.m.y');
 
-        $assignations= \App\Assignation::whereBetween('date', [$startWeek, $endweek])
+        $assignations= \App\Assignation::whereBetween('date', [$startWeek, $endweek])->sortable()->paginate(20);
+        /* whereBetween('date', [$startWeek, $endweek])
         ->with('user')
         ->with('task')
         ->with('task.subtask')
         ->with('task.subtask.project')
-        ->get();
-          
-
-        return $assignations;
-        
-        //return view('planning.demo', ['weeknum'=>$weekNum, 'startWeek'=>$startWeek, 'endWeek'=>$endweek, 'assignations'=>$assignations]);
+        ->get(); */
+        //->sortable()->paginate(5);
+        //return $assignations;
+        return view('planning.demo', ['weeknum'=>$weekNum, 'startWeek'=>$startWeek, 'endWeek'=>$endweek, 'assignations'=>$assignations]);
 
     }
 

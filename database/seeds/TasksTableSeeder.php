@@ -12,7 +12,7 @@ class TasksTableSeeder extends Seeder
     public function run()
     {
         DB::table('tasks')->delete();
-        $subtasks= App\Subtask::pluck('id')->toArray();
+        $subtasks= App\Subtask::pluck('project_id')->toArray();
 
 for($i = 0; $i < 200; ++$i)
 	{

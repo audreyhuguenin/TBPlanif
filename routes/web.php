@@ -15,7 +15,7 @@ use Carbon\Carbon;
 Route::get('/auth/login', 'AuthController@form');
 Route::post('/auth/check', 'AuthController@check');
 //Route::get('users/sync', 'UserController@sync')->name('users.sync');
-//Route::get('rights/seed', 'RightController@seed');
+Route::get('rights/seed', 'RightController@seed');
 
 Route::middleware(['MyAuth'])->group(function ()
 {
