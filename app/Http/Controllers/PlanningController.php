@@ -15,23 +15,43 @@ class PlanningController extends Controller
      */
     public function index()
     {
-        $now = Carbon::now();
+    $tasks= \App\Task::whereHas('assignations', function($query) {
+
+            $now = Carbon::now()->settings([
+                'locale' => 'fr_FR',
+                'timezone' => 'Europe/Paris',
+            ]);
+            $weekNum = $now->weekOfYear;
+            $startWeek= $now->startOfWeek()->format('Y-m-d H:i');
+            $endweek=$now->endOfWeek()->format('Y-m-d H:i');
+        $query->whereBetween('date',[$startWeek, $endweek]);
+        })
+        ->sortable()->paginate(20);
+
+        $now = Carbon::now()->settings([
+            'locale' => 'fr_FR',
+            'timezone' => 'Europe/Paris',
+        ]);
         $weekNum = $now->weekOfYear;
-        $startWeek= $now->startOfWeek()->format('Y-m-d H:i');
+        //$assignations= \App\Assignation::whereBetween('date', [$startWeek, $endweek])->sortable()->paginate(20);
+        $startWeek= $now->startOfWeek()->isoFormat('D.MM.YYYY');
         //->format('d.m.y');
-        $endweek=$now->endOfWeek()->format('Y-m-d H:i');
+        $endweek=$now->startOfWeek()->addDays(4)->isoFormat('DD.MM.YYYY');
         //->format('d.m.y');
 
-        $assignations= \App\Assignation::whereBetween('date', [$startWeek, $endweek])->sortable()->paginate(20);
-        /* whereBetween('date', [$startWeek, $endweek])
-        ->with('user')
-        ->with('task')
-        ->with('task.subtask')
-        ->with('task.subtask.project')
-        ->get(); */
-        //->sortable()->paginate(5);
-        //return $assignations;
-        return view('planning.demo', ['weeknum'=>$weekNum, 'startWeek'=>$startWeek, 'endWeek'=>$endweek, 'assignations'=>$assignations]);
+        $weekDays = array(
+            $now->startOfWeek()->isoFormat('ddd D.MM'),
+            $now->startOfWeek()->addDay()->isoFormat('ddd D.MM'),
+            $now->startOfWeek()->addDays(2)->isoFormat('ddd D.MM'),
+            $now->startOfWeek()->addDays(3)->isoFormat('ddd D.MM'),
+            $now->startOfWeek()->addDays(4)->isoFormat('ddd D.MM'),
+    );
+
+        return view('planning.demo', ['weeknum'=>$weekNum,
+        'startWeek'=>$startWeek, 
+        'endWeek'=>$endweek, 
+        'weekDays' => $weekDays, 
+        'tasks'=>$tasks]);
 
     }
 
