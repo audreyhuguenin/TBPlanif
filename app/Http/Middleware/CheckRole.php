@@ -23,7 +23,7 @@ class CheckRole
         switch ($role)
             {
                 case 0:
-                    return redirect("/planif");
+                    return redirect("/plannings");
 
                 case 1:
                     return redirect("/am");

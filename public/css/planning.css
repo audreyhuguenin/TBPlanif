@@ -1,0 +1,28 @@
+table.table
+{
+    width: 100%;
+  }
+  
+  th, td {
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+  }
+
+.calendar
+{
+    width: 5em;
+}  
+.taskname
+{
+    width: 12em;
+} 
+  
+.hovered:hover 
+{
+    background-color:#f5f5f5;
+}
+
+.addproject
+{
+left:150px;
+}

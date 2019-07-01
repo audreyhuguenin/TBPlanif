@@ -1,0 +1,44 @@
+.home
+{
+text-align: center;
+}
+
+.buttonHome
+{  
+    color: #fff;
+    background-color: #f75151;
+    height: 220px;
+    vertical-align: center;
+    padding: 30px;
+}
+.buttonHome:hover
+{ 
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.3);
+    text-decoration: none;
+    color:#fff;
+}
+
+.buttonHome h1
+{
+    font-size: 28px;
+}
+
+.buttonHome h3
+{
+    font-size: 20px;
+}
+
+.buttonHome i
+{
+    font-size: 50px;
+}
+
+
+.titleHome
+{
+font-size: 30px;
+margin: 50px;   
+font-weight:bold;
+color: #f75151;
+
+}

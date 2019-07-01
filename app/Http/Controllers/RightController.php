@@ -70,6 +70,7 @@ class RightController extends Controller
             'level'=>'required',
         ]);
 
+
         $right = Task::find($id);
         $right->method =  $request->method;
         $right->routename = $request->routename;
@@ -93,6 +94,7 @@ class RightController extends Controller
         )->first();
         return $right->level;
     }
+    
 
     /**
      * Display a listing of the resource.

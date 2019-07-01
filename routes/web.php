@@ -40,11 +40,15 @@ Route::middleware(['MyAuth'])->group(function ()
     Route::get('/planif', function () {
     return "CREA";
     });
-    Route::get('/am', function () {
-    return "AM accueil";
+    Route::get('/am', function () 
+    {
+        $userInfo= Auth::user()->initials;
+        return view('am.home', ['userInfo'=>$userInfo]);
     });
+
     Route::get('/ad', function () {
-    return "AD accueil";
+        $userInfo= Auth::user()->initials;
+        return view('ad.home', ['userInfo'=>$userInfo]);
     });
     
     

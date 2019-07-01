@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Planning;
 use Carbon\Carbon;
+use Auth;
+use DB;
 
 class PlanningController extends Controller
 {
@@ -15,7 +17,24 @@ class PlanningController extends Controller
      */
     public function index()
     {
-    $tasks= \App\Task::whereHas('assignations', function($query) {
+        /* $now = Carbon::now()->settings([
+            'locale' => 'fr_FR',
+            'timezone' => 'Europe/Paris',
+        ]);
+        $weekNum = $now->weekOfYear;
+        $startWeek= $now->startOfWeek()->format('Y-m-d H:i');
+        $endweek=$now->startOfWeek()->addDays(4)->format('Y-m-d H:i');
+
+ $tasksTest = DB::select('SELECT users.name, assignations.date, tasks.* 
+from tasks 
+INNER JOIN assignations ON assignations.task_id = tasks.id 
+inner join users ON users.id = assignations.user_id 
+WHERE assignations.date between :startDate AND :endDate
+GROUP BY users.name, tasks.id', ['startDate' => $startWeek, 'endDate'=>$endweek]);
+
+dd($tasksTest);  */
+
+     $tasks= \App\Task::whereHas('assignations', function($query) {
 
             $now = Carbon::now()->settings([
                 'locale' => 'fr_FR',
@@ -23,10 +42,10 @@ class PlanningController extends Controller
             ]);
             $weekNum = $now->weekOfYear;
             $startWeek= $now->startOfWeek()->format('Y-m-d H:i');
-            $endweek=$now->endOfWeek()->format('Y-m-d H:i');
+            $endweek=$now->startOfWeek()->addDays(4)->format('Y-m-d H:i');
         $query->whereBetween('date',[$startWeek, $endweek]);
         })
-        ->sortable()->paginate(20);
+        ->sortable()->paginate(20); 
 
         $now = Carbon::now()->settings([
             'locale' => 'fr_FR',
@@ -45,14 +64,16 @@ class PlanningController extends Controller
             $now->startOfWeek()->addDays(2)->isoFormat('ddd D.MM'),
             $now->startOfWeek()->addDays(3)->isoFormat('ddd D.MM'),
             $now->startOfWeek()->addDays(4)->isoFormat('ddd D.MM'),
-    );
+        );
+
+        $userInfo= Auth::user()->initials; 
 
         return view('planning.demo', ['weeknum'=>$weekNum,
         'startWeek'=>$startWeek, 
         'endWeek'=>$endweek, 
         'weekDays' => $weekDays, 
-        'tasks'=>$tasks]);
-
+        'tasks'=>$tasks,
+        'userInfo'=>$userInfo]);
     }
 
 
@@ -63,7 +84,9 @@ class PlanningController extends Controller
      */
     public function create()
     {
-        //
+        $userInfo= Auth::user()->initials; 
+
+        return view('am.create', ['userInfo'=>$userInfo]);
     }
 
     /**

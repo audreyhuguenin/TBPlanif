@@ -73,7 +73,7 @@ class AssignationController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'date'=>'required|date|after:today',
+            'date'=>'required|after:today',
             'duration'=>'required|lte:8',
             'type'=>'required|json',
             'suiviDA'=>'required',

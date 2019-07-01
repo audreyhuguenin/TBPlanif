@@ -86,12 +86,17 @@ class RightsTableSeeder extends Seeder
             [
                 'method'=>'GET',
                 'routename'=>'plannings.index',
-                'level'=>2
+                'level'=>0
             ],
             [
                 'method'=>'GET',
                 'routename'=>'plannings.show',
                 'level'=>0
+            ],
+            [
+                'method'=>'GET',
+                'routename'=>'plannings.create',
+                'level'=>1
             ],
             [
                 'method'=>'POST',

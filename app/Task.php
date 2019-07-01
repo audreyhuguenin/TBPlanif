@@ -14,15 +14,23 @@ class Task extends Model
 
     public $sortable = ['name'];
 
-    public function userSortable($query, $direction)
+      public function projectSortable($query, $direction)
     {
-        return $query->join('assignations', 'assignations.task_id', '=', 'tasks.id')
-                    ->join('users', 'users.id', '=', 'assignations.user_id')
-                        ->orderBy('users.name', $direction)
+        return $query->join('subtasks', 'tasks.subtask_id', '=', 'subtasks.project_id')
+                        ->orderBy('subtasks.project_id', $direction)
                         ->select('tasks.*')
                         ->groupBy('tasks.id');
-                        
     }
+ 
+
+    /* public function userSortable($query, $direction)
+    {
+        return $query->join('assignations', 'assignations.task_id', '=', 'tasks.id')
+                     ->join('users', 'users.id', '=', 'assignations.user_id')
+                        ->orderBy('users.name', $direction)
+                        ->select('tasks.*') 
+                        ->groupBy('assignations.user_id');
+    } */
 
     public function assignations()
     {
