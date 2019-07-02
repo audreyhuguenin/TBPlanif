@@ -34,14 +34,33 @@
    
 
    <script type="text/javascript">
+
     var path = "{{ route('autocomplete') }}";
+    //console.log($('input.typeahead').typeahead('val'));
     $('input.typeahead').typeahead({
     source:  function (query, process) {
     return $.get(path, { query: query }, function (data) {
             return process(data);
-        });
+            });
+    },
+    updater: function(obj){
+
+      var subtasks = $.get("{{route('subtasks.index')}}", {project_id:"holaa"}, function(data){
+        alert(data);
+      })
+      console.log(obj);
+        return obj.name;
     }
-});
+    });
+  /* .on('typeahead:selected', function($e, datum)
+  {
+    console.log('hola');
+        }
+    ); */
+
+//var myVal = $('input.typeahead').typeahead('val');
+//console.log(myVal);
+
 </script>
 
 </body>

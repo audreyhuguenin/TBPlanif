@@ -13,10 +13,11 @@ class SubtaskController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($project_id)
     {
-        $subtasks = Subtask::all();
-        return $subtasks;
+        return $project_id;
+        //$subtasks = Subtask::all();
+        //return $subtasks;
     }
 
 
