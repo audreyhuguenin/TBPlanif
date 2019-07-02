@@ -10,3 +10,5 @@
 <link href="/css/login.css" rel="stylesheet">
 <link href="/css/planning.css" rel="stylesheet">
 <link href="/css/home.css" rel="stylesheet">
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-3-typeahead/4.0.1/bootstrap3-typeahead.min.js"></script>  
