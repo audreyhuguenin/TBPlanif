@@ -16,7 +16,7 @@ class SearchController extends Controller
      */
     public function autocomplete(Request $request)
     {
-        $data = Project::select("fullName as name")->where("fullName","LIKE","%{$request->input('query')}%")->get();
+        $data = Project::select('number as id',"fullName as name")->where("fullName","LIKE","%{$request->input('query')}%")->get();
         return response()->json($data);
     }
 }

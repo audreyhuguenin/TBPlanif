@@ -31,15 +31,10 @@ Route::middleware(['MyAuth'])->group(function ()
     {
         return Auth::user()->email . ' access granted';
     });
-
-
     Route::get('/', function () {
     return "Something's not working in here";
     })->middleware('checkRole');
 
-    Route::get('/planif', function () {
-    return "CREA";
-    });
     Route::get('/am', function () 
     {
         $userInfo= Auth::user()->initials;
@@ -61,7 +56,8 @@ Route::middleware(['MyAuth'])->group(function ()
     Route::resource('tasks', 'TaskController')->middleware('checkRight');
     Route::resource('users', 'UserController')->middleware('checkRight');
     Route::get('subtasks/sync', 'SubtaskController@sync')->name('subtasks.sync')->middleware('checkRight');
-    Route::resource('subtasks', 'SubtaskController')->middleware('checkRight');
+    Route::get('subtasks', ['as' => 'subtasks.index', 'uses' => 'SubtaskController@index'])->middleware('checkRight');
+    Route::resource('subtasks', 'SubtaskController', ['except' => ['index']])->middleware('checkRight');
     Route::get('projects/sync', 'ProjectController@sync')->name('projects.sync')->middleware('checkRight');
     Route::resource('projects', 'ProjectController')->middleware('checkRight');
     Route::resource('plannings', 'PlanningController')->middleware('checkRight');

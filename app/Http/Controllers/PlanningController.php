@@ -97,6 +97,9 @@ dd($tasksTest);  */
      */
     public function store(Request $request)
     {
+dd($request->project);
+
+
         $request->validate([
             'sent'=>'required',
             'user_id'=>'required'
