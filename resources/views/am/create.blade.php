@@ -2,6 +2,7 @@
 <html lang="en">
  <head>
 @include('layouts.partials.head')
+
  </head>
  <body>
 @include('layouts.partials.nav_am') 
@@ -17,38 +18,32 @@
           {{ Form::open(array('url' => 'plannings')) }}
           <!-- select box -->
 
-          {{ Form::label('project','Projet', array('id'=>'','class'=>'col-12')) }}
-          {{ Form::text('project_typeahead','', array('class'=>'projecttypeahead', 'autocomplete'=>"off")) }}
+         
+          {{ Form::text('project_typeahead','', array('class'=>'projecttypeahead', 'autocomplete'=>"off", 'placeholder'=>'Choisis le projet')) }}
           {{ Form::hidden('project','', array('id'=>'project_id')) }}       
           <div class="row">
           <div class="col-3">
-          {{Form::label('subtask', 'Sous-tâche', array('class' => 'col-12')) }}
-          {{Form::select('subtask', array())}}
+          
+          {{Form::select('subtask', array('placeholder'=>'Sous-tâche', 'id'=>'subtask'))}}
           </div>
           <div class="col-9" id="tasks">
+            <div class="task">
                 <div class="row">
-                    <div class="col-9">
-                              {{ Form::label('task_name','Nom de la tâche',array('class'=>'col-12')) }}
-                              {{ Form::text('task_name','',array('autocomplete'=>"off",'class'=>'')) }}
-                    </div>
-                <div class="col-3">
-            {{ Form::label('comment','Commentaire ?', array('id'=>'','class'=>'col-12')) }}
-            {{ Form::text('comment','', array('class'=>'comment', 'autocomplete'=>"off")) }}
+                  <button class="remove_button btn btn-danger col-1"><i class="fas fa-trash-alt"></i></button>
+                  <div class="row col-11">
+                      <div class="col-9">
+                          {{ Form::text('task_name','',array('autocomplete'=>"off",'class'=>'', 'placeholder'=>'Nom de la tâche')) }}
+                      </div>
+                      <div class="col-3">
+                          {{ Form::text('comment','', array('class'=>'comment', 'autocomplete'=>"off", 'placeholder'=>'comment')) }}
+                      </div>
+                          {{ Form::text('user_typeahead','', array('class'=>'usertypeahead', 'autocomplete'=>"off", 'placeholder'=>'Qui qui doit faire?')) }}
+                          {{ Form::hidden('user','', array('class'=>'user_id')) }}   
+                  </div>
                 </div>
-
-                </div>
-
-          {{ Form::label('user','Qui qui doit faire?', array('id'=>'','class'=>'col-12')) }}
-          {{ Form::text('user_typeahead','', array('class'=>'usertypeahead', 'autocomplete'=>"off")) }}
-          {{ Form::hidden('user','', array('id'=>'user_id')) }}   
-
-          
-          <button onclick="addTask()">Add New Field </button>
+            </div>
           </div>
-
-      
-
-
+          <button class="add_task btn btn-danger">+ Add new task</button>
           </div>   
 
           {{Form::submit('Click Me!')}}
@@ -61,6 +56,10 @@
 </div>
    
 
+
+    <script src="{{asset('/js/login.js')}}"></script>
+    <script src="{{asset('/js/planning.js')}}"></script>
+
    <script type="text/javascript">
 
     var pathproject = "{{ route('projectautocomplete') }}";
@@ -72,7 +71,7 @@
             });
     },
     updater: function(obj){
-      
+      console.log("hola");
       var subtasks = $.get("{{route('subtasks.index')}}", {"project_id":obj.name}, function(data){
         console.log(data);
         $('#subtask').find('option')
@@ -99,16 +98,14 @@ var pathuser = "{{ route('userautocomplete') }}";
             });
     },
     updater: function(obj){  
-      $('#user_id').val(obj.id);
+      $('.user_id').val(obj.id);
       return obj ;
     },   
 });
+
+
 </script>
 
-</body>
 
-
-
-      
 </body>
 </html>
