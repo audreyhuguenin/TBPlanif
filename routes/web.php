@@ -11,7 +11,8 @@ use Carbon\Carbon;
 |
 */
 
-Route::get('autocomplete',array('as'=>'autocomplete','uses'=>'SearchController@autocomplete'));
+Route::get('projectautocomplete',array('as'=>'projectautocomplete','uses'=>'SearchController@projectautocomplete'));
+Route::get('userautocomplete',array('as'=>'userautocomplete','uses'=>'SearchController@userautocomplete'));
 Route::get('/auth/login', 'AuthController@form');
 Route::post('/auth/check', 'AuthController@check');
 //Route::get('users/sync', 'UserController@sync')->name('users.sync');
