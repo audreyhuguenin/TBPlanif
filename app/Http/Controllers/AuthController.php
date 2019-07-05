@@ -52,7 +52,7 @@ class AuthController extends Controller
                     $user = User::where('email', $email)->first();
                     Auth::login($user, true);
                     $intented = session('url_intended');
-                    return response()->redirectTo($intented ?? '/secure');
+                    return response()->redirectTo($intented ?? '/');
                 }
 
         }

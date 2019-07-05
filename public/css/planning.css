@@ -26,3 +26,23 @@ table.table
 {
 left:150px;
 }
+
+.add_task
+{
+  margin-top: 10px;
+}
+
+.subtask
+{
+  padding:10px;
+}
+.task
+{
+  padding:15px;
+}
+.remove_subtask
+{
+  position: absolute;
+  bottom:0;
+  left:0;
+}

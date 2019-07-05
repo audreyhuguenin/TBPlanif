@@ -5,9 +5,11 @@
 
  </head>
  <body>
+ {{ Form::open(array('url' => 'plannings')) }}
 @include('layouts.partials.nav_am') 
 
 <button type="button" class="btn btn-danger btn-lg fixed-bottom addproject">+ Ajouter projet</button>
+
 
 <div class="container">
   
@@ -15,38 +17,41 @@
 
       <h2 class="title">Remplissage planning</h2>
 
-          {{ Form::open(array('url' => 'plannings')) }}
+          
           <!-- select box -->
 
          
           {{ Form::text('project_typeahead','', array('class'=>'projecttypeahead', 'autocomplete'=>"off", 'placeholder'=>'Choisis le projet')) }}
           {{ Form::hidden('project','', array('id'=>'project_id')) }}       
+  
+<div class="subtasks">
+      <div class="subtask">
           <div class="row">
-          <div class="col-3">
-          
-          {{Form::select('subtask', array('placeholder'=>'Sous-tâche', 'id'=>'subtask'))}}
-          </div>
-          <div class="col-9" id="tasks">
-            <div class="task">
-                <div class="row">
-                  <button class="remove_button btn btn-danger col-1"><i class="fas fa-trash-alt"></i></button>
-                  <div class="row col-11">
-                      <div class="col-9">
-                          {{ Form::text('task_name','',array('autocomplete'=>"off",'class'=>'', 'placeholder'=>'Nom de la tâche')) }}
-                      </div>
-                      <div class="col-3">
-                          {{ Form::text('comment','', array('class'=>'comment', 'autocomplete'=>"off", 'placeholder'=>'comment')) }}
-                      </div>
-                          {{ Form::text('user_typeahead','', array('class'=>'usertypeahead', 'autocomplete'=>"off", 'placeholder'=>'Qui qui doit faire?')) }}
-                          {{ Form::hidden('user','', array('class'=>'user_id')) }}   
-                  </div>
+            <div class="col-3">   
+          {{Form::select('subtask', array('placeholder'=>'Sous-tâche'))}}
+            </div>
+            <div class="col-9">
+                <div  class="tasks">
+                    <div class="task">
+                        <div class="row">
+                          <button class="remove_button btn btn-danger col-1"><i class="fas fa-trash-alt"></i></button>
+                          <div class="row col-11">
+                             
+                                  {{ Form::text('task[task1][task_name]','',array('autocomplete'=>"off",'class'=>'', 'placeholder'=>'Nom de la tâche')) }}
+                                  {{ Form::text('task[task1][comment]','', array('class'=>'comment', 'autocomplete'=>"off", 'placeholder'=>'comment')) }}
+                             
+                                  {{ Form::text('user_typeahead','', array('class'=>'usertypeahead', 'autocomplete'=>"off", 'placeholder'=>'Qui qui doit faire?')) }}
+                                  {{ Form::hidden('task[task1][user]','', array('class'=>'user_id')) }}   
+                          </div>
+                        </div>
+                    </div>
                 </div>
+                <button class="add_task btn btn-danger">+ Add new task</button>
             </div>
           </div>
-          <button class="add_task btn btn-danger">+ Add new task</button>
-          </div>   
-
-          {{Form::submit('Click Me!')}}
+      </div>
+  </div>   
+  <button class="add_subtask btn btn-danger">+ Add subtask</button>
             
           {{ Form::close() }}
 </div>
@@ -54,9 +59,6 @@
 <div class="offset-1 col6"></div>
 
 </div>
-   
-
-
     <script src="{{asset('/js/login.js')}}"></script>
     <script src="{{asset('/js/planning.js')}}"></script>
 
@@ -71,14 +73,13 @@
             });
     },
     updater: function(obj){
-      console.log("hola");
       var subtasks = $.get("{{route('subtasks.index')}}", {"project_id":obj.name}, function(data){
         console.log(data);
-        $('#subtask').find('option')
-                    .remove()
-                    .end();
+        $('select[name=subtask]').find('option')
+                      .remove()
+                      .end();
         data.forEach(function(e, i){
-          $('#subtask').append($('<option></option>')
+          $('select[name=subtask]').append($('<option></option>')
                       .val(e.id)
                       .text(e.name)); 
         });
@@ -91,17 +92,23 @@
 
 var pathuser = "{{ route('userautocomplete') }}";
     //console.log($('input.typeahead').typeahead('val'));
-    $('input.usertypeahead').typeahead({
+    $('input.usertypeahead').each(function( index ) {
+    $(this).typeahead({
     source:  function (query, process) {
     return $.get(pathuser, { query: query }, function (data) {
             return process(data);
             });
+            
     },
     updater: function(obj){  
       $('.user_id').val(obj.id);
       return obj ;
     },   
 });
+});
+
+
+
 
 
 </script>

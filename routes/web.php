@@ -28,10 +28,6 @@ Route::middleware(['MyAuth'])->group(function ()
     return view('planning.demo', ['weeknum'=>$weekNum, 'startWeek'=>$startWeek, 'endWeek'=>$endweek]);
     });
     Route::get('/auth/logout', 'AuthController@logout');
-    Route::get('/secure', function ()
-    {
-        return Auth::user()->email . ' access granted';
-    });
     Route::get('/', function () {
     return "Something's not working in here";
     })->middleware('checkRole');
