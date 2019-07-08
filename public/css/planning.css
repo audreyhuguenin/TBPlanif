@@ -22,7 +22,7 @@ table.table
     background-color:#f5f5f5;
 }
 
-.addproject
+.add_project
 {
 left:150px;
 }
@@ -40,9 +40,8 @@ left:150px;
 {
   padding:15px;
 }
-.remove_subtask
+.footerAM
 {
-  position: absolute;
-  bottom:0;
-  left:0;
+  padding: 50px;
+  height:150px;
 }
