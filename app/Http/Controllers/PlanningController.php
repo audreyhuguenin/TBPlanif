@@ -97,7 +97,7 @@ dd($tasksTest);  */
      */
     public function store(Request $request)
     {
-dd($request->task);
+dd($request);
 
 
         $request->validate([

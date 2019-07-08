@@ -29,7 +29,7 @@
                         <div class="row">
                             <a class="remove_sub" style="margin-top:10px;"><i class="fas fa-times"></i></a>
                             <div class="col-3">
-                                {{Form::select('subtask', array('placeholder'=>'Sous-tâche'))}}
+                            <select name="subtask[subtask1][subtask_id]" class="subtask_id"><option value="placeholder">Sous-tâche</option></select>
                             </div>
                             <div class="col-8">
                                 <div class="tasks">
@@ -39,11 +39,11 @@
                                                     class="fas fa-trash-alt"></i></button>
                                             <div class="row col-11">
 
-                                                {{ Form::text('task[task1][task_name]','',array('autocomplete'=>"off",'class'=>'', 'placeholder'=>'Nom de la tâche')) }}
-                                                {{ Form::text('task[task1][comment]','', array('class'=>'comment', 'autocomplete'=>"off", 'placeholder'=>'comment')) }}
+                                                {{ Form::text('subtask[subtask1][task][task1][task_name]','',array('autocomplete'=>"off",'class'=>'', 'placeholder'=>'Nom de la tâche')) }}
+                                                {{ Form::text('subtask[subtask1][task][task1][comment]','', array('class'=>'comment', 'autocomplete'=>"off", 'placeholder'=>'comment')) }}
 
                                                 {{ Form::text('user_typeahead','', array('class'=>'usertypeahead', 'autocomplete'=>"off", 'placeholder'=>'Qui qui doit faire?')) }}
-                                                {{ Form::hidden('task[task1][user]','', array('class'=>'user_id')) }}
+                                                {{ Form::hidden('subtask[subtask1][task][task1][user]','', array('class'=>'user_id')) }}
                                             </div>
                                         </div>
                                     </div>
@@ -81,11 +81,11 @@
                     "project_id": obj.name
                 }, function (data) {
                     console.log(obj);
-                    $this.parent().parent().parent().find('select[name=subtask]').find('option')
+                    $this.parent().parent().parent().find('select.subtask_id').find('option')
                         .remove()
                         .end();
                     data.forEach(function (e, i) {
-                      $this.parent().parent().parent().find('select[name=subtask]').append($('<option></option>')
+                      $this.parent().parent().parent().find('select.subtask_id').append($('<option></option>')
                             .val(e.id)
                             .text(e.name));
                     });

@@ -15,10 +15,10 @@ $('body').on('click', '.add_task', function(e){
                     +'<div class="row">'
                     +'<button class="remove_button btn btn-danger col-1"><i class="fas fa-trash-alt"></i></button>'
                     +'<div class="row col-11">'
-                    +'<input autocomplete="off" class="" placeholder="Nom de la tâche" name="task[task'+ x +'][task_name]" type="text" value="">'
-                    +'<input class="comment" autocomplete="off" placeholder="comment" name="task[task'+ x +'][comment]" type="text" value="">'
+                    +'<input autocomplete="off" class="" placeholder="Nom de la tâche" name="subtask[subtask'+y+'][task][task'+ x +'][task_name]" type="text" value="">'
+                    +'<input class="comment" autocomplete="off" placeholder="comment" name="subtask[subtask'+y+'][task][task'+ x +'][comment]" type="text" value="">'
                     +'<input class="usertypeahead" autocomplete="off" placeholder="Qui qui doit faire?" name="user_typeahead[]" type="text" value="">'
-                    +'<input class="user_id" name="task[task'+ x +'][user]" type="hidden" value="">'
+                    +'<input class="user_id" name="subtask[subtask'+y+'][task][task'+ x +'][user]" type="hidden" value="">'
                     +'</div>'
                     +'</div></div>'
 
@@ -65,7 +65,7 @@ $('body').on('click', '.add_subtask', function(e){
         y++; 
         var fieldHTML =
                     '<div class="subtask"><div class="row"><a class="remove_sub" style="margin-top:10px;"><i class="fas fa-times"></i></a><div class="col-3">'
-                    +'<select name="subtask"><option value="placeholder">Sous-tâche</option></select></div>'
+                    +'<select name="subtask[subtask'+y+'][subtask_id]" class="subtask_id"><option value="placeholder">Sous-tâche</option></select></div>'
                     +'<div class="col-8"><div class="tasks">'
                     +'<div class="task">'
                     +'<div class="row">'
@@ -82,7 +82,7 @@ $('body').on('click', '.add_subtask', function(e){
         var blocTask = $(this).parent().find('.subtasks');  
         $(blocTask).append(fieldHTML); //Add field html
         //Increment field counter
-        var selectToFill= $(this).parent().find('select[name=subtask]').last();
+        var selectToFill= $(this).parent().find('select.subtask_id').last();
         var subtasks = $.get("/subtasks", {
             "project_id": $(this).parent().find('input.projecttypeahead').val()
         }, function (data) {
