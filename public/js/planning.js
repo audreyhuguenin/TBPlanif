@@ -11,18 +11,25 @@ $('body').on('click', '.add_task', function(e){
     e.preventDefault();
     if(x < maxField){ 
         x++; 
+        var subtaskName = $(this).parent().parent().find('.subtask_id').attr('name');
+        var projectNumber = subtaskName.substring(8, subtaskName.indexOf(']'));
+        var nameCut = subtaskName.substring([subtaskName.indexOf('subtask')+9]);
+        var subtaskNumber =nameCut.substring(0, nameCut.indexOf(']'));
+
         var fieldHTML ='<div class="task">'
                     +'<div class="row">'
                     +'<button class="remove_button btn btn-danger col-1"><i class="fas fa-trash-alt"></i></button>'
                     +'<div class="row col-11">'
-                    +'<input autocomplete="off" class="" placeholder="Nom de la tâche" name="subtask[subtask'+y+'][task][task'+ x +'][task_name]" type="text" value="">'
-                    +'<input class="comment" autocomplete="off" placeholder="comment" name="subtask[subtask'+y+'][task][task'+ x +'][comment]" type="text" value="">'
+                    +'<input autocomplete="off" class="" placeholder="Nom de la tâche" name="project['+projectNumber+'][subtask]['+subtaskNumber+'][task]['+ x +'][task_name]" type="text" value="">'
+                    +'<input class="comment" autocomplete="off" placeholder="comment" name="project['+projectNumber+'][subtask]['+subtaskNumber+'][task]['+ x +'][comment]" type="text" value="">'
                     +'<input class="usertypeahead" autocomplete="off" placeholder="Qui qui doit faire?" name="user_typeahead[]" type="text" value="">'
-                    +'<input class="user_id" name="subtask[subtask'+y+'][task][task'+ x +'][user]" type="hidden" value="">'
+                    +'<input class="user_id" name="project['+projectNumber+'][subtask]['+subtaskNumber+'][task]['+x+'][user]" type="hidden" value="">'
                     +'</div>'
-                    +'</div></div>'
+                    +'</div></div>';
 
-          var blocTask = $(this).parent().children(0)[0];      
+                    
+          var blocTask = $(this).parent().children(0)[0];   
+          
         $(blocTask).append(fieldHTML); //Add field html
 
     $('input.usertypeahead').each(function( index ) {
@@ -63,18 +70,22 @@ $('body').on('click', '.add_subtask', function(e){
     e.preventDefault();
     if(y < maxField){ 
         y++; 
+
+        var subtaskName = $(this).parent().find('.project_id').attr('name');
+        var projectNumber = subtaskName.substring(8, subtaskName.indexOf(']'));
+              
         var fieldHTML =
                     '<div class="subtask"><div class="row"><a class="remove_sub" style="margin-top:10px;"><i class="fas fa-times"></i></a><div class="col-3">'
-                    +'<select name="subtask[subtask'+y+'][subtask_id]" class="subtask_id"><option value="placeholder">Sous-tâche</option></select></div>'
+                    +'<select name="project['+projectNumber+'][subtask]['+y+'][subtask_id]" class="subtask_id"><option value="placeholder">Sous-tâche</option></select></div>'
                     +'<div class="col-8"><div class="tasks">'
                     +'<div class="task">'
                     +'<div class="row">'
                     +'<button class="remove_button btn btn-danger col-1"><i class="fas fa-trash-alt"></i></button>'
                     +'<div class="row col-11">'
-                    +'<input autocomplete="off" class="" placeholder="Nom de la tâche" name="task[task1][task_name]" type="text" value="">'
-                    +'<input class="comment" autocomplete="off" placeholder="comment" name="task[task1][comment]" type="text" value="">'
+                    +'<input autocomplete="off" class="" placeholder="Nom de la tâche" name="project['+projectNumber+'][subtask]['+y+'][task]['+x+'][task_name]" type="text" value="">'
+                    +'<input class="comment" autocomplete="off" placeholder="comment" name="project['+projectNumber+'][subtask]['+y+'][task]['+x+'][comment]" type="text" value="">'
                     +'<input class="usertypeahead" autocomplete="off" placeholder="Qui qui doit faire?" name="user_typeahead[]" type="text" value="">'
-                    +'<input class="user_id" name="task[task1][user]" type="hidden" value="">'
+                    +'<input class="user_id" name="project['+projectNumber+'][subtask]['+y+'][task]['+x+'][user]" type="hidden" value="">'
                     +'</div>'
                     +'</div></div>'
                     +'</div><button class="add_task btn btn-danger">+ Add new task</button></div></div></div>'
@@ -138,7 +149,7 @@ $('body').on('click', '.add_project', function(e){
                     +'<div class="row"><a class="remove_project" style="margin-top:10px;"><i class="fas fa-times"></i></a>'
                     +'<div class="col-11">'  
                     +'<input class="projecttypeahead" autocomplete="off" placeholder="Choisis le projet" name="project_typeahead" type="text" value=""></input>'  
-                    +'<input id="project_id" name="project" type="hidden" value="9990">'
+                    +'<input class="project_id" name="project['+z+']" type="hidden" value="9990">'
                     +'</div></div>'
                     +'<div class="subtasks"></div>'
                     +'<button class="add_subtask btn btn-danger">+ Add subtask</button></div></div>';
