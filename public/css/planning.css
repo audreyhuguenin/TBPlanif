@@ -38,10 +38,74 @@ left:150px;
 }
 .task
 {
-  padding:15px;
+  padding:0px 5px 0px 15px;
+}
+.remove_button
+{
+  margin:5px 0px;
+  padding: 0px;  
 }
 .footerAM
 {
   padding: 50px;
   height:150px;
 }
+.toggle_comment_box
+{
+  opacity: 0.4;
+  background: transparent;
+  padding:0;
+  border:0;
+  line-height:inherit;
+  margin:5px;
+  font-size: 25px;
+}
+.toggle_comment_box:hover
+{
+  opacity:1;
+}
+.comment_box
+{
+display:none;
+position: absolute;
+right: -16px;
+z-index: 10;
+top: -60px;
+width: 300px;
+padding: 25px;
+background: white;
+border-radius: 5px;
+box-shadow: 0 0 3px 0 rgba(59, 59, 59, 0.2);
+}
+
+.comment_box textarea
+{
+border-color: #EEEEEE;
+height: 110px;
+width: 100%;
+}
+
+.assignations tr th, .assignations tr td
+{
+font-size:14px;
+font-weight: normal;
+padding: 5px;
+color:#999;
+text-align: center;
+}
+
+.assignation_form
+{
+display:none;
+position: absolute;
+right: -16px;
+z-index: 10;
+top: 50px;
+width: 300px;
+padding: 25px;
+background: white;
+border-radius: 5px;
+box-shadow: 0 0 3px 0 rgba(59, 59, 59, 0.2);
+text-align: left;
+}
+

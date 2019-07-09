@@ -85,8 +85,30 @@ dd($tasksTest);  */
     public function create()
     {
         $userInfo= Auth::user()->initials; 
+        $now = Carbon::now()->settings([
+            'locale' => 'fr_FR',
+            'timezone' => 'Europe/Paris',
+        ]);
+        $weekDays = array(
+            $now->startOfWeek()->isoFormat('ddd D.MM'),
+            $now->startOfWeek()->addDay()->isoFormat('ddd D.MM'),
+            $now->startOfWeek()->addDays(2)->isoFormat('ddd D.MM'),
+            $now->startOfWeek()->addDays(3)->isoFormat('ddd D.MM'),
+            $now->startOfWeek()->addDays(4)->isoFormat('ddd D.MM'),
+        );
 
-        return view('am.create', ['userInfo'=>$userInfo]);
+        $weekNum = $now->weekOfYear;
+        //$assignations= \App\Assignation::whereBetween('date', [$startWeek, $endweek])->sortable()->paginate(20);
+        $startWeek= $now->startOfWeek()->isoFormat('D.MM.YYYY');
+        //->format('d.m.y');
+        $endweek=$now->startOfWeek()->addDays(4)->isoFormat('DD.MM.YYYY');
+        //->format('d.m.y');
+
+        return view('am.create', ['userInfo'=>$userInfo, 
+        'weekDays' => $weekDays, 
+        'weeknum'=>$weekNum,
+        'startWeek'=>$startWeek, 
+        'endWeek'=>$endweek]);
     }
 
     /**

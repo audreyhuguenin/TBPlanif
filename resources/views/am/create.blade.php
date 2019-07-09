@@ -14,7 +14,7 @@
 
 
     <div class="container">
-        <h2 class="title">Remplissage planning</h2>
+        <h2 class="title">Remplissage planning de la semaine {{$weeknum}}, du {{$startWeek}} au {{$endWeek}}</h2>
         <div class="projects">
             <div class="project" style="border-bottom: 1px lightgray solid;">
                 <div class="row">
@@ -32,21 +32,90 @@
                             <select name="project[1][subtask][1][subtask_id]" class="subtask_id"><option value="placeholder">Sous-tâche</option></select>
                             </div>
                             <div class="col-8">
-                                <div class="tasks">
-                                    <div class="task">
-                                        <div class="row">
+                                <div class="tasks ">
+                                    <div class="task row">
+                                        <div class="row col-7">
                                             <button class="remove_button btn btn-danger col-1"><i
                                                     class="fas fa-trash-alt"></i></button>
                                             <div class="row col-11">
 
-                                                {{ Form::text('project[1][subtask][1][task][1][task_name]','',array('autocomplete'=>"off",'class'=>'', 'placeholder'=>'Nom de la tâche')) }}
-                                                {{ Form::text('project[1][subtask][1][task][1][comment]','', array('class'=>'comment', 'autocomplete'=>"off", 'placeholder'=>'comment')) }}
-
+                                                {{ Form::text('project[1][subtask][1][task][1][task_name]','',array('autocomplete'=>"off",'class'=>'col-10', 'placeholder'=>'Nom de la tâche')) }}
+                                                <div class="comment">
+							                        <button class="toggle_comment_box"><i class="far fa-comment"></i></button>
+                                                    <div class="comment_box">
+                                                        <textarea maxlength="250" class="comment_text comment" autocomplete="off" placeholder="Ton commentaire (facultatif)" name="project[1][subtask][1][task][1][comment]"></textarea>
+                                                        <button class="validate btn btn-outline-dark">Ok</button>
+                                                    </div>
+						                        </div>
                                                 {{ Form::text('user_typeahead','', array('class'=>'usertypeahead', 'autocomplete'=>"off", 'placeholder'=>'Qui qui doit faire?')) }}
                                                 {{ Form::hidden('project[1][subtask][1][task][1][user]','', array('class'=>'user_id')) }}
                                             </div>
-                                        </div>
+                                            </div>
+                                            <table class="assignations table table-bordered col-5">
+                                                <tr>
+                                                    <!--calendar -->
+                                                    <th>{{$weekDays[0]}}</th>
+                                                    <th>{{$weekDays[1]}}</th>
+                                                    <th>{{$weekDays[2]}}</th>
+                                                    <th>{{$weekDays[3]}}</th>
+                                                    <th>{{$weekDays[4]}}</th>
+                                                </tr>
+                                                <tr>
+                                                    <td class="mo"><i class="fas fa-plus assignation_button"></i>
+                                                        <div class="assignation_form">
+                                                        {{ Form::checkbox('suiviDA', 'true', array('class'=>'')) }}
+                                                        {{ Form::label('suiviDA', 'Suivi DA') }}
+                                                        {{Form::number('duration', ' ', array('placeholder'=>'durée en heure', 'max'=>8))}}
+                                                        {{ Form::label('type', 'Quel(s) type(s) ?') }}
+                                                        <div class="row">
+                                                            <div class="col-3">
+                                                            {{ Form::checkbox('type[B]', 'value','true', array('class'=>'')) }}
+                                                            {{ Form::label('type', 'B') }}
+                                                            </div>
+                                                            <div class="col-3">
+                                                        {{ Form::checkbox('type[D]', 'value','true', array('class'=>'')) }}
+                                                        {{ Form::label('type', 'D') }}
+                                                            </div>
+                                                            <div class="col-3">
+                                                        {{ Form::checkbox('type[RC]', 'value','true', array('class'=>'')) }}
+                                                        {{ Form::label('type', 'RC') }}
+                                                            </div>
+                                                            <div class="col-3">
+                                                        {{ Form::checkbox('type[PC]', 'value','true', array('class'=>'')) }}
+                                                        {{ Form::label('type', 'PC') }}
+                                                            </div>
+                                                            <div class="col-3">
+                                                        {{ Form::checkbox('type[L]', 'value','true', array('class'=>'')) }}
+                                                        {{ Form::label('type', 'L') }}
+                                                            </div>
+                                                            <div class="col-3">
+                                                        {{ Form::checkbox('type[RDV]', 'value','true', array('class'=>'')) }}
+                                                        {{ Form::label('type', 'RDV') }}
+                                                            </div>
+                                                            <div class="col-3">
+                                                        {{ Form::checkbox('type[BO]', 'value','true', array('class'=>'')) }}
+                                                        {{ Form::label('type', 'BO') }}
+                                                            </div>
+                                                            <div class="col-3">
+                                                        {{ Form::checkbox('type[RG]', 'value','true', array('class'=>'')) }}
+                                                        {{ Form::label('type', 'RG') }}
+                                                            </div>
+                                                        </div>
+                                                        {{ Form::checkbox('unmovable', 'value','true', array('class'=>'')) }}
+                                                        {{ Form::label('unmovable', 'Indéplaçable ?') }}
+                                                        
+                                                        <button class="validate btn btn-outline-dark">Ok</button>
+                                                        </div>
+                                                    </td>
+                                                    
+                                                    <td class="tu"></td>
+                                                    <td class="we"></td>
+                                                    <td class="th"></td>
+                                                    <td class="fr"></td>
+                                                </tr>
+                                            </table>    
                                     </div>
+                                        
                                 </div>
                                 <button class="add_task btn btn-danger">+ Add new task</button>
                             </div>

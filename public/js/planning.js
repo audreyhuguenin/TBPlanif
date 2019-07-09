@@ -21,7 +21,11 @@ $('body').on('click', '.add_task', function(e){
                     +'<button class="remove_button btn btn-danger col-1"><i class="fas fa-trash-alt"></i></button>'
                     +'<div class="row col-11">'
                     +'<input autocomplete="off" class="" placeholder="Nom de la tâche" name="project['+projectNumber+'][subtask]['+subtaskNumber+'][task]['+ x +'][task_name]" type="text" value="">'
-                    +'<input class="comment" autocomplete="off" placeholder="comment" name="project['+projectNumber+'][subtask]['+subtaskNumber+'][task]['+ x +'][comment]" type="text" value="">'
+                    +'<div class="comment"><button class="toggle_comment_box"><i class="far fa-comment"></i></button>'
+                    +'<div class="comment_box">'
+                    +'<textarea maxlength="250" class="comment_text comment" autocomplete="off" placeholder="Ton commentaire (facultatif)" name="project['+projectNumber+'][subtask]['+subtaskNumber+'][task]['+x+'][comment]"></textarea>'
+                    +'<button class="validate btn btn-outline-dark">Ok</button>'
+                    +'</div></div>'
                     +'<input class="usertypeahead" autocomplete="off" placeholder="Qui qui doit faire?" name="user_typeahead[]" type="text" value="">'
                     +'<input class="user_id" name="project['+projectNumber+'][subtask]['+subtaskNumber+'][task]['+x+'][user]" type="hidden" value="">'
                     +'</div>'
@@ -83,7 +87,11 @@ $('body').on('click', '.add_subtask', function(e){
                     +'<button class="remove_button btn btn-danger col-1"><i class="fas fa-trash-alt"></i></button>'
                     +'<div class="row col-11">'
                     +'<input autocomplete="off" class="" placeholder="Nom de la tâche" name="project['+projectNumber+'][subtask]['+y+'][task]['+x+'][task_name]" type="text" value="">'
-                    +'<input class="comment" autocomplete="off" placeholder="comment" name="project['+projectNumber+'][subtask]['+y+'][task]['+x+'][comment]" type="text" value="">'
+                    +'<div class="comment"><button class="toggle_comment_box"><i class="far fa-comment"></i></button>'
+                    +'<div class="comment_box">'
+                    +'<textarea maxlength="250" class="comment_text comment" autocomplete="off" placeholder="Ton commentaire (facultatif)" name="project['+projectNumber+'][subtask]['+y+'][task]['+x+'][comment]"></textarea>'
+                    +'<button class="validate btn btn-outline-dark">Ok</button>'
+                    +'</div></div>'
                     +'<input class="usertypeahead" autocomplete="off" placeholder="Qui qui doit faire?" name="user_typeahead[]" type="text" value="">'
                     +'<input class="user_id" name="project['+projectNumber+'][subtask]['+y+'][task]['+x+'][user]" type="hidden" value="">'
                     +'</div>'
@@ -198,4 +206,24 @@ $('body').on('click', '.remove_project ', function(e)
         y--; //Decrement field counter
         console.log(y);
         return false;
+});
+
+
+$('body').on('click', '.toggle_comment_box', function(e)
+{
+    e.preventDefault();
+    $(this).next().show();
+});
+
+
+$('body').on('click', '.validate', function(e)
+{
+    e.preventDefault();
+    $(this).parent().hide();
+});
+
+$('body').on('click', '.assignation_button', function(e)
+{
+    e.preventDefault();
+    $(this).next().show();
 });
