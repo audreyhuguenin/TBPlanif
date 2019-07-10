@@ -94,6 +94,11 @@ color:#999;
 text-align: center;
 }
 
+.assignations tr td:hover
+{
+  color:#444;
+}
+
 .assignation_form
 {
 display:none;
@@ -102,10 +107,85 @@ right: -16px;
 z-index: 10;
 top: 50px;
 width: 300px;
-padding: 25px;
+padding: 35px;
 background: white;
 border-radius: 5px;
 box-shadow: 0 0 3px 0 rgba(59, 59, 59, 0.2);
 text-align: left;
 }
 
+
+.type {
+  display: block;
+  position: relative;
+  padding-left: 25px;
+  margin-bottom: 12px;
+  cursor: pointer;
+  font-size: 14px;
+  line-height:18px;
+}
+
+/* Hide the browser's default checkbox */
+.type input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+
+/* Create a custom checkbox */
+.checkmark {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 18px;
+  width: 18px;
+  background-color: #eee;
+}
+
+/* On mouse-over, add a grey background color */
+.type:hover input ~ .checkmark {
+  background-color: #ccc;
+}
+
+/* When the checkbox is checked, add a blue background */
+.type input:checked ~ .checkmark {
+  background-color: #b00;
+}
+
+/* Create the checkmark/indicator (hidden when not checked) */
+.checkmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+
+/* Show the checkmark when checked */
+.type input:checked ~ .checkmark:after {
+  display: block;
+}
+
+/* Style the checkmark/indicator */
+.type .checkmark:after {
+  left: 5px;
+  top: 1px;
+  width: 8px;
+  height: 12px;
+  border: solid white;
+  border-width: 0 3px 3px 0;
+  -webkit-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  transform: rotate(45deg);
+}
+
+input[name=duration], .types
+{
+  margin-bottom: 15px;
+}
+
+
+.assignation_ok, .assignation_cancel
+{
+  
+}

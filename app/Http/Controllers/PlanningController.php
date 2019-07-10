@@ -97,6 +97,14 @@ dd($tasksTest);  */
             $now->startOfWeek()->addDays(4)->isoFormat('ddd D.MM'),
         );
 
+        $weekDates = array(
+            $now->startOfWeek()->format('Y-m-d H:i:s'),
+            $now->startOfWeek()->addDay()->format('Y-m-d H:i:s'),
+            $now->startOfWeek()->addDays(2)->format('Y-m-d H:i:s'),
+            $now->startOfWeek()->addDays(3)->format('Y-m-d H:i:s'),
+            $now->startOfWeek()->addDays(4)->format('Y-m-d H:i:s'),
+        );
+
         $weekNum = $now->weekOfYear;
         //$assignations= \App\Assignation::whereBetween('date', [$startWeek, $endweek])->sortable()->paginate(20);
         $startWeek= $now->startOfWeek()->isoFormat('D.MM.YYYY');
@@ -106,6 +114,7 @@ dd($tasksTest);  */
 
         return view('am.create', ['userInfo'=>$userInfo, 
         'weekDays' => $weekDays, 
+        'weekDates'=>$weekDates,
         'weeknum'=>$weekNum,
         'startWeek'=>$startWeek, 
         'endWeek'=>$endweek]);

@@ -16,25 +16,19 @@ $('body').on('click', '.add_task', function(e){
         var nameCut = subtaskName.substring([subtaskName.indexOf('subtask')+9]);
         var subtaskNumber =nameCut.substring(0, nameCut.indexOf(']'));
 
-        var fieldHTML ='<div class="task">'
-                    +'<div class="row">'
-                    +'<button class="remove_button btn btn-danger col-1"><i class="fas fa-trash-alt"></i></button>'
-                    +'<div class="row col-11">'
-                    +'<input autocomplete="off" class="" placeholder="Nom de la tâche" name="project['+projectNumber+'][subtask]['+subtaskNumber+'][task]['+ x +'][task_name]" type="text" value="">'
-                    +'<div class="comment"><button class="toggle_comment_box"><i class="far fa-comment"></i></button>'
-                    +'<div class="comment_box">'
-                    +'<textarea maxlength="250" class="comment_text comment" autocomplete="off" placeholder="Ton commentaire (facultatif)" name="project['+projectNumber+'][subtask]['+subtaskNumber+'][task]['+x+'][comment]"></textarea>'
-                    +'<button class="validate btn btn-outline-dark">Ok</button>'
-                    +'</div></div>'
-                    +'<input class="usertypeahead" autocomplete="off" placeholder="Qui qui doit faire?" name="user_typeahead[]" type="text" value="">'
-                    +'<input class="user_id" name="project['+projectNumber+'][subtask]['+subtaskNumber+'][task]['+x+'][user]" type="hidden" value="">'
-                    +'</div>'
-                    +'</div></div>';
+            var task=$('.task').first().clone();
+            task.find('.task_name').attr('name', 'project['+projectNumber+'][subtask]['+subtaskNumber+'][task]['+ x +'][task_name]');
+            task.find('.task_name').val('');
+            task.find('.comment_text.comment').attr('name','project['+projectNumber+'][subtask]['+subtaskNumber+'][task]['+x+'][comment]' );
+            task.find('.comment_text.comment').val('');
+            task.find('.user_id').attr('name', 'project['+projectNumber+'][subtask]['+subtaskNumber+'][task]['+x+'][user]');
+            task.find('.user_id').val('');
+            task.find('.usertypeahead').val('');
 
-                    
+            console.log(task.find('.task_name').attr('name'));
+               
           var blocTask = $(this).parent().children(0)[0];   
-          
-        $(blocTask).append(fieldHTML); //Add field html
+        $(blocTask).append(task); //Add field html
 
     $('input.usertypeahead').each(function( index ) {
     $(this).typeahead({
@@ -69,37 +63,25 @@ $('body').on('click', '.remove_button',  function(e){
     return false;
 });
 
+
+
 //Au click du bouton d'ajout de sous-tâche
 $('body').on('click', '.add_subtask', function(e){
     e.preventDefault();
     if(y < maxField){ 
         y++; 
-
         var subtaskName = $(this).parent().find('.project_id').attr('name');
         var projectNumber = subtaskName.substring(8, subtaskName.indexOf(']'));
-              
-        var fieldHTML =
-                    '<div class="subtask"><div class="row"><a class="remove_sub" style="margin-top:10px;"><i class="fas fa-times"></i></a><div class="col-3">'
-                    +'<select name="project['+projectNumber+'][subtask]['+y+'][subtask_id]" class="subtask_id"><option value="placeholder">Sous-tâche</option></select></div>'
-                    +'<div class="col-8"><div class="tasks">'
-                    +'<div class="task">'
-                    +'<div class="row">'
-                    +'<button class="remove_button btn btn-danger col-1"><i class="fas fa-trash-alt"></i></button>'
-                    +'<div class="row col-11">'
-                    +'<input autocomplete="off" class="" placeholder="Nom de la tâche" name="project['+projectNumber+'][subtask]['+y+'][task]['+x+'][task_name]" type="text" value="">'
-                    +'<div class="comment"><button class="toggle_comment_box"><i class="far fa-comment"></i></button>'
-                    +'<div class="comment_box">'
-                    +'<textarea maxlength="250" class="comment_text comment" autocomplete="off" placeholder="Ton commentaire (facultatif)" name="project['+projectNumber+'][subtask]['+y+'][task]['+x+'][comment]"></textarea>'
-                    +'<button class="validate btn btn-outline-dark">Ok</button>'
-                    +'</div></div>'
-                    +'<input class="usertypeahead" autocomplete="off" placeholder="Qui qui doit faire?" name="user_typeahead[]" type="text" value="">'
-                    +'<input class="user_id" name="project['+projectNumber+'][subtask]['+y+'][task]['+x+'][user]" type="hidden" value="">'
-                    +'</div>'
-                    +'</div></div>'
-                    +'</div><button class="add_task btn btn-danger">+ Add new task</button></div></div></div>'
+
+        var subtask=$('.subtask').first().clone();
+        subtask.find('.subtask_id').attr('name', 'project['+projectNumber+'][subtask]['+y+'][subtask_id]');
+        subtask.find('.task_name').attr('name', 'project['+projectNumber+'][subtask]['+y+'][task]['+ x +'][task_name]');
+        subtask.find('.comment_text.comment').attr('name','project['+projectNumber+'][subtask]['+y+'][task]['+x+'][comment]' );
+        subtask.find('.user_id').attr('name', 'project['+projectNumber+'][subtask]['+y+'][task]['+x+'][user]'); 
+        console.log(subtask.find('.task_name').attr('name'));           
         
         var blocTask = $(this).parent().find('.subtasks');  
-        $(blocTask).append(fieldHTML); //Add field html
+        $(blocTask).append(subtask); //Add field html
         //Increment field counter
         var selectToFill= $(this).parent().find('select.subtask_id').last();
         var subtasks = $.get("/subtasks", {
@@ -161,10 +143,12 @@ $('body').on('click', '.add_project', function(e){
                     +'</div></div>'
                     +'<div class="subtasks"></div>'
                     +'<button class="add_subtask btn btn-danger">+ Add subtask</button></div></div>';
-        
-    console.log($(this).parent().children(3).children()[2]);          
+    var project=$('.project').first().clone();
+    project.find('.project_id').attr('name', 'project['+z+']');
+    project.find('.subtask').remove();           
+               
         var blocTask = $(this).parent().children(3).children()[2];  
-        $(blocTask).append(fieldHTML); //Add field html
+        $(blocTask).append(project); //Add field html
         //Increment field counter
 
     $('input.projecttypeahead').each(function( index ) {
@@ -226,4 +210,38 @@ $('body').on('click', '.assignation_button', function(e)
 {
     e.preventDefault();
     $(this).next().show();
+});
+
+$('.assignations tr td').each(function(index, e)
+{
+    //0=lundi, 1=mardi, ...
+    var assignation_form=$('.assignation_form').first().clone();
+
+    /*suiviDA increment*/
+    assignation_form.find('.suiviDA').attr('name', 'add');
+    /*duration increment*/
+    assignation_form.find('.suiviDA').attr('name', 'add');
+
+    /*types increment*/
+    //.typeB, .typeD, .typeRC, .typePC, .typeL, .typeRDV,.typeBO,.typeRG
+    assignation_form.find('.suiviDA').attr('name', 'add');
+    assignation_form.find('.suiviDA').attr('name', 'add');
+    assignation_form.find('.suiviDA').attr('name', 'add');
+    assignation_form.find('.suiviDA').attr('name', 'add');
+    assignation_form.find('.suiviDA').attr('name', 'add');
+    assignation_form.find('.suiviDA').attr('name', 'add');
+    assignation_form.find('.suiviDA').attr('name', 'add');
+    assignation_form.find('.suiviDA').attr('name', 'add');
+
+    /*unmovable increment*/
+    assignation_form.find('.suiviDA').attr('name', 'add');
+
+    /*set increment + date to assignation*/
+
+    console.log(e);
+    console.log(index);
+
+    assignation_form.appendTo(e);
+    
+
 });

@@ -39,7 +39,7 @@
                                                     class="fas fa-trash-alt"></i></button>
                                             <div class="row col-11">
 
-                                                {{ Form::text('project[1][subtask][1][task][1][task_name]','',array('autocomplete'=>"off",'class'=>'col-10', 'placeholder'=>'Nom de la tâche')) }}
+                                                {{ Form::text('project[1][subtask][1][task][1][task_name]','',array('autocomplete'=>"off",'class'=>'task_name col-10', 'placeholder'=>'Nom de la tâche')) }}
                                                 <div class="comment">
 							                        <button class="toggle_comment_box"><i class="far fa-comment"></i></button>
                                                     <div class="comment_box">
@@ -63,55 +63,80 @@
                                                 <tr>
                                                     <td class="mo"><i class="fas fa-plus assignation_button"></i>
                                                         <div class="assignation_form">
-                                                        {{ Form::checkbox('suiviDA', 'true', array('class'=>'')) }}
-                                                        {{ Form::label('suiviDA', 'Suivi DA') }}
-                                                        {{Form::number('duration', ' ', array('placeholder'=>'durée en heure', 'max'=>8))}}
-                                                        {{ Form::label('type', 'Quel(s) type(s) ?') }}
-                                                        <div class="row">
-                                                            <div class="col-3">
-                                                            {{ Form::checkbox('type[B]', 'value','true', array('class'=>'')) }}
-                                                            {{ Form::label('type', 'B') }}
-                                                            </div>
-                                                            <div class="col-3">
-                                                        {{ Form::checkbox('type[D]', 'value','true', array('class'=>'')) }}
-                                                        {{ Form::label('type', 'D') }}
-                                                            </div>
-                                                            <div class="col-3">
-                                                        {{ Form::checkbox('type[RC]', 'value','true', array('class'=>'')) }}
-                                                        {{ Form::label('type', 'RC') }}
-                                                            </div>
-                                                            <div class="col-3">
-                                                        {{ Form::checkbox('type[PC]', 'value','true', array('class'=>'')) }}
-                                                        {{ Form::label('type', 'PC') }}
-                                                            </div>
-                                                            <div class="col-3">
-                                                        {{ Form::checkbox('type[L]', 'value','true', array('class'=>'')) }}
-                                                        {{ Form::label('type', 'L') }}
-                                                            </div>
-                                                            <div class="col-3">
-                                                        {{ Form::checkbox('type[RDV]', 'value','true', array('class'=>'')) }}
-                                                        {{ Form::label('type', 'RDV') }}
-                                                            </div>
-                                                            <div class="col-3">
-                                                        {{ Form::checkbox('type[BO]', 'value','true', array('class'=>'')) }}
-                                                        {{ Form::label('type', 'BO') }}
-                                                            </div>
-                                                            <div class="col-3">
-                                                        {{ Form::checkbox('type[RG]', 'value','true', array('class'=>'')) }}
-                                                        {{ Form::label('type', 'RG') }}
-                                                            </div>
+                                                        <div>
+                                                                <label class="type">Suivi DA
+                                                                    <input type="checkbox" class="suiviDA" name="project[1][subtask][1][task][1][assignations][1][suiviDA]">
+                                                                    <span class="checkmark"></span>
+                                                                </label>
                                                         </div>
-                                                        {{ Form::checkbox('unmovable', 'value','true', array('class'=>'')) }}
-                                                        {{ Form::label('unmovable', 'Indéplaçable ?') }}
-                                                        
-                                                        <button class="validate btn btn-outline-dark">Ok</button>
-                                                        </div>
+                                                        <input placeholder="durée en heure" max="8" class="duration" name="project[1][subtask][1][task][1][assignations][1][duration]" type="number">
+                                                        <label for="type">Quel(s) type(s) ?</label>
+                                                        <div class="row types">
+                                                            <div class="col-3">
+                                                                <label class="type">B
+                                                                    <input type="checkbox" class="typeB" name="type[B]">
+                                                                    <span class="checkmark"></span>
+                                                                </label>
+                                                            </div>
+                                                            <div class="col-3">
+                                                                <label class="type">D
+                                                                    <input type="checkbox" class="typeD" name="type[D]">
+                                                                    <span class="checkmark"></span>
+                                                                </label>
+                                                            </div>
+                                                            <div class="col-3">
+                                                                <label class="type">RC
+                                                                    <input type="checkbox" class="typeRC" name="type[RC]">
+                                                                    <span class="checkmark"></span>
+                                                                </label>
+                                                            </div>
+                                                            <div class="col-3">
+                                                                <label class="type">PC
+                                                                    <input type="checkbox" class="typePC" name="type[PC]">
+                                                                    <span class="checkmark"></span>
+                                                                </label>
+                                                            </div>
+                                                            <div class="col-3">
+                                                                <label class="type">L
+                                                                    <input type="checkbox" class="typeL" name="type[L]">
+                                                                    <span class="checkmark"></span>
+                                                                </label>
+                                                            </div>
+                                                            <div class="col-3">
+                                                                <label class="type">RDV
+                                                                    <input type="checkbox" class="typeRDV" name="type[RDV]">
+                                                                    <span class="checkmark"></span>
+                                                                </label>
+                                                            </div>
+                                                            <div class="col-3">
+                                                                <label class="type">BO
+                                                                    <input type="checkbox" class="typeBO" name="type[BO]">
+                                                                    <span class="checkmark"></span>
+                                                                </label>
+                                                            </div>
+                                                            <div class="col-3">
+                                                                <label class="type">RG
+                                                                    <input type="checkbox" class="typeRG" name="type[RG]">
+                                                                    <span class="checkmark"></span>
+                                                                </label>
+                                                            </div>     
+                                                            </div>                                                  
+                                                            <div class="">
+                                                                <label class="type"> Indéplaçable ?
+                                                                    <input type="checkbox" class="unmovable" name="unmovable">
+                                                                    <span class="checkmark"></span>
+                                                                </label>
+                                                            </div>
+                                                            
+                                                        <button class="validate btn btn-outline-success assignation_ok col-7">Ok</button>
+                                                        <button class="validate btn btn-outline-dark assignation_cancel col-4">Nope</button>
+
                                                     </td>
                                                     
-                                                    <td class="tu"></td>
-                                                    <td class="we"></td>
-                                                    <td class="th"></td>
-                                                    <td class="fr"></td>
+                                                    <td class="tu"><i class="fas fa-plus assignation_button"></i></td>
+                                                    <td class="we"><i class="fas fa-plus assignation_button"></i></td>
+                                                    <td class="th"><i class="fas fa-plus assignation_button"></i></td>
+                                                    <td class="fr"><i class="fas fa-plus assignation_button"></i></td>
                                                 </tr>
                                             </table>    
                                     </div>
