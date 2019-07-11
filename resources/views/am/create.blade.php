@@ -127,7 +127,8 @@
                                                                     <span class="checkmark"></span>
                                                                 </label>
                                                             </div>
-                                                            
+                                                            <input type=hidden class="dateAssignation" name="date">
+
                                                         <button class="validate btn btn-outline-success assignation_ok col-7">Ok</button>
                                                         <button class="validate btn btn-outline-dark assignation_cancel col-4">Nope</button>
 
@@ -210,6 +211,33 @@
             });
         });
 
+    </script>
+
+    <script type="text/javascript">
+
+            function setDate(index)
+            {
+                var date;
+                switch(index) {
+            case 0:
+            date= "{{$weekDates[0]}}";
+                break;
+            case 1:
+            date= "{{$weekDates[1]}}";
+                break;
+            case 2:
+            date= "{{$weekDates[2]}}";
+                break;
+            case 3:
+            date= "{{$weekDates[3]}}";
+                break;
+            default:
+            date= "{{$weekDates[4]}}";
+            break;
+            }
+                return date;
+            }
+   
     </script>
 
 
