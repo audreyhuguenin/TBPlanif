@@ -195,10 +195,32 @@ $(document).ready(function () {
     });
 
 
-    $('body').on('click', '.validate', function (e) {
+    $('.comment').on('click', '.validate', function (e) {
         e.preventDefault();
         $(this).parent().hide();
     });
+
+
+    $('.assignation_form').on('click', '.assignation_ok', function (e) {
+        e.preventDefault();
+        $(this).parent().parent().find('i').removeClass( "fa-plus" ).addClass( "fa-calendar-alt" );
+
+        /*ICI:check de toutes les données!!*/
+
+        $(this).parent().hide();
+    });
+
+    $('.assignation_form').on('click', '.assignation_cancel', function (e) {
+        e.preventDefault();
+        $(this).parent().parent().find('i').removeClass( "fa-calendar-alt" ).addClass( "fa-plus" );
+        /* ICI: delete all data*/
+        $(this).parent().find('input').not(':button, :submit, :reset, :hidden').val('');
+        $(this).parent().find('input[type=checkbox]').prop('checked', false);
+        
+
+        $(this).parent().hide();
+    });
+
 
     $('body').on('click', '.assignation_button', function (e) {
         e.preventDefault();
@@ -240,8 +262,6 @@ $(document).ready(function () {
 
             assignation_form.find('.dateAssignation').val(setDate(index));
             //console.log(setDate());
-            
-            
 
             assignation_form.appendTo(e);
 
