@@ -39,7 +39,7 @@ class Task extends Model
 
     public function subtask()
 {
-    return $this->belongsTo('App\Subtask', 'subtask_id', 'project_id');
+    return $this->belongsTo('App\Subtask', 'subtask_id', 'id');
 }
 
 }

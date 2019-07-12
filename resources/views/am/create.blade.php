@@ -21,7 +21,7 @@
                     <a class="remove_project" style="margin-top:10px;"><i class="fas fa-times"></i></a>
                     <div class="col-11">
                         {{ Form::text('project_typeahead','', array('class'=>'projecttypeahead', 'autocomplete'=>"off", 'placeholder'=>'Choisis le projet')) }}
-                        {{ Form::hidden('project[1]','', array('class'=>'project_id')) }}
+                        {{ Form::hidden('project[1][project_id]','', array('class'=>'project_id')) }}
                     </div>
                 </div>
                 <div class="subtasks">
@@ -119,7 +119,7 @@
                                                                     <input type="checkbox" class="typeRG" name="type[RG]">
                                                                     <span class="checkmark"></span>
                                                                 </label>
-                                                            </div>     
+                                                            </div>   
                                                             </div>                                                  
                                                             <div class="">
                                                                 <label class="type"> Indéplaçable ?
@@ -143,12 +143,12 @@
                                     </div>
                                         
                                 </div>
-                                <button class="add_task btn btn-danger">+ Add new task</button>
+                                <button class="add_task btn btn-danger">+ Ajouter tâche</button>
                             </div>
                         </div>
                     </div>
                 </div>
-                <button class="add_subtask btn btn-danger">+ Add subtask</button>
+                <button class="add_subtask btn btn-danger">+ Ajouter sous-tâche</button>
 
                 {{ Form::close() }}
             </div>
@@ -186,7 +186,7 @@
                     });
 
                 });
-                $('.project_id').val(obj.id);
+                $this.parent().find('.project_id').val(obj.id);
                 return obj;
             },
         })

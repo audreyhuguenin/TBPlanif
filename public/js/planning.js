@@ -78,7 +78,7 @@ $(document).ready(function () {
             var subtask = subtaskClone.clone();
             subtask.find('.subtask_id').attr('name', 'project[' + projectNumber + '][subtask][' + y + '][subtask_id]');
             subtask.find('.task').not(':first').remove();
-            fillAssignations(subtask.find('.task'));
+            fillAssignations(subtask.find('.task'), projectNumber, y, x);
             subtask.find('.task_name').attr('name', 'project[' + projectNumber + '][subtask][' + y + '][task][' + x + '][task_name]');
             subtask.find('.comment_text.comment').attr('name', 'project[' + projectNumber + '][subtask][' + y + '][task][' + x + '][comment]');
             subtask.find('.user_id').attr('name', 'project[' + projectNumber + '][subtask][' + y + '][task][' + x + '][user]');
@@ -139,7 +139,7 @@ $(document).ready(function () {
         if (z < maxField) {
             z++;
             var project = projectClone.clone();
-            project.find('.project_id').attr('name', 'project[' + z + ']');
+            project.find('.project_id').attr('name', 'project[' + z + '][project_id]');
             project.find('.subtask').remove();
 
             var blocTask = $(this).parent().children(3).children()[2];
@@ -160,7 +160,6 @@ $(document).ready(function () {
                         var subtasks = $.get("/subtasks", {
                             "project_id": obj.name
                         }, function (data) {
-                            console.log(data);
                             $this.parent().parent().parent().find('select[name=subtask]').find('option')
                                 .remove()
                                 .end();
@@ -170,7 +169,7 @@ $(document).ready(function () {
                                     .text(e.name));
                             });
                         });
-                        $('.project_id').val(obj.id);
+                        $this.parent().find('.project_id').val(obj.id);
                         return obj;
                     }
                 });
@@ -195,28 +194,48 @@ $(document).ready(function () {
     });
 
 
-    $('.comment').on('click', '.validate', function (e) {
+    $('body').on('click', '.comment_box .validate', function (e) {
         e.preventDefault();
         $(this).parent().hide();
     });
 
 
-    $('.assignation_form').on('click', '.assignation_ok', function (e) {
+    $('body').on('click', '.assignation_ok', function (e) {
         e.preventDefault();
         $(this).parent().parent().find('i').removeClass( "fa-plus" ).addClass( "fa-calendar-alt" );
 
-        /*ICI:check de toutes les données!!*/
-
-        $(this).parent().hide();
+        var hasCheckedType = false;
+        $(this).parent().find('.types div label input').each(function(index, e){
+            if(e.checked) hasCheckedType = true;
+        });
+        if(!hasCheckedType || $(this).parent().find('.duration').val()>8 || $(this).parent().find('.duration').val()<=0 || $(this).parent().find('.duration').val().length<1)
+        {
+                if(!hasCheckedType)
+                {
+                    var typeError = '<div class="col-12 typeError"><p style="font-size:11px; color:#f00;">Choisis au moins un type</p></div>';
+                    if(!$(this).parent().find('.typeError')[0])$(this).parent().find('.types').append(typeError);
+                }
+                if($(this).parent().find('.duration').val()>8 || $(this).parent().find('.duration').val()<=0 || $(this).parent().find('.duration').val().length<1)
+                {   
+                    var durationError = '<div class="col-12 durationError"><p style="font-size:11px; color:#f00;">Indiquer une durée de max. 8 heures.</p></div>';
+                    if(!$(this).parent().find('.durationError')[0])$(this).parent().find('.duration').after(durationError);
+                }
+        }
+        else
+        {
+            if($(this).parent().find('.typeError')[0])$(this).parent().find('.typeError').remove();
+            if($(this).parent().find('.durationError')[0])$(this).parent().find('.durationError').remove();
+            $(this).parent().hide();
+        }       
     });
 
-    $('.assignation_form').on('click', '.assignation_cancel', function (e) {
+    $('body').on('click', '.assignation_cancel', function (e) {
         e.preventDefault();
         $(this).parent().parent().find('i').removeClass( "fa-calendar-alt" ).addClass( "fa-plus" );
         /* ICI: delete all data*/
         $(this).parent().find('input').not(':button, :submit, :reset, :hidden').val('');
         $(this).parent().find('input[type=checkbox]').prop('checked', false);
-        
+        if($(this).parent().find('.typeError')[0])$(this).parent().find('.typeError').remove();
 
         $(this).parent().hide();
     });
@@ -232,10 +251,8 @@ $(document).ready(function () {
 /*  Fonction permettant de remplir le petit calendrier des assignations de chaque tâche,
     avec le noms corrects pour la structure de données envoyée en POST par le formulaire*/
     function fillAssignations(thisTask, projectNumber, subtaskNumber, taskNumber) {
+        thisTask.find('.assignation_form').remove();
         thisTask.find('.assignations tr td').each(function (index, e) {
-            console.log(e);
-
-            
             //0=lundi, 1=mardi, ...
             var assignation_form = assignationClone.clone();
             /*suiviDA increment*/

@@ -184,8 +184,7 @@ input[name=duration], .types
   margin-bottom: 15px;
 }
 
-
-.assignation_ok, .assignation_cancel
+a.remove_project i:hover, a.remove_sub i:hover
 {
-  
+  opacity:0.5;
 }

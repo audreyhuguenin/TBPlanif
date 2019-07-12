@@ -20,13 +20,6 @@ Route::get('rights/seed', 'RightController@seed');
 
 Route::middleware(['MyAuth'])->group(function ()
 {
-    Route::get('/test', function(){
-        $now = Carbon::now();
-        $weekNum = $now->weekOfYear;
-        $startWeek= $now->startOfWeek()->format('d.m.y');
-        $endweek=$now->endOfWeek()->format('d.m.y');
-    return view('planning.demo', ['weeknum'=>$weekNum, 'startWeek'=>$startWeek, 'endWeek'=>$endweek]);
-    });
     Route::get('/auth/logout', 'AuthController@logout');
     Route::get('/', function () {
     return "Something's not working in here";
@@ -57,6 +50,7 @@ Route::middleware(['MyAuth'])->group(function ()
     Route::resource('subtasks', 'SubtaskController', ['except' => ['index']])->middleware('checkRight');
     Route::get('projects/sync', 'ProjectController@sync')->name('projects.sync')->middleware('checkRight');
     Route::resource('projects', 'ProjectController')->middleware('checkRight');
+    Route::get('plannings/check', 'PlanningController@check')->name('plannings.check')->middleware('checkRight');
     Route::resource('plannings', 'PlanningController')->middleware('checkRight');
     Route::post('assignations/weekplan', 'AssignationController@weekplan')->name('assignations.weekplan')->middleware('checkRight');;
     Route::post('assignations/weekplanbyuser/{id}', 'AssignationController@weekplanbyuser')->name('assignations.weekplanbyuser')->middleware('checkRight');
@@ -67,11 +61,7 @@ Route::middleware(['MyAuth'])->group(function ()
     Route::resource('recurrentfreedays', 'RecFreeDayController')->middleware('checkRight');
     });
 });
-
-
-
-    
-    
+ 
 
 
 //

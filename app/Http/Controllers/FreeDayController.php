@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\FreeDay;
 use Illuminate\Http\Request;
+use Auth;
 
 class FreeDayController extends Controller
 {
@@ -26,7 +27,8 @@ class FreeDayController extends Controller
     public function index()
     {
         $freedays = FreeDay::all();
-        return $freedays;
+        $userInfo= Auth::user()->initials; 
+        return view('ad.freedays', ['userInfo'=>$userInfo, 'freeDays'=>$freedays]);
     }
 
     /**
