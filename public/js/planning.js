@@ -286,4 +286,31 @@ $(document).ready(function () {
         });
     }
 
+    $('form').submit(function() {
+
+        var allTasksHaveAssignation = true;
+        $('.assignations').each(function(index, e){
+
+            var thereisAssignation = false;
+            $(this).find('td i').each( function (index, el)
+            {
+                if($(this).attr('class').search("fa-calendar-alt")>-1)
+                {
+                    thereisAssignation =true;
+                }
+                
+            });
+
+            if(!thereisAssignation) 
+            {
+                console.log($(this).parent());
+                if(!$(this).parent().find('.assignationError')[0])$(this).parent().append('<p style="color:red; font-style:italic;" class="assignationError">Il faut minimum une assignation par tâche.</p>');
+                allTasksHaveAssignation = false;
+            }
+            
+        });
+        return allTasksHaveAssignation; // return false to cancel form action
+    });
+
+
 });

@@ -92,24 +92,31 @@ dd($tasksTest);  */
             'timezone' => 'Europe/Paris',
         ]);
         $weekDays = array(
-            $now->startOfWeek()->isoFormat('ddd D.MM'),
+            $now->startOfWeek()->addDays(7)->isoFormat('ddd D.MM'),
             $now->startOfWeek()->addDay()->isoFormat('ddd D.MM'),
             $now->startOfWeek()->addDays(2)->isoFormat('ddd D.MM'),
             $now->startOfWeek()->addDays(3)->isoFormat('ddd D.MM'),
             $now->startOfWeek()->addDays(4)->isoFormat('ddd D.MM'),
         );
-
+        $now2 = Carbon::now()->settings([
+            'locale' => 'fr_FR',
+            'timezone' => 'Europe/Paris',
+        ]);
         $weekDates = array(
-            $now->startOfWeek()->format('Y-m-d H:i:s'),
-            $now->startOfWeek()->addDay()->format('Y-m-d H:i:s'),
-            $now->startOfWeek()->addDays(2)->format('Y-m-d H:i:s'),
-            $now->startOfWeek()->addDays(3)->format('Y-m-d H:i:s'),
-            $now->startOfWeek()->addDays(4)->format('Y-m-d H:i:s'),
+            $now2->startOfWeek()->addDays(7)->format('Y-m-d H:i:s'),
+            $now2->startOfWeek()->addDay()->format('Y-m-d H:i:s'),
+            $now2->startOfWeek()->addDays(2)->format('Y-m-d H:i:s'),
+            $now2->startOfWeek()->addDays(3)->format('Y-m-d H:i:s'),
+            $now2->startOfWeek()->addDays(4)->format('Y-m-d H:i:s'),
         );
 
-        $weekNum = $now->weekOfYear;
+        $now3 = Carbon::now()->settings([
+            'locale' => 'fr_FR',
+            'timezone' => 'Europe/Paris',
+        ]);
+        $weekNum = $now3->addDays(7)->weekOfYear;
         //$assignations= \App\Assignation::whereBetween('date', [$startWeek, $endweek])->sortable()->paginate(20);
-        $startWeek= $now->startOfWeek()->isoFormat('D.MM.YYYY');
+        $startWeek= $now3->startOfWeek()->isoFormat('D.MM.YYYY');
         //->format('d.m.y');
         $endweek=$now->startOfWeek()->addDays(4)->isoFormat('DD.MM.YYYY');
         //->format('d.m.y');
@@ -162,28 +169,62 @@ dd($tasksTest);  */
         $planning->user_id = Auth::user()->id;
         $planning->save();
         $projects = array();
+        
         foreach ($request->project as $proj) 
         {
             array_push($projects, $proj['project_id']);
             foreach ($proj['subtask'] as $subtask)
-            {
+            {                 
                 foreach ($subtask['task'] as $task)
                 {
+                    
+                    $isThereAssignation = false;
                     $taskToSave = new Task();
                     $taskToSave->name = $task['task_name'];
-                    dd($task['task_name']);
+                    if(isset($task['comment']))$taskToSave->comment = $task['comment'];
+                    $taskToSave->subtask_id = $subtask['subtask_id'];
+                    $taskToSave->save();
+                    
 
                     foreach ($task['assignations'] as $assignation)
                     {
-                        dd($assignation);
+
+                        if(count($assignation) <= 2 && is_null($assignation['duration']))
+                        {
+                            continue;
+                        }
+                        else
+                        {
+
+                        $isThereAssignation = true;
+                            /* Add checked assignation types to a the Type Table to inject it as JSON in DB */
+                        $arrayType = array();
+                        if(isset($assignation['typeB'])) array_push($arrayType, 'B');
+                        if(isset($assignation['typeD'])) array_push($arrayType, 'D');
+                        if(isset($assignation['typeRC'])) array_push($arrayType, 'RC');
+                        if(isset($assignation['typePC'])) array_push($arrayType, 'PC');
+                        if(isset($assignation['typeL'])) array_push($arrayType, 'L');
+                        if(isset($assignation['typeRDV'])) array_push($arrayType, 'RDV');
+                        if(isset($assignation['typeBO'])) array_push($arrayType, 'BO');
+                        if(isset($assignation['typeRG'])) array_push($arrayType, 'RG');
+
+
+                        /* Create Assignation object to save it in DB */
                         $assignationToSave = new Assignation();
-                        if(isset($assignation['suiviDA']))$assignationToSave->suiviDA = $assignation['suiviDA'];
-                        if(isset($assignation['unmovable']))$assignationToSave->unmovable = $assignation['unmovable'];
+                        $assignationToSave->suiviDA = (isset($assignation['suiviDA'])) ? true : false;
+                        $assignationToSave->unmovable = (isset($assignation['unmovable'])) ? true : false;
                         $assignationToSave->date = $assignation['date'];
                         $assignationToSave->duration = $assignation['duration'];
+                        $assignationToSave->type = $arrayType;
+                        $assignationToSave->task_id = $taskToSave->id;
+                        $assignationToSave->user_id = $task['user'];
+                        $assignationToSave->save();
+                        //if(!$isThereAssignation) dd('holà');
 
-                        //dd(if($assignation['suiviDA']);
+                        }
+                        
                     }
+
                     
                 }
             }
@@ -194,18 +235,6 @@ dd($tasksTest);  */
         /*A CODER: lien avec le planning global de l'AD, pour version 2 */
         //if(isset($request->parent_id))$planning->parent_id = $request->parent_id;
 
-        //Création de la tâche, mettre request->subtask_id dedans, task_name, comment
-        //création de la ou des assignations, mettre task_id dedans, user_id, date, duration, type (JSON), suivi DA, unmovable
-
-
-
-
-
-
-        
-
-        
-        
         
         return response()->json($planning, 201);
     }

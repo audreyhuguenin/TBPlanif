@@ -14,14 +14,17 @@
 
 
     <div class="container">
+    @if($errors->any())
+        <h5 style="color:red; font-style:italic;">{{$errors->first()}}</h5>
+    @endif
         <h2 class="title">Remplissage planning de la semaine {{$weeknum}}, du {{$startWeek}} au {{$endWeek}}</h2>
         <div class="projects">
             <div class="project" style="border-bottom: 1px lightgray solid;">
                 <div class="row">
                     <a class="remove_project" style="margin-top:10px;"><i class="fas fa-times"></i></a>
                     <div class="col-11">
-                        {{ Form::text('project_typeahead','', array('class'=>'projecttypeahead', 'autocomplete'=>"off", 'placeholder'=>'Choisis le projet')) }}
-                        {{ Form::hidden('project[1][project_id]','', array('class'=>'project_id')) }}
+                        {{ Form::text('project_typeahead','', array('class'=>'projecttypeahead', 'autocomplete'=>"off", 'placeholder'=>'Choisis le projet', 'required'=>'required')) }}
+                        {{ Form::hidden('project[1][project_id]','', array('class'=>'project_id', 'required'=>'required')) }}
                     </div>
                 </div>
                 <div class="subtasks">
@@ -29,7 +32,7 @@
                         <div class="row">
                             <a class="remove_sub" style="margin-top:10px;"><i class="fas fa-times"></i></a>
                             <div class="col-3">
-                            <select name="project[1][subtask][1][subtask_id]" class="subtask_id"><option value="placeholder">Sous-tâche</option></select>
+                            <select name="project[1][subtask][1][subtask_id]" class="subtask_id" required><option value="{{ old('project[1][subtask][1][subtask_id]')}}">Sous-tâche</option></select>
                             </div>
                             <div class="col-8">
                                 <div class="tasks ">
@@ -39,7 +42,7 @@
                                                     class="fas fa-trash-alt"></i></button>
                                             <div class="row col-11">
 
-                                                {{ Form::text('project[1][subtask][1][task][1][task_name]','',array('autocomplete'=>"off",'class'=>'task_name col-10', 'placeholder'=>'Nom de la tâche')) }}
+                                                {{ Form::text('project[1][subtask][1][task][1][task_name]','',array('autocomplete'=>"off",'class'=>'task_name col-10', 'placeholder'=>'Nom de la tâche', 'required'=>'required')) }}
                                                 <div class="comment">
 							                        <button class="toggle_comment_box"><i class="far fa-comment"></i></button>
                                                     <div class="comment_box">
@@ -47,7 +50,7 @@
                                                         <button class="validate btn btn-outline-dark">Ok</button>
                                                     </div>
 						                        </div>
-                                                {{ Form::text('user_typeahead','', array('class'=>'usertypeahead', 'autocomplete'=>"off", 'placeholder'=>'Qui qui doit faire?')) }}
+                                                {{ Form::text('user_typeahead','', array('class'=>'usertypeahead', 'autocomplete'=>"off", 'placeholder'=>'Qui qui doit faire?', 'required'=>'required')) }}
                                                 {{ Form::hidden('project[1][subtask][1][task][1][user]','', array('class'=>'user_id')) }}
                                             </div>
                                             </div>
