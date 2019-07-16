@@ -11,7 +11,7 @@
      <h4 class="text-center">Planning de la semaine {{$weeknum}}, du {{$startWeek}} au {{$endWeekDisplayed}}</h4>
     <table class="table table-bordered">
         <tr>
-            <th> @sortablelink('project', "Projet")</th>
+            <th> @sortablelink('fullName', "Projet")</th>
             <th> @sortablelink('user', 'Qui ?')</th>
             <th>Tâche</th>
             <!--calendar -->
@@ -26,12 +26,10 @@
         <tr class="hovered">
                     <td>{{$task->subtask->project->fullName}}</td>
                     <td>
-                    @foreach($task->assignations as $assignation)
-                        @if(\Carbon\Carbon::parse($assignation->date)->gt(\Carbon\Carbon::parse($startWeek))
-                        &&\Carbon\Carbon::parse($assignation->date)->lt(\Carbon\Carbon::parse($endWeek)))
-                            {{$assignation->user->name}}
-                        @endif
-                    @endforeach
+                    @php
+                    $user = \App\User::find($task->user_id);
+                    echo $user->name;
+                   @endphp
                     </td>
                         
                     <td class="taskname">{{ $task->name }}</td>
@@ -40,9 +38,10 @@
                     <!--if assignation->date->isoFormat('ddd DD.MM') == -->
                     <td class="calendar"> 
                     @foreach($task->assignations as $assignation)
-                    @if(\Carbon\Carbon::parse($assignation->date)->gt(\Carbon\Carbon::parse($startWeek))
+                     @if(\Carbon\Carbon::parse($assignation->date)->gt(\Carbon\Carbon::parse($startWeek))
                     &&\Carbon\Carbon::parse($assignation->date)->lt(\Carbon\Carbon::parse($endWeek))
-                    && $assignation->date->dayOfWeek===1)
+                    && $assignation->date->dayOfWeek===1
+                    && $assignation->user_id==$user->id)
                    
                             @foreach($assignation->type as $type)
                                 <span class="badge badge-pill badge-danger">{{ $type }}</span>
@@ -58,7 +57,8 @@
                     @foreach($task->assignations as $assignation)
                     @if(\Carbon\Carbon::parse($assignation->date)->gt(\Carbon\Carbon::parse($startWeek))
                     &&\Carbon\Carbon::parse($assignation->date)->lt(\Carbon\Carbon::parse($endWeek))
-                    && $assignation->date->dayOfWeek===2)
+                    && $assignation->date->dayOfWeek===2
+                    && $assignation->user_id==$user->id)
                    
                             @foreach($assignation->type as $type)
                                 <span class="badge badge-pill badge-danger">{{ $type }}</span>
@@ -74,7 +74,8 @@
                     @foreach($task->assignations as $assignation)
                     @if(\Carbon\Carbon::parse($assignation->date)->gt(\Carbon\Carbon::parse($startWeek))
                     &&\Carbon\Carbon::parse($assignation->date)->lt(\Carbon\Carbon::parse($endWeek))
-                    && $assignation->date->dayOfWeek===3)
+                    && $assignation->date->dayOfWeek===3
+                    && $assignation->user_id==$user->id)
                 
                     @foreach($assignation->type as $type)
                                 <span class="badge badge-pill badge-danger">{{ $type }}</span>
@@ -90,7 +91,8 @@
                     @foreach($task->assignations as $assignation)
                     @if(\Carbon\Carbon::parse($assignation->date)->gt(\Carbon\Carbon::parse($startWeek))
                     &&\Carbon\Carbon::parse($assignation->date)->lt(\Carbon\Carbon::parse($endWeek))
-                    && $assignation->date->dayOfWeek===4)
+                    && $assignation->date->dayOfWeek===4
+                    && $assignation->user_id==$user->id)
                  
                     @foreach($assignation->type as $type)
                                 <span class="badge badge-pill badge-danger">{{ $type }}</span>
@@ -106,7 +108,8 @@
                     @foreach($task->assignations as $assignation)
                     @if(\Carbon\Carbon::parse($assignation->date)->gt(\Carbon\Carbon::parse($startWeek))
                     &&\Carbon\Carbon::parse($assignation->date)->lt(\Carbon\Carbon::parse($endWeek))
-                    && $assignation->date->dayOfWeek===5)
+                    && $assignation->date->dayOfWeek===5
+                    && $assignation->user_id==$user->id)
                  
                             @foreach($assignation->type as $type)
                                 <span class="badge badge-pill badge-danger">{{ $type }}</span>

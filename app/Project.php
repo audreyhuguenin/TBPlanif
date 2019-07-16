@@ -19,6 +19,12 @@ class Project extends Model
 
     public $sortable = ['number', 'name', 'fullName', 'customer'];
 
+    public function projectSortable($query, $direction)
+    {
+        return $query->orderBy('fullName', $direction)
+                    ->select('projects.*');
+    }
+
     public $timestamps = false;
 
     public function subtasks()

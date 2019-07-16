@@ -20,22 +20,42 @@ class PlanningController extends Controller
     public function index()
     {
 
-//dd($tasksTest); 
 
-     $tasks= \App\Task::whereHas('assignations', function($query) {
+//enlever ca
+$noww = Carbon::now()->settings([
+    'locale' => 'fr_FR',
+    'timezone' => 'Europe/Paris',
+]);
+$weekNum = $noww->weekOfYear;
+$startWeek= $noww->startOfWeek()->format('Y-m-d H:i');
+$endweek=$noww->startOfWeek()->addDays(5)->format('Y-m-d H:i');
 
-            $now = Carbon::now()->settings([
-                'locale' => 'fr_FR',
-                'timezone' => 'Europe/Paris',
-            ]);
-            $weekNum = $now->weekOfYear;
-            $startWeek= $now->startOfWeek()->format('Y-m-d H:i');
-            $endweek=$now->startOfWeek()->addDays(5)->format('Y-m-d H:i');
-        $query->whereBetween('date',[$startWeek, $endweek]);
-        })
-        ->sortable()->paginate(20); 
 
-        //dd($tasks);
+/* $tasks = \App\Assignation::join('tasks', 'tasks.id', '=', 'assignations.task_id')
+->whereBetween('date',[$startWeek, $endweek])
+     ->groupBy('user_id')
+     ->sortable()->paginate(20);  */
+//jusque la
+      $tasks= \App\Task::join('assignations', 'tasks.id', '=', 'assignations.task_id')
+//enlever ca
+     ->whereBetween('date',[$startWeek, $endweek])
+     ->groupBy('user_id') 
+     ->select('tasks.*', 'assignations.user_id')
+//jusque la
+            /* ->whereHas('assignations', function($query) 
+                {
+                    $now = Carbon::now()->settings([
+                        'locale' => 'fr_FR',
+                        'timezone' => 'Europe/Paris',
+                    ]);
+                    $weekNum = $now->weekOfYear;
+                    $startWeek= $now->startOfWeek()->format('Y-m-d H:i');
+                    $endweek=$now->startOfWeek()->addDays(5)->format('Y-m-d H:i');
+                    $query->whereBetween('date',[$startWeek, $endweek]);
+                }) */
+             ->sortable()->paginate(20);  
+
+           //  dd($tasks);
 
         $now = Carbon::now()->settings([
             'locale' => 'fr_FR',
@@ -143,7 +163,7 @@ class PlanningController extends Controller
             'timezone' => 'Europe/Paris',
         ]);
         $weekNum = $now->addDays(7)->weekOfYear;
-        $existingPlanning = Planning::where('weeknumber', $weekNum)->where('user_id', Auth::user()->id)->get();
+        $existingPlanning = Planning::where('weeknumber', $weekNum)->where('user_id', Auth::user()->id)->first();
         if(count($existingPlanning)>0)
         {
             $planning = $existingPlanning;
@@ -215,12 +235,11 @@ class PlanningController extends Controller
             }
 
         }
-        $planning->projects()->sync($projects);
+       $planning->projects()->sync($projects);
 
         /*A CODER: lien avec le planning global de l'AD, pour version 2 */
         //if(isset($request->parent_id))$planning->parent_id = $request->parent_id;
-    
-        return response()->json($planning, 201);
+        return redirect()->route('plannings.create');
     }
 
     /**
