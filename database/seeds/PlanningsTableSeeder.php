@@ -14,7 +14,7 @@ class PlanningsTableSeeder extends Seeder
         DB::table('plannings')->delete();
         DB::table('planning_project')->delete();
 
-        $projects = App\Project::pluck('id');
+        $projects = App\Project::pluck('number');
         $last = count($projects) - 1;
         $users= App\User::pluck('id')->toArray();
 
@@ -22,7 +22,8 @@ class PlanningsTableSeeder extends Seeder
 	{
 
 	$planning = App\Planning::create([
-            	'sent' => rand(0, 1),
+                'sent' => rand(0, 1),
+                'weeknumber'=>rand(1, 50),
                 'user_id' => $users[array_rand($users)],
 		]);
 

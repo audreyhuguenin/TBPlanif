@@ -47,6 +47,7 @@ class Planning extends Resource
             ID::make()->sortable(),
             Boolean::make('Sent')
                 ->rules('required'),
+            Number::make('Weeknumber'),    
             HasMany::make('Plannings', 'children'),
             BelongsTo::make('Planning', 'globalPlanning'),
             BelongsToMany::make('Projects'),

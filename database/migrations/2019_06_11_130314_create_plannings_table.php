@@ -16,6 +16,7 @@ class CreatePlanningsTable extends Migration
         Schema::create('plannings', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->boolean('sent');
+            $table->integer('weeknumber');
             $table->timestamps();
             $table->integer('parent_id')->nullable();
             $table->integer('user_id')->unsigned();

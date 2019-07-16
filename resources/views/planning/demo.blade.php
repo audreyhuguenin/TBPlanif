@@ -8,7 +8,7 @@
 
    <div class="text-muted">
      <div class="container">
-     <h4 class="text-center">Planning de la semaine {{$weeknum}}, du {{$startWeek}} au {{$endWeek}}</h4>
+     <h4 class="text-center">Planning de la semaine {{$weeknum}}, du {{$startWeek}} au {{$endWeekDisplayed}}</h4>
     <table class="table table-bordered">
         <tr>
             <th> @sortablelink('project', "Projet")</th>
@@ -45,7 +45,7 @@
                     && $assignation->date->dayOfWeek===1)
                    
                             @foreach($assignation->type as $type)
-                                <span class="badge badge-pill badge-danger">{{ $type['value'] }}</span>
+                                <span class="badge badge-pill badge-danger">{{ $type }}</span>
                              @endforeach
 
                              @if($assignation->suiviDA)
@@ -61,7 +61,7 @@
                     && $assignation->date->dayOfWeek===2)
                    
                             @foreach($assignation->type as $type)
-                                <span class="badge badge-pill badge-danger">{{ $type['value'] }}</span>
+                                <span class="badge badge-pill badge-danger">{{ $type }}</span>
                              @endforeach
 
                              @if($assignation->suiviDA)
@@ -77,7 +77,7 @@
                     && $assignation->date->dayOfWeek===3)
                 
                     @foreach($assignation->type as $type)
-                                <span class="badge badge-pill badge-danger">{{ $type['value'] }}</span>
+                                <span class="badge badge-pill badge-danger">{{ $type }}</span>
                              @endforeach
               
                              @if($assignation->suiviDA)
@@ -93,7 +93,7 @@
                     && $assignation->date->dayOfWeek===4)
                  
                     @foreach($assignation->type as $type)
-                                <span class="badge badge-pill badge-danger">{{ $type['value'] }}</span>
+                                <span class="badge badge-pill badge-danger">{{ $type }}</span>
                              @endforeach
               
                              @if($assignation->suiviDA)
@@ -109,7 +109,7 @@
                     && $assignation->date->dayOfWeek===5)
                  
                             @foreach($assignation->type as $type)
-                                <span class="badge badge-pill badge-danger">{{ $type['value'] }}</span>
+                                <span class="badge badge-pill badge-danger">{{ $type }}</span>
                              @endforeach
                   
                              @if($assignation->suiviDA)

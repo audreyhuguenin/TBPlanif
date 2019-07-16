@@ -18,6 +18,10 @@
         <h5 style="color:red; font-style:italic;">{{$errors->first()}}</h5>
     @endif
         <h2 class="title">Remplissage planning de la semaine {{$weeknum}}, du {{$startWeek}} au {{$endWeek}}</h2>
+
+@if(count($planning)>0)
+<!-- ICI prévoir le remplissage de ce que le user a déjà rempli de son planning -->
+@endif
         <div class="projects">
             <div class="project" style="border-bottom: 1px lightgray solid;">
                 <div class="row">

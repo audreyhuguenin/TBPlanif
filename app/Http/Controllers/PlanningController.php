@@ -19,22 +19,8 @@ class PlanningController extends Controller
      */
     public function index()
     {
-        /* $now = Carbon::now()->settings([
-            'locale' => 'fr_FR',
-            'timezone' => 'Europe/Paris',
-        ]);
-        $weekNum = $now->weekOfYear;
-        $startWeek= $now->startOfWeek()->format('Y-m-d H:i');
-        $endweek=$now->startOfWeek()->addDays(4)->format('Y-m-d H:i');
 
- $tasksTest = DB::select('SELECT users.name, assignations.date, tasks.* 
-from tasks 
-INNER JOIN assignations ON assignations.task_id = tasks.id 
-inner join users ON users.id = assignations.user_id 
-WHERE assignations.date between :startDate AND :endDate
-GROUP BY users.name, tasks.id', ['startDate' => $startWeek, 'endDate'=>$endweek]);
-
-dd($tasksTest);  */
+//dd($tasksTest); 
 
      $tasks= \App\Task::whereHas('assignations', function($query) {
 
@@ -44,10 +30,12 @@ dd($tasksTest);  */
             ]);
             $weekNum = $now->weekOfYear;
             $startWeek= $now->startOfWeek()->format('Y-m-d H:i');
-            $endweek=$now->startOfWeek()->addDays(4)->format('Y-m-d H:i');
+            $endweek=$now->startOfWeek()->addDays(5)->format('Y-m-d H:i');
         $query->whereBetween('date',[$startWeek, $endweek]);
         })
         ->sortable()->paginate(20); 
+
+        //dd($tasks);
 
         $now = Carbon::now()->settings([
             'locale' => 'fr_FR',
@@ -57,7 +45,8 @@ dd($tasksTest);  */
         //$assignations= \App\Assignation::whereBetween('date', [$startWeek, $endweek])->sortable()->paginate(20);
         $startWeek= $now->startOfWeek()->isoFormat('D.MM.YYYY');
         //->format('d.m.y');
-        $endweek=$now->startOfWeek()->addDays(4)->isoFormat('DD.MM.YYYY');
+        $endweekdisplayed =$now->startOfWeek()->addDays(4)->isoFormat('DD.MM.YYYY');
+        $endweek=$now->startOfWeek()->addDays(5)->isoFormat('DD.MM.YYYY');
         //->format('d.m.y');
 
         $weekDays = array(
@@ -73,6 +62,7 @@ dd($tasksTest);  */
         return view('planning.demo', ['weeknum'=>$weekNum,
         'startWeek'=>$startWeek, 
         'endWeek'=>$endweek, 
+        'endWeekDisplayed'=>$endweekdisplayed,
         'weekDays' => $weekDays, 
         'tasks'=>$tasks,
         'userInfo'=>$userInfo]);
@@ -115,6 +105,7 @@ dd($tasksTest);  */
             'timezone' => 'Europe/Paris',
         ]);
         $weekNum = $now3->addDays(7)->weekOfYear;
+        $planning = Planning::where('weeknumber', $weekNum)->where('user_id', Auth::user()->id)->get();
         //$assignations= \App\Assignation::whereBetween('date', [$startWeek, $endweek])->sortable()->paginate(20);
         $startWeek= $now3->startOfWeek()->isoFormat('D.MM.YYYY');
         //->format('d.m.y');
@@ -126,7 +117,8 @@ dd($tasksTest);  */
         'weekDates'=>$weekDates,
         'weeknum'=>$weekNum,
         'startWeek'=>$startWeek, 
-        'endWeek'=>$endweek]);
+        'endWeek'=>$endweek,
+        'planning' => $planning]);
     }
 
     /**
@@ -143,31 +135,30 @@ dd($tasksTest);  */
             'sent'=>'required',
             'user_id'=>'required'
         ]); */
+     
+/*Check if the planning already exists for this week and this user */
+        $userInfo= Auth::user()->initials; 
+        $now = Carbon::now()->settings([
+            'locale' => 'fr_FR',
+            'timezone' => 'Europe/Paris',
+        ]);
+        $weekNum = $now->addDays(7)->weekOfYear;
+        $existingPlanning = Planning::where('weeknumber', $weekNum)->where('user_id', Auth::user()->id)->get();
+        if(count($existingPlanning)>0)
+        {
+            $planning = $existingPlanning;
+        }
+        else
+        {
+            $planning = new Planning();
+            $planning->sent = 0;
+            $planning->weeknumber = $weekNum;
+            $planning->user_id = Auth::user()->id;
+            $planning->save();
+        }
 
-//Première sauvgarde: création du planning, mettre le user_id de l'AM dedans, sent -> 0
-//aller chercher si ce planning n'existe pas déjà, pour les memes dates et le meme user.
-
-            /* $tasks= \App\Task::whereHas('assignations', function($query) {
-
-                $now = Carbon::now()->settings([
-                    'locale' => 'fr_FR',
-                    'timezone' => 'Europe/Paris',
-                ]);
-                $weekNum = $now->weekOfYear;
-                $startWeek= $now->startOfWeek()->format('Y-m-d H:i');
-                $endweek=$now->startOfWeek()->addDays(4)->format('Y-m-d H:i');
-            $query->whereBetween('date',[$startWeek, $endweek]);
-            })->get();
-            
-            dd($tasks[1]->subtask->project->plannings);
-            //dd($tasks[0]->subtask->project->plannings);
-            $planif = DB::table('plannings')
-            ->join('projects', 'users.id', '=', 'contacts.user_id')->where('user_id', Auth::user()->id)->get(); */
-
-        $planning = new Planning();
-        $planning->sent = 0;
-        $planning->user_id = Auth::user()->id;
-        $planning->save();
+        /* A CODER l'update du sent à 1 lorsque l'AM envoie son planning pour validation */
+        
         $projects = array();
         
         foreach ($request->project as $proj) 
@@ -177,8 +168,6 @@ dd($tasksTest);  */
             {                 
                 foreach ($subtask['task'] as $task)
                 {
-                    
-                    $isThereAssignation = false;
                     $taskToSave = new Task();
                     $taskToSave->name = $task['task_name'];
                     if(isset($task['comment']))$taskToSave->comment = $task['comment'];
@@ -195,8 +184,6 @@ dd($tasksTest);  */
                         }
                         else
                         {
-
-                        $isThereAssignation = true;
                             /* Add checked assignation types to a the Type Table to inject it as JSON in DB */
                         $arrayType = array();
                         if(isset($assignation['typeB'])) array_push($arrayType, 'B');
@@ -207,7 +194,6 @@ dd($tasksTest);  */
                         if(isset($assignation['typeRDV'])) array_push($arrayType, 'RDV');
                         if(isset($assignation['typeBO'])) array_push($arrayType, 'BO');
                         if(isset($assignation['typeRG'])) array_push($arrayType, 'RG');
-
 
                         /* Create Assignation object to save it in DB */
                         $assignationToSave = new Assignation();
@@ -224,8 +210,7 @@ dd($tasksTest);  */
                         }
                         
                     }
-
-                    
+                  
                 }
             }
 
@@ -234,8 +219,7 @@ dd($tasksTest);  */
 
         /*A CODER: lien avec le planning global de l'AD, pour version 2 */
         //if(isset($request->parent_id))$planning->parent_id = $request->parent_id;
-
-        
+    
         return response()->json($planning, 201);
     }
 

@@ -8,7 +8,7 @@ class Planning extends Model
 {
  protected $table = 'plannings';
  protected $fillable = [
-        'sent'
+        'sent', 'weeknumber'
     ];
 
     public $timestamps = false;

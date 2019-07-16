@@ -27,11 +27,7 @@ class AssignationsTableSeeder extends Seeder
 	DB::table('assignations')->insert([
 	'date' => $date,
 	'duration' => rand(1, 8),
-    'type' => '[
-                {"value": "PC"},
-                {"value": "RDV"},
-                {"value": "L"}
-                                 ]',
+    'type' => '["T", "TT"]',
                 'suiviDA' => rand(0, 1),
                 'unmovable' => rand(0, 1),
                 'task_id' => $tasks[array_rand($tasks)],
