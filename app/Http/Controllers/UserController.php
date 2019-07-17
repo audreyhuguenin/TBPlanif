@@ -9,7 +9,8 @@ use Artisan;
 class UserController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Récupère tous les utilisateurs en DB
+     * (PAS UTILISE PAR LE FRONT POUR L INSTANT)
      *
      * @return \Illuminate\Http\Response
      */
@@ -20,7 +21,8 @@ class UserController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Récupère l'utilisateur dont l'ID est donné
+     * (PAS UTILISE PAR LE FRONT POUR L INSTANT)
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
@@ -36,18 +38,20 @@ class UserController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * Montre le formulaire de modification des données de l'utilisateur
+     * (PAS UTILISE PAR LE FRONT POUR L INSTANT)
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
     {
-        //??
+        // A CODER
     }
 
     /**
-     * Update the specified resource in storage.
+     * Modifie l'utilisateur choisi avec les données fournies
+     * (PAS UTILISE PAR LE FRONT POUR L INSTANT)
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
@@ -67,7 +71,7 @@ class UserController extends Controller
     }
 
     /**
-     * Synchronize the users in database with NAV content.
+     * Synchronise les utilisateurs en DB avec le contenu de NAV dynamics
      *
      * @return \Illuminate\Http\Response
      */

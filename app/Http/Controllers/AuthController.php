@@ -9,10 +9,18 @@ use App\User;
 
 class AuthController extends Controller
 {
+    /* Renvoie sur la vue du formulaire pour se loguer
+    *
+    */
    public function form()
    {
        return view('login');
    }
+
+   /*Permet de faire l'authentification. Cette fonction se connect à Dynamics NAV, envoie le mais et password rentrés par l'utilisateurs. 
+   Selon la réponse, connecte ou non l'utilisateurs à son profil.
+   * 
+   */
    
    public function check(Request $request)
    {
@@ -62,6 +70,9 @@ class AuthController extends Controller
             }
    }
    
+   /*
+   * Log out de l'application, déconnecte l'utilisateur
+   */
    public function logout()
    {
        Auth::logout();

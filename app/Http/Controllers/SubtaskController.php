@@ -9,22 +9,19 @@ use Artisan;
 class SubtaskController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Récupère toutes les sous-tâche présentes en DB.
      *
      * @return \Illuminate\Http\Response
      */
     public function index(Request $request)
     {
         $subtasks= Subtask::where('project_id', $request->project_id)->get();
-
         return $subtasks;
-        //$subtasks = Subtask::all();
-        //return $subtasks;
     }
 
 
     /**
-     * Display the specified resource.
+     * Récupère la sous-tâche dont l'ID est donnée 
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
@@ -40,7 +37,7 @@ class SubtaskController extends Controller
     }
     
 /**
-     * Synchronize the projects in database with NAV content.
+     * Synchronise les projects en DB avec l'ERP NAVdynamics
      *
      * @return \Illuminate\Http\Response
      */

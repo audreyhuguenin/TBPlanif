@@ -11,7 +11,8 @@ use Artisan;
 class RightController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Récupère tous les droits présents en DB
+     * (PAS UTILISE PAR LE FRONT POUR L INSTANT)
      *
      * @return \Illuminate\Http\Response
      */
@@ -21,7 +22,8 @@ class RightController extends Controller
         return $rights;
     }
     /**
-     * Display the specified resource.
+     * Récupère le droit dont l'ID est donné
+     * (PAS UTILISE PAR LE FRONT POUR L INSTANT)
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
@@ -37,7 +39,7 @@ class RightController extends Controller
     }
 
     /**
-     * Display a listing of the resource.
+     * Crée en DBun nouveau droit avec les données fournies
      *
      * @return \Illuminate\Http\Response
      */
@@ -58,7 +60,7 @@ class RightController extends Controller
     }
 
     /**
-     * Display a listing of the resource.
+     * Modifie le droit existant en DB avec les données fournies
      *
      * @return \Illuminate\Http\Response
      */
@@ -80,7 +82,7 @@ class RightController extends Controller
     }
 
     /**
-     * Display a listing of the resource.
+     * Récupère le droit dont la méthode et le nom de la route correspondent à ceux entrés en paramètre. 
      *
      * @return \Illuminate\Http\Response
      */
@@ -97,7 +99,7 @@ class RightController extends Controller
     
 
     /**
-     * Display a listing of the resource.
+     * Effectue un seed de la base de données avec le contenu du fichier de seeding. 
      *
      * @return \Illuminate\Http\Response
      */

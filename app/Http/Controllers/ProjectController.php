@@ -9,7 +9,8 @@ use Artisan;
 class ProjectController extends Controller
 {
     /**
-     * Display a listing of the resource with all the plannings associated.
+     * Récupère tous les projets en DB
+     * (PAS UTILISE PAR LE FRONT POUR L INSTANT)
      *
      * @return \Illuminate\Http\Response
      */
@@ -20,7 +21,8 @@ class ProjectController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Récupère le projet dont l'ID est donné
+     * (PAS UTILISE PAR LE FRONT POUR L INSTANT)
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
@@ -36,7 +38,7 @@ class ProjectController extends Controller
     }
 
     /**
-     * Synchronize the projects in database with NAV content.
+     * Synchronise les projets en DB avec le contenu présent sur NAV
      *
      * @return \Illuminate\Http\Response
      */

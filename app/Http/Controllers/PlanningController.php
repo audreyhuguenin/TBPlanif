@@ -13,61 +13,37 @@ use DB;
 class PlanningController extends Controller
 {
     /**
-     * Display a listing of the resource.
-     *
+     * Renvoie à la vue du planning global de la semaine en cours (CREA).
+     * Retourne avec cette vue toutes les données de planification, 
+     * telles que les dates de la semaine, les assignations, tâcehs et projets prévu dans ce planning.     *
      * @return \Illuminate\Http\Response
      */
     public function index()
     {
+        $noww = Carbon::now()->settings([
+            'locale' => 'fr_FR',
+            'timezone' => 'Europe/Paris',
+        ]);
+        $weekNum = $noww->weekOfYear;
+        $startWeek= $noww->startOfWeek()->format('Y-m-d H:i');
+        $endweek=$noww->startOfWeek()->addDays(5)->format('Y-m-d H:i');
 
-
-//enlever ca
-$noww = Carbon::now()->settings([
-    'locale' => 'fr_FR',
-    'timezone' => 'Europe/Paris',
-]);
-$weekNum = $noww->weekOfYear;
-$startWeek= $noww->startOfWeek()->format('Y-m-d H:i');
-$endweek=$noww->startOfWeek()->addDays(5)->format('Y-m-d H:i');
-
-
-/* $tasks = \App\Assignation::join('tasks', 'tasks.id', '=', 'assignations.task_id')
-->whereBetween('date',[$startWeek, $endweek])
-     ->groupBy('user_id')
-     ->sortable()->paginate(20);  */
-//jusque la
       $tasks= \App\Task::join('assignations', 'tasks.id', '=', 'assignations.task_id')
-//enlever ca
-     ->whereBetween('date',[$startWeek, $endweek])
-     ->groupBy('user_id') 
-     ->select('tasks.*', 'assignations.user_id')
-//jusque la
-            /* ->whereHas('assignations', function($query) 
-                {
-                    $now = Carbon::now()->settings([
-                        'locale' => 'fr_FR',
-                        'timezone' => 'Europe/Paris',
-                    ]);
-                    $weekNum = $now->weekOfYear;
-                    $startWeek= $now->startOfWeek()->format('Y-m-d H:i');
-                    $endweek=$now->startOfWeek()->addDays(5)->format('Y-m-d H:i');
-                    $query->whereBetween('date',[$startWeek, $endweek]);
-                }) */
-             ->sortable()->paginate(20);  
-
-           //  dd($tasks);
+        ->whereBetween('date',[$startWeek, $endweek])
+        ->groupBy('user_id') 
+        ->select('tasks.*', 'assignations.user_id')
+        ->sortable()->paginate(20);  
 
         $now = Carbon::now()->settings([
             'locale' => 'fr_FR',
             'timezone' => 'Europe/Paris',
         ]);
         $weekNum = $now->weekOfYear;
-        //$assignations= \App\Assignation::whereBetween('date', [$startWeek, $endweek])->sortable()->paginate(20);
+
         $startWeek= $now->startOfWeek()->isoFormat('D.MM.YYYY');
-        //->format('d.m.y');
+  
         $endweekdisplayed =$now->startOfWeek()->addDays(4)->isoFormat('DD.MM.YYYY');
         $endweek=$now->startOfWeek()->addDays(5)->isoFormat('DD.MM.YYYY');
-        //->format('d.m.y');
 
         $weekDays = array(
             $now->startOfWeek()->isoFormat('ddd D.MM'),
@@ -90,7 +66,7 @@ $endweek=$noww->startOfWeek()->addDays(5)->format('Y-m-d H:i');
 
 
     /**
-     * Show the form for creating a new resource.
+     * Retourne la vue de remplissage du planning pour la semaine suivante. 
      *
      * @return \Illuminate\Http\Response
      */
@@ -126,12 +102,8 @@ $endweek=$noww->startOfWeek()->addDays(5)->format('Y-m-d H:i');
         ]);
         $weekNum = $now3->addDays(7)->weekOfYear;
         $planning = Planning::where('weeknumber', $weekNum)->where('user_id', Auth::user()->id)->get();
-        //$assignations= \App\Assignation::whereBetween('date', [$startWeek, $endweek])->sortable()->paginate(20);
         $startWeek= $now3->startOfWeek()->isoFormat('D.MM.YYYY');
-        //->format('d.m.y');
         $endweek=$now->startOfWeek()->addDays(4)->isoFormat('DD.MM.YYYY');
-        //->format('d.m.y');
-
         return view('am.create', ['userInfo'=>$userInfo, 
         'weekDays' => $weekDays, 
         'weekDates'=>$weekDates,
@@ -142,7 +114,9 @@ $endweek=$noww->startOfWeek()->addDays(5)->format('Y-m-d H:i');
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Crée un objet planning persistant si l'utilisateurs n'a pas encore entré de données de planification.
+     * Crée les assignations et tâches qui sont nouvellement créées.
+     * Sauvegarde les changements apportés au planning rempli. 
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
@@ -150,13 +124,13 @@ $endweek=$noww->startOfWeek()->addDays(5)->format('Y-m-d H:i');
     public function store(Request $request)
     {
 
-        //VALIDATION A REVOIR
+        /*VALIDATION A DEVELOPPER */
         /* $request->validate([
             'sent'=>'required',
             'user_id'=>'required'
         ]); */
      
-/*Check if the planning already exists for this week and this user */
+        /*Check si le planning existe déjà en DB */
         $userInfo= Auth::user()->initials; 
         $now = Carbon::now()->settings([
             'locale' => 'fr_FR',
@@ -177,7 +151,7 @@ $endweek=$noww->startOfWeek()->addDays(5)->format('Y-m-d H:i');
             $planning->save();
         }
 
-        /* A CODER l'update du sent à 1 lorsque l'AM envoie son planning pour validation */
+        /* A CODER: l'update du sent à 1 lorsque l'AM envoie son planning pour validation */
         
         $projects = array();
         
@@ -204,7 +178,7 @@ $endweek=$noww->startOfWeek()->addDays(5)->format('Y-m-d H:i');
                         }
                         else
                         {
-                            /* Add checked assignation types to a the Type Table to inject it as JSON in DB */
+                /* Ajoute tous les types de tâches checked à un tableau pour l'injecter en JSON en DB*/
                         $arrayType = array();
                         if(isset($assignation['typeB'])) array_push($arrayType, 'B');
                         if(isset($assignation['typeD'])) array_push($arrayType, 'D');
@@ -215,7 +189,7 @@ $endweek=$noww->startOfWeek()->addDays(5)->format('Y-m-d H:i');
                         if(isset($assignation['typeBO'])) array_push($arrayType, 'BO');
                         if(isset($assignation['typeRG'])) array_push($arrayType, 'RG');
 
-                        /* Create Assignation object to save it in DB */
+                        /* Crée l'assignation et la persistante en DB */
                         $assignationToSave = new Assignation();
                         $assignationToSave->suiviDA = (isset($assignation['suiviDA'])) ? true : false;
                         $assignationToSave->unmovable = (isset($assignation['unmovable'])) ? true : false;
@@ -225,8 +199,6 @@ $endweek=$noww->startOfWeek()->addDays(5)->format('Y-m-d H:i');
                         $assignationToSave->task_id = $taskToSave->id;
                         $assignationToSave->user_id = $task['user'];
                         $assignationToSave->save();
-                        //if(!$isThereAssignation) dd('holà');
-
                         }
                         
                     }
@@ -237,13 +209,13 @@ $endweek=$noww->startOfWeek()->addDays(5)->format('Y-m-d H:i');
         }
        $planning->projects()->sync($projects);
 
-        /*A CODER: lien avec le planning global de l'AD, pour version 2 */
-        //if(isset($request->parent_id))$planning->parent_id = $request->parent_id;
+    /*A CODER: lien avec le planning global de l'AD, pour version 2 */
         return redirect()->route('plannings.create');
     }
 
     /**
-     * Display the specified resource.
+     * Récupère le planning correspondant à l'ID donné
+     * (PAS UTILISE PAR LE FRONT POUR L INSTANT)
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
@@ -259,18 +231,8 @@ $endweek=$noww->startOfWeek()->addDays(5)->format('Y-m-d H:i');
     }
 
     /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
+     * Modifie le planning donné pas l'ID, avec les données fournies
+     * (PAS UTILISE PAR LE FRONT POUR L INSTANT)
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
@@ -290,7 +252,8 @@ $endweek=$noww->startOfWeek()->addDays(5)->format('Y-m-d H:i');
 
 
     /**
-     * Get the view of the Account Director, for her/him to check the global planning
+     * Récupère la vue de de changement et de validation du plnning global.
+     * (Pour l'instant, pas très bien exploitée, retourne une simple pas "en construction", la version 2 exploitera plus cette méthode)
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id

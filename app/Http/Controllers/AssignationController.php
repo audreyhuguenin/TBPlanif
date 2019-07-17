@@ -11,7 +11,8 @@ class AssignationController extends Controller
 {
 
      /**
-     * Display a listing of the resource.
+     * Récupère toutes les assignations pour la semaine donc la date de début et celle de fin sont données.
+     * (PAS UTILISEE PAR LE FRONT) 
      *
      * @return \Illuminate\Http\Response
      */
@@ -24,7 +25,8 @@ class AssignationController extends Controller
         return $assignations;
     }
     /**
-     * Display a listing of the resource.
+     * Récupère toutes les assignations pour la semaine donc la date de début et celle de fin sont données, pour l'utilisateur donné en méthode GET
+     * (PAS UTILISEE PAR LE FRONT) 
      *
      * @return \Illuminate\Http\Response
      */
@@ -38,7 +40,8 @@ class AssignationController extends Controller
     }
 
     /**
-     * Display a listing of the resource.
+     * Récupère toutes les assignations en DB
+     * (PAS UTILISEE PAR LE FRONT) 
      *
      * @return \Illuminate\Http\Response
      */
@@ -46,26 +49,10 @@ class AssignationController extends Controller
     {
         $assignations = Assignation::all();
         return $assignations;
-        /* $now = Carbon::now();
-        $weekNum = $now->weekOfYear;
-        $startWeek= $now->startOfWeek()->format('d.m.y');
-        $endweek=$now->endOfWeek()->format('d.m.y');
-        return Assignation::with('task')->with('user')->get(); */
-        //return view('planning.demo', ['weeknum'=>$weekNum, 'startWeek'=>$startWeek, 'endWeek'=>$endweek, 'assignations'=>$assignations]);
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
+     * Crée en DB l'assignation passée en requête (PAS UTILISEE PAR LE FRONT)  
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
@@ -94,12 +81,11 @@ class AssignationController extends Controller
         $assignation->save();
 
         return response()->json($assignation, 201);
-      
-        //return redirect('/assignations')->with('success', 'Assignation saved!');
     }
 
     /**
-     * Display the specified resource.
+     * Récupère l'assignation dont l'id est passée en paramètre GET
+     * (PAS UTILISEE PAR LE FRONT) 
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
@@ -114,19 +100,10 @@ class AssignationController extends Controller
         return $assignation;
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
 
     /**
-     * Update the specified resource in storage.
+     * Modifie l'assignation avec les données passées en paramètre de la requête 
+     * (PAS UTILISEE PAR LE FRONTPOUR L?INSTANT) 
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
@@ -166,7 +143,7 @@ class AssignationController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Supprime de la DB l'assignation dont l'ID est passé en paramètre
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
@@ -181,7 +158,6 @@ class AssignationController extends Controller
         $assignation->delete();
         return response()->json(null, 204);
 
-        //return redirect('/assignations')->with('success', 'Assignation deleted!');  
     }
      
 }

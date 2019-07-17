@@ -9,7 +9,7 @@ use Auth;
 class FreeDayController extends Controller
 {
 /**
-     * Display the specified resource.
+     *Récupère tous les jour de congés d'un utilisateurs donné (PAS UTILISE PAR LE FRONT POUR L INSTANT)
      *
      */
     public function getbyuser($id)
@@ -20,7 +20,7 @@ class FreeDayController extends Controller
         return $freedays;
     }
     /**
-     * Display a listing of the resource.
+     * Récupère tous les jours de congé (PAS UTILISE PAR LE FRONT POUR L INSTANT)
      *
      * @return \Illuminate\Http\Response
      */
@@ -32,7 +32,7 @@ class FreeDayController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
+     *Montre le formulaire de création d'un jour de congé (PAS UTILISE PAR LE FRONT POUR L INSTANT)
      *
      * @return \Illuminate\Http\Response
      */
@@ -42,7 +42,8 @@ class FreeDayController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Sauvegarde en DB le nouveau jour de congé
+     * (PAS UTILISE PAR LE FRONT POUR L INSTANT)
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
@@ -65,7 +66,8 @@ class FreeDayController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Montre le jour de congé dont l'ID est donné
+     * (PAS UTILISE PAR LE FRONT POUR L INSTANT)
      *
      * @param  \App\FreeDay  $freeDay
      * @return \Illuminate\Http\Response
@@ -81,7 +83,8 @@ class FreeDayController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * Montre le formulaire de modification de jour de congé
+     * (PAS UTILISE PAR LE FRONT POUR L INSTANT)
      *
      * @param  \App\FreeDay  $freeDay
      * @return \Illuminate\Http\Response
@@ -92,7 +95,8 @@ class FreeDayController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Modifie le jour de congé donné avec les nouvelles données transmises
+     * (PAS UTILISE PAR LE FRONT POUR L INSTANT)
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \App\FreeDay  $freeDay
@@ -117,7 +121,8 @@ class FreeDayController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Supprime de la DB le jour de congé dont l'ID est donné
+     * (PAS UTILISE PAR LE FRONT POUR L INSTANT)
      *
      * @param  \App\FreeDay  $freeDay
      * @return \Illuminate\Http\Response

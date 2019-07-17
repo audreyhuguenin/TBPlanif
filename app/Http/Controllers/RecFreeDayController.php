@@ -10,7 +10,8 @@ class RecFreeDayController extends Controller
 {
 
     /**
-     * Display a listing of the recfreedays for a given user.
+     * Récupère tous les jours de congés récurrents (jours de la semaine) pour un user dont l'id est donné
+     * (PAS UTILISE PAR LE FRONT POUR L INSTANT)
      *
      * @return \Illuminate\Http\Response
      */
@@ -20,8 +21,9 @@ class RecFreeDayController extends Controller
         $days= $user->recurrentfreedays;
         return $days;
     }
+
     /**
-     * Display a listing of the resource.
+     * Récupère tous les jours de congés disponibles en DB
      *
      * @return \Illuminate\Http\Response
      */
@@ -32,7 +34,8 @@ class RecFreeDayController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * récupères le jours de congé dont l'ID est donné
+     * (PAS UTILISE PAR LE FRONT POUR L INSTANT)
      *
      * @param  \App\RecurrentFreeDay  $recurrentFreeDay
      * @return \Illuminate\Http\Response

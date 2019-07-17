@@ -9,30 +9,20 @@ use App\Http\Requests\TaskRequest;
 class TaskController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Récupère toutes les tâches en DB
+     * (PAS UTILISE PAR LE FRONT POUR L INSTANT)
      *
      * @return \Illuminate\Http\Response
      */
     public function index()
     {
-        
         $tasks = Task::all();
         return $tasks;
-        //return view('tasks.index', compact('tasks'));
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //return view('tasks.create');
-    }
-
-    /**
-     * Store a newly created resource in storage.
+     * Crée une nouvelle tâceh en DB avec les données fournies
+     * (PAS UTILISE PAR LE FRONT POUR L INSTANT)
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
@@ -40,10 +30,7 @@ class TaskController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            //task.
             'name'=>'required|max:255',
-
-            //if min. 1 assignation ok
         ]);
         
         $task = new Task();
@@ -52,11 +39,11 @@ class TaskController extends Controller
         $task->subtask_id = $validated->subtask_id;  
         $task->save();
         return response()->json($task, 201);
-       //return redirect('/tasks')->with('success', 'Task saved!');
+
     }
 
     /**
-     * Display the specified resource.
+     * Récupère la tâche dont l'ID est donné
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
@@ -72,19 +59,7 @@ class TaskController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        $task = Task::find($id);
-        return view('tasks.edit', compact('task'));
-    }
-
-    /**
-     * Update the specified resource in storage.
+     * Modifie la tâche choisie avec les données fournies
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
@@ -101,11 +76,10 @@ class TaskController extends Controller
         if(isset($request->comment))$task->comment = $request->comment;
         $task->save();
         return response()->json($task);
-        //return redirect('/tasks')->with('success', 'Task updated!');
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Supprime de la DB la tâceh choisie.
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
@@ -120,6 +94,5 @@ class TaskController extends Controller
         $task->delete();
         return response()->json(null, 204);
 
-        //return redirect('/tasks')->with('success', 'Task deleted!');
     }
 }

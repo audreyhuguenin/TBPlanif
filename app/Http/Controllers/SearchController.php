@@ -11,7 +11,8 @@ use App\User;
 class SearchController extends Controller
 {
     /**
-     * Show the form for creating a new resource.
+     * Permet l'autocompltion du textarea pour la sélection du projet, 
+     * sur la vue de remplisage des tâches.
      *
      * @return \Illuminate\Http\Response
      */
@@ -22,7 +23,8 @@ class SearchController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Permet l'autcomplétion du textarea pour las sélection de l'utilisateur 
+     * sur la vue du remplissage de planning
      *
      * @return \Illuminate\Http\Response
      */

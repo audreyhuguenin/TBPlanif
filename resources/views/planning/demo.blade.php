@@ -42,14 +42,12 @@
                     &&\Carbon\Carbon::parse($assignation->date)->lt(\Carbon\Carbon::parse($endWeek))
                     && $assignation->date->dayOfWeek===1
                     && $assignation->user_id==$user->id)
-                   
                             @foreach($assignation->type as $type)
                                 <span class="badge badge-pill badge-danger">{{ $type }}</span>
-                             @endforeach
-
-                             @if($assignation->suiviDA)
+                            @endforeach
+                            @if($assignation->suiviDA)
                              <i class="fas fa-anchor"></i>
-                             @endif
+                            @endif
                          @endif 
                     @endforeach
                     </td>
