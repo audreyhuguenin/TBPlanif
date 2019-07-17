@@ -14,13 +14,13 @@ class Task extends Model
 
     public $sortable = ['name'];
 
-      public function projectSortable($query, $direction)
+    /*   public function projectSortable($query, $direction)
     {
         return $query->join('subtasks', 'tasks.subtask_id', '=', 'subtasks.project_id')
                         ->orderBy('subtasks.project_id', $direction)
                         ->select('tasks.*')
                         ->groupBy('tasks.id');
-    }
+    } */
  
 
     /* public function userSortable($query, $direction)
@@ -32,11 +32,17 @@ class Task extends Model
                         ->groupBy('assignations.user_id');
     } */
 
+
+    /**
+     * Permet de récupérer toutes les assignations liées à la tache
+     */
     public function assignations()
     {
         return $this->hasMany('App\Assignation');
     }
-
+/**
+ * Permet de récupérerla soustache à laquelle appartient la tâche.
+ */
     public function subtask()
 {
     return $this->belongsTo('App\Subtask', 'subtask_id', 'id');

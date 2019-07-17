@@ -7,7 +7,7 @@ use Closure;
 class SyncNAV
 {
     /**
-     * Handle an incoming request.
+     * Middleware qui permet la synchronisation automatique de l'application avec les données de NAV (Projets, sous-tâche, users)
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \Closure  $next

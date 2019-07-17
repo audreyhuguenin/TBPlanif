@@ -1,16 +1,20 @@
 $(document).ready(function () {
-    var maxField = 100; //Input fields increment limitation
+    var maxField = 100; //Nombre limit de création de tâches, sous-tâches, projet.
     var x = 1; //Compteur de tâches ajoutées
-    var y = 1; //Initial field counter is 1
-    var z = 1;
-    var taskClone = $('.task').first().clone();
-    var subtaskClone = $('.subtask').first().clone();
-    var projectClone = $('.project').first().clone();
-    var assignationClone = $('.assignation_form').first().clone();
-    fillAssignations($('.task').first(), z, y, x);
+    var y = 1; //Compteur des sous-tâches
+    var z = 1; // Compteur des projets
+    var taskClone = $('.task').first().clone(); //bloc tâche cloné
+    var subtaskClone = $('.subtask').first().clone(); //bloc sous-tâche cloné
+    var projectClone = $('.project').first().clone(); // bloc de projet cloné
+    var assignationClone = $('.assignation_form').first().clone();//bloc de l'assignation
 
-    //Action du clique sur le bouton d'ajout de tâche. Cela a comme effet d'ajouter un bloc complet de tâche comprenant nom de la tâche, commentaire et user.
+    fillAssignations($('.task').first(), z, y, x); //rempli dynamiquement le tableau de la semaine pour ajouter des assignations à la tâche remplie
 
+    /** 
+     * Action du clique sur le bouton d'ajout de tâche. 
+     * Cela a comme effet d'ajouter un bloc complet de tâche comprenant nom de la tâche, 
+     * commentaire et user.
+    */
     $('body').on('click', '.add_task', function (e) {
         e.preventDefault();
         if (x < maxField) {
@@ -51,7 +55,9 @@ $(document).ready(function () {
         return false;
     });
 
-    //Quand le bouton de suppression de la tâche est cliqué, supprime l'élément lié. 
+    /**
+     * Au clique de suppression de la tâche, supprime l'élément tâche sélectionné
+     */
     $('body').on('click', '.remove_button', function (e) {
         e.preventDefault();
         //console.log($(this).parent().parent().parent('div'));
@@ -66,12 +72,14 @@ $(document).ready(function () {
     });
 
 
-
-    //Au click du bouton d'ajout de sous-tâche
+/**
+ * Au click sur le bouton d'ajout de sous-tâche
+ * Rajoute un bloc de sous-tâche au projet sélectionné
+ */
     $('body').on('click', '.add_subtask', function (e) {
         e.preventDefault();
         if (y < maxField) {
-            y++;
+            y++; //Incrémente le champs du nombre de sous-tâcehs
             var subtaskName = $(this).parent().find('.project_id').attr('name');
             var projectNumber = subtaskName.substring(8, subtaskName.indexOf(']'));
 
@@ -85,8 +93,7 @@ $(document).ready(function () {
             console.log(subtask.find('.task_name').attr('name'));
 
             var blocTask = $(this).parent().find('.subtasks');
-            $(blocTask).append(subtask); //Add field html
-            //Increment field counter
+            $(blocTask).append(subtask); //Ajoute le html et les noeuds du DOM à l'ensemble des sous-tâcehs du projet
             var selectToFill = $(this).parent().find('select.subtask_id').last();
             var subtasks = $.get("/subtasks", {
                 "project_id": $(this).parent().find('input.projecttypeahead').val()
@@ -123,7 +130,9 @@ $(document).ready(function () {
         return false;
     });
 
-    //Quand le bouton de suppression de la sous-tâche est cliqué, supprime l'élément lié. 
+    /**
+     * Au click sur le bouton de suppression de la sous-tache, supprime l'élément lié.
+     */
     $('body').on('click', '.remove_sub ', function (e) {
         e.preventDefault();
         $(this).parent().parent('div').remove(); //Remove field html
@@ -132,7 +141,10 @@ $(document).ready(function () {
         return false;
     });
 
-    //Au click du bouton d'ajout de projet
+   /**
+    * Au click sur le bouton d'ajout de projet en bas de page. 
+    * Ajoute un bloc projet.
+    */
     $('body').on('click', '.add_project', function (e) {
         e.preventDefault();
         console.log("hola");
@@ -178,28 +190,38 @@ $(document).ready(function () {
         }
         return false;
     });
-    //Quand le bouton de suppression de la sous-tâche est cliqué, supprime l'élément lié. 
+    
+    /**
+     * Bouton de suppression du bloc projet.
+     * Supprime le bloc projet lié
+     */
     $('body').on('click', '.remove_project ', function (e) {
         e.preventDefault();
-        $(this).parent().parent('div').remove(); //Remove field html
-        y--; //Decrement field counter
+        $(this).parent().parent('div').remove(); //Enlève le champ html
+        z--; //Décrémente le compteur du nombre de projet
         console.log(y);
         return false;
     });
 
-
+    /**
+     * Bouton pour ouvrir le champ commentaire
+     */
     $('body').on('click', '.toggle_comment_box', function (e) {
         e.preventDefault();
         $(this).next().show();
     });
 
-
+/**
+ * Bouton pour valider le commentaire écrit
+ */
     $('body').on('click', '.comment_box .validate', function (e) {
         e.preventDefault();
         $(this).parent().hide();
     });
 
-
+/**
+ * Bouton pour valider l'assignation remplie et fermer le formulaire lié. 
+ */
     $('body').on('click', '.assignation_ok', function (e) {
         e.preventDefault();
         $(this).parent().parent().find('i').removeClass( "fa-plus" ).addClass( "fa-calendar-alt" );
@@ -229,6 +251,9 @@ $(document).ready(function () {
         }       
     });
 
+    /**
+     * Bouton d'annulation d'une assignation. Cela supprimetoutes les données entrées dans le formulaire
+     */
     $('body').on('click', '.assignation_cancel', function (e) {
         e.preventDefault();
         $(this).parent().parent().find('i').removeClass( "fa-calendar-alt" ).addClass( "fa-plus" );
@@ -240,7 +265,10 @@ $(document).ready(function () {
         $(this).parent().hide();
     });
 
-
+/**
+ * Au click sur le + pour ajouter une assignation
+ * Ouvre le formulaire pour remmplir et ajouter une asignation
+ */
     $('body').on('click', '.assignation_button', function (e) {
         e.preventDefault();
         $(this).next().show();
@@ -255,9 +283,9 @@ $(document).ready(function () {
         thisTask.find('.assignations tr td').each(function (index, e) {
             //0=lundi, 1=mardi, ...
             var assignation_form = assignationClone.clone();
-            /*suiviDA increment*/
+            /*suiviDA incrément*/
             assignation_form.find('.suiviDA').attr('name', 'project['+projectNumber+'][subtask]['+subtaskNumber+'][task]['+taskNumber+'][assignations]['+index+'][suiviDA]');
-            /*duration increment*/
+            /*duration incrément*/
             assignation_form.find('.duration').attr('name', 'project['+projectNumber+'][subtask]['+subtaskNumber+'][task]['+taskNumber+'][assignations]['+index+'][duration]');
 
             /*types increment*/
@@ -286,6 +314,9 @@ $(document).ready(function () {
         });
     }
 
+    /**
+     * Check que chaque tâche ait au moins une assignation à la sauvegarde, sinon reste sur la page et affiche un messsage.
+     */
     $('form').submit(function() {
 
         var allTasksHaveAssignation = true;

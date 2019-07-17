@@ -18,6 +18,9 @@ class FreeDay extends Model
     ];
     public $timestamps = false;
 
+    /**
+     * Permet de récupérer l'utilisateur auqeul le jour de congé est assigné
+     */
     public function user()
 {
     return $this->belongsTo('App\User');

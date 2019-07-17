@@ -9,7 +9,8 @@ use Route;
 class CheckRight
 {
     /**
-     * Handle an incoming request.
+     * Permet de check si l'utilisateur a le droit d'accéder à la route demandée. 
+     * Récupère la route demandée par l'utilisateur et check la table des droits en DB pour le niveau de droit.
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \Closure  $next
@@ -28,8 +29,7 @@ class CheckRight
         $routelevel=$controller->getLevel($request);
         $checkrole = new CheckRole();
         $userRole=$checkrole->privilege(Auth::user()->email);
-        //dd($userRole);
-//dd($userRole . " ". $routelevel);
+
         if($userRole>$routelevel||$userRole==$routelevel)return $next($request);
         return back()->with('unauthorized', true);
     }

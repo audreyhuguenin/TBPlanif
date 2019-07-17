@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Auth;
 class MyAuth
 {
     /**
-     * Handle an incoming request.
+     * Middleware permettant la redirection pour authentification et le check si l'utilisateur est déjà connecté ou non. 
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \Closure  $next

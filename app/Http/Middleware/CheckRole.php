@@ -9,7 +9,7 @@ use SoapClient;
 class CheckRole
 {
     /**
-     * Handle an incoming request.
+     * Gère une redirection en fonction du rôle de l'utilisateur qui demande cette route
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \Closure  $next
@@ -34,7 +34,10 @@ class CheckRole
                 }
     }
 
-
+/**
+ * Envoie une requête à Dynamics NAV avec l'adresse mail donnée pour demander le niveau de droit de l'utilisateur auquel elle correspond.
+ * Retourne la réponse de NAV: 0 pou les CREA, 1 pour les AM, 2 pour les AD
+ */
     public function privilege($userLogin)
    {
  try {
