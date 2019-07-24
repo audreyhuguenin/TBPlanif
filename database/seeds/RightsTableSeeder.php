@@ -223,6 +223,11 @@ class RightsTableSeeder extends Seeder
                 'routename'=>'subtasks.sync',
                 'level'=>2
             ],
+            [
+                'method'=>'GET',
+                'routename'=>'export',
+                'level'=>0
+            ],
             
             
         ];

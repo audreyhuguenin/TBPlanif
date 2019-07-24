@@ -14,7 +14,7 @@ use Carbon\Carbon;
  * Pour l'autocomplétion des projet, et user
  */
 Route::get('projectautocomplete',array('as'=>'projectautocomplete','uses'=>'SearchController@projectautocomplete'));
-Route::get('userautocomplete',array('as'=>'userautocomplete','uses'=>'SearchController@userautocomplete'));
+Route::get('userautocomplete', array('as'=>'userautocomplete','uses'=>'SearchController@userautocomplete'));
 /**
  * Retourne le formulaire de login, permet l authentification et seed la table de la DB
  */
@@ -73,6 +73,7 @@ Route::middleware(['MyAuth'])->group(function ()
         Route::resource('freedays', 'FreeDayController')->middleware('checkRight');
         Route::get('recurrentfreedays/getbyuser/{id}', 'RecFreeDayController@getbyuser')->name('recurrentfreedays.getbyuser')->middleware('checkRight');;
         Route::resource('recurrentfreedays', 'RecFreeDayController')->middleware('checkRight');
+        Route::get('export', 'ExportController@export')->name('export')->middleware('checkRight');
     });
 });
  

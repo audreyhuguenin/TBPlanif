@@ -28,7 +28,10 @@ class PlanningController extends Controller
         $startWeek= $noww->startOfWeek()->format('Y-m-d H:i');
         $endweek=$noww->startOfWeek()->addDays(5)->format('Y-m-d H:i');
 
-      $tasks= \App\Task::join('assignations', 'tasks.id', '=', 'assignations.task_id')
+        /**
+         * Requête à la DB pour récupérer toute sles ta^ches de la semaine avec leurs assignations, groupée par personne. 
+         */
+        $tasks= \App\Task::join('assignations', 'tasks.id', '=', 'assignations.task_id')
         ->whereBetween('date',[$startWeek, $endweek])
         ->groupBy('user_id') 
         ->select('tasks.*', 'assignations.user_id')
@@ -261,8 +264,76 @@ class PlanningController extends Controller
      */
     public function check()
     {
+        $noww = Carbon::now()->settings([
+            'locale' => 'fr_FR',
+            'timezone' => 'Europe/Paris',
+        ]);
+        $weekNum = $noww->addWeek()->weekOfYear;
+        
+        $startWeek= $noww->startOfWeek()->format('Y-m-d H:i');
+        $endweek=$noww->startOfWeek()->addDays(5)->format('Y-m-d H:i');
+
+      $tasks= \App\Task::join('assignations', 'tasks.id', '=', 'assignations.task_id')
+        ->whereBetween('date',[$startWeek, $endweek])
+        ->groupBy('user_id') 
+        ->select('tasks.*', 'assignations.user_id')
+        ->sortable()->paginate(20); 
+
+        $weekDaysDBFormat = array(
+            $noww->startOfWeek()->format('Y-m-d H:i'),
+            $noww->startOfWeek()->addDay()->format('Y-m-d H:i'),
+            $noww->startOfWeek()->addDays(2)->format('Y-m-d H:i'),
+            $noww->startOfWeek()->addDays(3)->format('Y-m-d H:i'),
+            $noww->startOfWeek()->addDays(4)->format('Y-m-d H:i'),
+        );
+
+        $durationPerDay = array();
+
+        foreach ($weekDaysDBFormat as $day)
+        {
+            $assignationsDay = \App\Assignation::whereDate('date', '=', $day)->select('assignations.duration')->get();
+            $durationTotal = 0;
+            if(count($assignationsDay)>0)
+            {
+                foreach ($assignationsDay as $duration)
+                {
+                    $durationTotal += $duration->duration;
+                    
+                }
+            }
+
+            $durationPerDay[] = $durationTotal;
+        }
+
+        $now = Carbon::now()->settings([
+            'locale' => 'fr_FR',
+            'timezone' => 'Europe/Paris',
+        ]);
+        $weekNum = $now->addWeek()->weekOfYear;
+
+        $startWeek= $now->startOfWeek()->isoFormat('D.MM.YYYY');
+  
+        $endweekdisplayed =$now->startOfWeek()->addDays(4)->isoFormat('DD.MM.YYYY');
+        $endweek=$now->startOfWeek()->addDays(5)->isoFormat('DD.MM.YYYY');
+
+        $weekDays = array(
+            $now->startOfWeek()->isoFormat('ddd D.MM'),
+            $now->startOfWeek()->addDay()->isoFormat('ddd D.MM'),
+            $now->startOfWeek()->addDays(2)->isoFormat('ddd D.MM'),
+            $now->startOfWeek()->addDays(3)->isoFormat('ddd D.MM'),
+            $now->startOfWeek()->addDays(4)->isoFormat('ddd D.MM'),
+        );
+
         $userInfo= Auth::user()->initials; 
-        return view('ad.check', ['userInfo'=>$userInfo]);
+
+        return view('ad.check', ['weeknum'=>$weekNum,
+        'startWeek'=>$startWeek, 
+        'endWeek'=>$endweek, 
+        'endWeekDisplayed'=>$endweekdisplayed,
+        'weekDays' => $weekDays, 
+        'tasks'=>$tasks,
+        'userInfo'=>$userInfo,
+        'durationPerDay'=>$durationPerDay]);
     }
 
 }

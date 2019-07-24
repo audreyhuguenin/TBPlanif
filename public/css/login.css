@@ -120,7 +120,7 @@
     -ms-transform: scale(0.95);
     transform: scale(0.95);
   }
-  
+
   input[type=text], input[type=password], select, input[type=number]  {
     background-color: #f6f6f6;
     border: none;
@@ -150,6 +150,11 @@
   input[type=text]:placeholder {
     color: #cccccc;
   }
+
+  #login, #password
+{
+  width: 80%;
+}
   
   
   
